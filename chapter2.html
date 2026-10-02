@@ -758,7 +758,7 @@ html[lang=en] .kb-short{font-size:13px}
 .cam .light{stroke:#FFD54A} .cam .ana{stroke:var(--orange)} .cam .dig{stroke:var(--green)}
 .px-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .px-row .lab{font-size:13px;font-weight:700;color:var(--muted);min-width:120px}
-.px-canvas{width:100%;max-width:300px;aspect-ratio:1;border-radius:12px;border:1px solid var(--line);image-rendering:pixelated;display:block;margin:0 auto;background:#000}
+.px-canvas{width:100%;max-width:300px;aspect-ratio:1;border-radius:12px;border:1px solid var(--line);object-fit:cover;display:block;margin:0 auto;background:#000}
 .px-read{font-size:14px;font-weight:700;color:#00D2FF;text-align:center;margin-top:8px;line-height:1.7}.px-read bdi{font-family:var(--mono);font-weight:500}
 .rd #rdObj{fill:#F0F6FC}
 
@@ -885,7 +885,7 @@ html[lang=en] .kb-short{font-size:13px}
     <div class="steps3" id="camSteps"></div>
     <h3 class="sub-title" style="font-size:22px" data-t="qTitle"></h3>
     <div class="card two-col">
-      <div><canvas class="px-canvas" id="pxCanvas" width="256" height="256"></canvas><div class="px-read" id="pxRead"></div></div>
+      <div><img class="px-canvas" id="pxImg" alt="صورة توضيحية للجودة" /><div class="px-read" id="pxRead"></div></div>
       <div class="comp-info">
         <div class="kv"><span class="k" data-t="resK"></span><span class="d-def" data-t="resDef"></span><div class="px-row" id="resBtns"></div></div>
         <div class="kv"><span class="k" data-t="bitK"></span><span class="d-def" data-t="bitDef"></span><div class="px-row" id="bitBtns"></div></div>
@@ -1356,14 +1356,20 @@ const textDetail = (sel, d, anim) => { const det = $(sel); det.innerHTML = `<div
    ===================================================================== */
 const CW = 760, cam = { cur: 0, play: 0 };
 function buildCam() {
-  const xs = [692, 526, 360, 194, 68].map(x => mx(CW, x)), s = rtl() ? -1 : 1, ic = ['🌄', '🔍', '▦', '⚙️', '💾'], N = t('camN'), G = t('camSig');
-  const seg = (i) => { const a = xs[i] + s * 42, b = xs[i + 1] - s * 44, y = 62; let d;
+  const xs = [692, 536, 380, 224, 68].map(x => mx(CW, x)), s = rtl() ? -1 : 1, ic = ['🌄', '🔍', '▦', '⚙️', '💾'], N = t('camN'), G = t('camSig');
+  const paths = [0, 1, 2, 3].map(i => {
+    const a = xs[i] + s * 42, b = xs[i + 1] - s * 44, y = 62; let d;
     if (i === 2) { d = `M${a},${y}`; const n = 8, st = (b - a) / n; for (let k = 0; k < n; k++) d += ` q${st / 2},${k % 2 ? 16 : -16} ${st},0`; }          // موجة ملساء = تناظرية
     else if (i === 3) { d = `M${a},${y + 7}`; const n = 8, st = (b - a) / n; for (let k = 0; k < n; k++) d += ` v${k % 2 ? 14 : -14} h${st}`; }             // نبضات مربعة = رقمية
     else d = `M${a},${y} L${b},${y}`;
-    return `<path class="ln ${i < 2 ? 'light' : i === 2 ? 'ana' : 'dig'}" data-s="${i + 1}" d="${d}"/><text class="t-sm" data-s="${i + 1}" x="${(a + b) / 2}" y="32" style="opacity:0">${esc(G[i])}</text>`; };
-  $('#camSvg').innerHTML = `<svg viewBox="0 0 ${CW} 128" role="img" aria-label="${esc(t('camHow'))}">${[0, 1, 2, 3].map(seg).join('')}
-    ${xs.map((x, i) => `<g class="n" data-n="${i}"><rect class="box" x="${x - 42}" y="20" width="84" height="88" rx="12"/><text class="t-ico" x="${x}" y="58">${ic[i]}</text><text class="t-main" x="${x}" y="90" style="font-size:12.5px">${esc(N[i])}</text></g>`).join('')}</svg>`;
+    return `<path class="ln ${i < 2 ? 'light' : i === 2 ? 'ana' : 'dig'}" data-s="${i + 1}" d="${d}"/>`;
+  }).join('');
+  const nodes = xs.map((x, i) => `<g class="n" data-n="${i}"><rect class="box" x="${x - 42}" y="20" width="84" height="88" rx="12"/><text class="t-ico" x="${x}" y="58">${ic[i]}</text><text class="t-main" x="${x}" y="90" style="font-size:12.5px">${esc(N[i])}</text></g>`).join('');
+  const labels = [0, 1, 2, 3].map(i => {
+    const a = xs[i] + s * 42, b = xs[i + 1] - s * 44;
+    return `<text class="t-sm" data-s="${i + 1}" x="${(a + b) / 2}" y="32" style="opacity:0">${esc(G[i])}</text>`;
+  }).join('');
+  $('#camSvg').innerHTML = `<svg viewBox="0 0 ${CW} 128" role="img" aria-label="${esc(t('camHow'))}">${paths}${nodes}${labels}</svg>`;
   $('#camSteps').innerHTML = CAM_STEPS.map((c, i) => `<button class="rs" type="button" data-i="${i + 1}"><span class="rs-num${i === 4 ? ' g' : ''}">${i + 1}</span><div><span class="d">${esc(c[LANG])}</span></div></button>`).join('');
 }
 function camState(st) {
@@ -1379,34 +1385,48 @@ async function playCam() { const my = ++cam.play; for (const st of [1, 2, 3, 4, 
 $('#camSteps').addEventListener('click', e => { const b = e.target.closest('.rs'); if (!b) return; cam.play++; camState(+b.dataset.i); });
 $('#camPlay').addEventListener('click', playCam);
 
-/* ---- جودة الصورة: نفس المشهد يُرسم بعدد بكسلات مختلف وبعدد بتات مختلف لكل بكسل ---- */
-const px = { res: 16, bits: 24 };
-function scene(u, v) {            // مشهد بسيط: سماء، شمس، تل
-  const sun = Math.hypot(u - .7, v - .28) < .13, hill = v > .62 + .12 * Math.sin(u * 6.2);
-  if (sun) return [255, 205, 60]; if (hill) return [40, 150 - 60 * v, 70];
-  return [70 + 90 * v, 150 + 60 * v, 235];
-}
-function quant(c, bits) {
-  if (bits === 24) return c;
-  if (bits === 1) { const g = (.3 * c[0] + .59 * c[1] + .11 * c[2]) > 128 ? 255 : 0; return [g, g, g]; }
-  const q = (x, n) => Math.round(Math.round(x / 255 * (n - 1)) * 255 / (n - 1));   // 8 بت = 3+3+2
-  return [q(c[0], 8), q(c[1], 8), q(c[2], 4)];
-}
+/* ---- جودة الصورة: عرض الصور الحقيقية من المجلدات المضافة ---- */
+const RES_MAP = {
+  8: { src: '1) الدقة (Resolution)/IMG_1223.PNG', label: '8 × 8', count: '64' },
+  32: { src: '1) الدقة (Resolution)/IMG_1224.PNG', label: '32 × 32', count: '1,024' },
+  128: { src: '1) الدقة (Resolution)/IMG_1225.PNG', label: '128 × 128', count: '16,384' },
+  512: { src: '1) الدقة (Resolution)/IMG_1226.PNG', label: '512 × 512', count: '262,144' }
+};
+
+const BIT_MAP = {
+  1: { src: '2) عدد البتات في كل بكسل/IMG_1227.PNG', label: '1 بت', colors: '2' },
+  8: { src: '2) عدد البتات في كل بكسل/IMG_1228.PNG', label: '8 بت', colors: '256' },
+  24: { src: '2) عدد البتات في كل بكسل/IMG_1229.PNG', label: '24 بت', colors: '16,777,216' }
+};
+
+const px = { mode: 'res', v: 128 };
+
 function drawPx() {
-  const c = $('#pxCanvas'), ctx = c.getContext('2d'), n = px.res, s = c.width / n;
-  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { const col = quant(scene((x + .5) / n, (y + .5) / n), px.bits); ctx.fillStyle = `rgb(${col.map(Math.round).join()})`; ctx.fillRect(Math.floor(x * s), Math.floor(y * s), Math.ceil(s), Math.ceil(s)); }
-  const colors = px.bits === 24 ? '16,777,216' : String(2 ** px.bits);
-  $('#pxRead').innerHTML = `<div><bdi dir="ltr">${n} × ${n} = ${(n * n).toLocaleString('en')}</bdi> ${esc(t('pxUnit'))}</div><div><bdi dir="ltr">${px.bits}</bdi> ${esc(t('bit'))} → <bdi dir="ltr">${colors}</bdi> ${esc(t('colors'))}</div>`;
-  $$('#resBtns .op').forEach(b => b.classList.toggle('on', +b.dataset.v === px.res));
-  $$('#bitBtns .op').forEach(b => b.classList.toggle('on', +b.dataset.v === px.bits));
+  const img = $('#pxImg');
+  if (!img) return;
+  if (px.mode === 'res') {
+    const item = RES_MAP[px.v] || RES_MAP[128];
+    img.src = item.src;
+    $('#pxRead').innerHTML = `<div><bdi dir="ltr">${item.label} = ${item.count}</bdi> ${esc(t('pxUnit'))}</div>`;
+    $$('#resBtns .op').forEach(b => b.classList.toggle('on', +b.dataset.v === px.v));
+    $$('#bitBtns .op').forEach(b => b.classList.remove('on'));
+  } else {
+    const item = BIT_MAP[px.v] || BIT_MAP[24];
+    img.src = item.src;
+    $('#pxRead').innerHTML = `<div><bdi dir="ltr">${px.v}</bdi> ${esc(t('bit'))} → <bdi dir="ltr">${item.colors}</bdi> ${esc(t('colors'))}</div>`;
+    $$('#bitBtns .op').forEach(b => b.classList.toggle('on', +b.dataset.v === px.v));
+    $$('#resBtns .op').forEach(b => b.classList.remove('on'));
+  }
 }
+
 function buildPx() {
-  $('#resBtns').innerHTML = [8, 16, 32, 64].map(v => `<button class="op" type="button" data-v="${v}" style="text-align:center">${v} × ${v}</button>`).join('');
+  $('#resBtns').innerHTML = [8, 32, 128, 512].map(v => `<button class="op" type="button" data-v="${v}" style="text-align:center">${v} × ${v}</button>`).join('');
   $('#bitBtns').innerHTML = [1, 8, 24].map(v => `<button class="op" type="button" data-v="${v}" style="text-align:center">${v} ${esc(t('bit'))}</button>`).join('');
   drawPx();
 }
-$('#resBtns').addEventListener('click', e => { const b = e.target.closest('.op'); if (b) { px.res = +b.dataset.v; drawPx(); } });
-$('#bitBtns').addEventListener('click', e => { const b = e.target.closest('.op'); if (b) { px.bits = +b.dataset.v; drawPx(); } });
+
+$('#resBtns').addEventListener('click', e => { const b = e.target.closest('.op'); if (b) { px.mode = 'res'; px.v = +b.dataset.v; drawPx(); } });
+$('#bitBtns').addEventListener('click', e => { const b = e.target.closest('.op'); if (b) { px.mode = 'bit'; px.v = +b.dataset.v; drawPx(); } });
 
 /* =====================================================================
    7) الماسح المسطح: (1) شريط الضوء يمر على الورقة (2) المعلومات الرقمية تنتقل للذاكرة (3) الاستخدام
