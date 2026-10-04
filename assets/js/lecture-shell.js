@@ -77,4 +77,57 @@
   }
   new MutationObserver(update).observe(root, { attributes: true, attributeFilter: ['lang'] });
   update();
+
+  /* =====================================================================
+     ملاءمة نصوص الرسوم (SVG) لصناديقها
+     الخط الحالي أعرض من الخط القديم، فكانت تسميات مثل «القرص الصلب» تتجاوز حدود صندوقها.
+     بدل تغيير الخط: إن زاد النص عن عرض الصندوق يُكسر أولًا على سطرين عند أنسب مسافة،
+     وإن بقي أعرض يُصغَّر حجمه بالنسبة الدقيقة. تُعاد الملاءمة عند أي إعادة رسم أو تغيير مقاس.
+     ===================================================================== */
+  (function () {
+    var PAD = 10, LH = 1.15, busy = false, timer = 0;
+    function boxOf(t) {
+      var g = t.parentNode; if (!g || g.nodeName.toLowerCase() !== 'g') return null;
+      var r = g.querySelector(':scope > rect.box') || g.querySelector(':scope > rect');
+      return r ? parseFloat(r.getAttribute('width')) : null;
+    }
+    function reset(t) {
+      if (t.querySelector('.ft')) { t.textContent = t.dataset.orig || t.textContent; }
+      if (t.dataset.fs) t.style.removeProperty('font-size');
+      delete t.dataset.orig; delete t.dataset.fs;
+    }
+    function fitText(t) {
+      var avail = boxOf(t); if (!avail) return; avail -= PAD;
+      var w = t.getBBox().width; if (!(w > avail)) return;
+      var txt = t.textContent, multi = t.querySelector('tspan');
+      if (!multi && txt.indexOf(' ') > 0) {
+        var words = txt.split(' '), best = 1, diff = 1e9;
+        for (var i = 1; i < words.length; i++) { var d = Math.abs(words.slice(0, i).join(' ').length - words.slice(i).join(' ').length); if (d < diff) { diff = d; best = i; } }
+        var x = t.getAttribute('x'), a = words.slice(0, best).join(' '), b = words.slice(best).join(' ');
+        t.dataset.orig = txt; t.textContent = '';
+        [a, b].forEach(function (line, k) {
+          var ts = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+          ts.setAttribute('class', 'ft'); ts.setAttribute('x', x); ts.setAttribute('dy', (k ? LH : -LH) + 'em'); ts.textContent = line; t.appendChild(ts);
+        });
+        w = t.getBBox().width;
+      }
+      if (w > avail) {
+        var fs = parseFloat(getComputedStyle(t).fontSize) || 13;
+        t.style.fontSize = (fs * avail / w * 0.98).toFixed(2) + 'px'; t.dataset.fs = '1';
+      }
+    }
+    function run() {
+      busy = true; obs.disconnect();
+      document.querySelectorAll('svg text').forEach(function (t) { reset(t); });
+      document.querySelectorAll('svg').forEach(function (svg) { if (svg.getClientRects().length) svg.querySelectorAll('text').forEach(fitText); });
+      obs.observe(document.body, { childList: true, subtree: true, characterData: true });
+      busy = false;
+    }
+    function schedule() { clearTimeout(timer); timer = setTimeout(run, 60); }
+    var obs = new MutationObserver(function (ms) { if (busy) return; if (ms.some(function (m) { var n = m.target.nodeType === 1 ? m.target : m.target.parentNode; return n && n.closest && n.closest('svg'); })) schedule(); });
+    obs.observe(document.body, { childList: true, subtree: true, characterData: true });
+    addEventListener('resize', schedule); addEventListener('orientationchange', schedule);
+    if (document.fonts) { document.fonts.ready.then(schedule); document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', schedule); }
+    schedule();
+  })();
 })();

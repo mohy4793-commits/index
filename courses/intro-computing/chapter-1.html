@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>مقدمة في الحوسبة — أساسيات الحاسوب</title>
-<link rel="stylesheet" href="../../assets/css/fonts.css?v=zain">
+<link rel="stylesheet" href="../../assets/css/fonts.css?v=fit1">
 <style>
 /* =====================================================================
    CompuBasics — ثنائي اللغة (عربي / English)
@@ -667,7 +667,7 @@ html[lang=en] .kb-short{font-size:13px}
 @media (max-width:1280px){.brand-sub{display:none}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-<link rel="stylesheet" href="../../assets/css/lecture.css">
+<link rel="stylesheet" href="../../assets/css/lecture.css?v=fit1">
 <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
 <body>
@@ -1438,7 +1438,7 @@ $('#compGrid').addEventListener('click', e => { const b = e.target.closest('.cb'
    تثبيت: نسخة من القرص ← القرص الصلب | تشغيل: نسخة من القرص الصلب ← الذاكرة
    استخدام: البرنامج يعمل ويظهر على الشاشة. (النسخ لا يحذف الأصل.)
    ===================================================================== */
-const RN = { xs: [455, 320, 185, 55], y: 16, w: 90, h: 104, by: 84, W: 520 };
+const RN = { xs: [455, 320, 185, 55], y: 16, w: 90, h: 120, by: 84, W: 520 };  // h أطول ليتّسع لسطرين عند كسر التسميات العريضة
 const run = { busy: 0, play: 0, cur: 0 };
 let RB = {}, rsvg = null;
 function buildRun() {
@@ -1452,13 +1452,13 @@ function buildRun() {
   ];
   const badge = (x, cls, op) => `<g class="badge ${cls}" style="opacity:${op}" transform="translate(${x - 12},${RN.by - 7})"><rect width="24" height="14" rx="2.5"/><line x1="5" y1="4.5" x2="19" y2="4.5"/><line x1="5" y1="7.5" x2="15" y2="7.5"/><line x1="5" y1="10.5" x2="17" y2="10.5"/></g>`;
   const link = i => `<path class="ln" data-s="${i + 1}" d="M${X[i] + sgn * 47},${RN.by} L${X[i + 1] - sgn * 49},${RN.by}" marker-end="url(#ra)"/>`;
-  $('#runSvg').innerHTML = `<svg class="prg" viewBox="0 0 ${RN.W} 132" role="img" aria-label="${esc(t('ariaRun'))}">
+  $('#runSvg').innerHTML = `<svg class="prg" viewBox="0 0 ${RN.W} 148" role="img" aria-label="${esc(t('ariaRun'))}">
     <defs>
       <marker id="ra" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
       <marker id="rb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-on" d="M0,0 L10,5 L0,10 z"/></marker>
     </defs>
     ${[0, 1, 2].map(link).join('')}
-    ${X.map((x, i) => `<g class="n" data-n="${i}"><rect class="box" x="${x - RN.w / 2}" y="${RN.y}" width="${RN.w}" height="${RN.h}" rx="12"/>${icons[i](x)}${svgText(x, 112, labels[i], 't-main')}</g>`).join('')}
+    ${X.map((x, i) => `<g class="n" data-n="${i}"><rect class="box" x="${x - RN.w / 2}" y="${RN.y}" width="${RN.w}" height="${RN.h}" rx="12"/>${icons[i](x)}${svgText(x, 128, labels[i], 't-main')}</g>`).join('')}
     ${badge(X[0], 'b0', 1)}${badge(X[1], 'b1', 0)}${badge(X[2], 'b2', 0)}
     ${badge(X[0], 'fly', 0)}
   </svg>`;
@@ -1880,7 +1880,7 @@ addEventListener('scroll', onScroll, { passive: true }); onScroll();
 new MutationObserver(u).observe(h,{attributes:true,attributeFilter:['lang']});u();})();
 </script>
 <script src="../../data/data.js"></script>
-<script src="../../assets/js/lecture-shell.js"></script>
+<script src="../../assets/js/lecture-shell.js?v=fit1"></script>
 <script src="../../assets/js/feedback.js"></script>
 </body>
 </html>
