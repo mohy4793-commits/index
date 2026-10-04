@@ -1,0 +1,129 @@
+/* =====================================================================
+   lecture.css — يُلبس صفحات المحاضرات هوية الموقع الجديدة
+   • يعرّف نفس رموز التصميم (dark/light) التي يستخدمها site.css
+   • يعيد تعريف متغيرات الصفحات القديمة (--blue, --orange, --card …) لتشير إلى الهوية الجديدة
+   • يضيف: الشريط العلوي العام (.gtop)، التنقل بين الفصول (.lnav)، التذييل
+   يُحمَّل بعد أنماط الصفحة نفسها ليتغلّب عليها بالترتيب.
+   ===================================================================== */
+:root{
+  --font:'Zain','IBM Plex Sans Arabic',system-ui,-apple-system,sans-serif;
+  --font-swashes:'Zain Swashes','Zain',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+  --em:#2ee89a; --em2:#14b872; --em-ink:#03150e; --cy:#5ad6ff; --am:#ffb347;
+  --s0:4 8 7; --s1:10 19 17; --acc:46 232 154; --amb:255 179 71; --ink:255 255 255;
+  --surface:#0a1311; --surface2:#0e1a17; --surface3:#13231f;
+  /* متغيرات الصفحات القديمة ← الهوية الجديدة */
+  --navy:#040807; --bg:#040807; --bg2:#070d0b; --card:#0a1311;
+  --blue:#2ee89a; --blue2:#6dffc0;
+  --orange:#ffb347; --orange-deep:#ff9a1f; --cream:rgba(255,179,71,.14);
+  --green:#b7f06a; --green-deep:#8fd13f; --green-bg:rgba(183,240,106,.14);
+  --red:#ff7a8a; --red-deep:#d04058; --red-bg:rgba(255,122,138,.14);
+  --line:rgba(140,255,205,.16); --line2:rgba(255,255,255,.15);
+  --text:#e9f4ef; --text2:#b6cdc3; --muted:#7f9a90; --chip:rgba(46,232,154,.12);
+  --data:#5ad6ff; --info:#b7f06a;
+  --header-h:64px;
+  color-scheme:dark;
+}
+:root[data-theme=light]{
+  --em:#0a8f5c; --em2:#06744a; --em-ink:#ffffff; --cy:#0a7fa8; --am:#b86a00;
+  --s0:242 247 244; --s1:255 255 255; --acc:10 143 92; --amb:184 106 0; --ink:10 29 22;
+  --surface:#ffffff; --surface2:#f6faf8; --surface3:#e6f0eb;
+  --navy:#0a1d16; --bg:#f2f7f4; --bg2:#e9f1ed; --card:#ffffff;
+  --blue:#0a8f5c; --blue2:#06744a;
+  --orange:#b86a00; --orange-deep:#955400; --cream:rgba(184,106,0,.12);
+  --green:#2f8a2a; --green-deep:#256f21; --green-bg:rgba(47,138,42,.12);
+  --red:#c43a4d; --red-deep:#a02a3b; --red-bg:rgba(196,58,77,.1);
+  --line:rgba(8,70,48,.16); --line2:rgba(8,70,48,.22);
+  --text:#0a1d16; --text2:#33524a; --muted:#5f7a70; --chip:rgba(10,143,92,.1);
+  --data:#0a7fa8; --info:#3a8f1f;
+  color-scheme:light;
+}
+
+body{font-family:var(--font)!important;color:var(--text);background:var(--bg)}
+body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(1100px 600px at 85% -10%,rgb(var(--acc)/.09),transparent 60%),radial-gradient(800px 500px at 0% 30%,rgba(90,214,255,.05),transparent 60%),var(--bg)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;background-image:radial-gradient(var(--line) 1px,transparent 1.3px);background-size:26px 26px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 0,transparent 75%);mask-image:radial-gradient(ellipse at 50% 0%,#000 0,transparent 75%)}
+:focus-visible{outline:2px solid var(--em);outline-offset:3px;border-radius:6px}
+::selection{background:var(--em);color:var(--em-ink)}
+
+/* ---------- الشريط العلوي العام ---------- */
+.gtop{display:flex;align-items:center;gap:14px;padding:10px 24px;min-height:56px;background:rgb(var(--s0)/.85);border-bottom:1px solid var(--line);font-family:var(--font)}
+.gtop a{color:var(--text2);text-decoration:none;transition:color .2s,background .2s}
+.gt-brand{display:flex;align-items:center;gap:11px;min-width:0;flex:none;color:var(--text)!important}
+.gt-mark{width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:11px;background:var(--surface2);border:1px solid var(--line2);overflow:hidden;color:var(--em)}
+.gt-mark svg{width:23px;height:23px}.gt-mark img{width:100%;height:100%;object-fit:contain;padding:3px}
+.gt-t{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+.gt-t b{font-size:14.5px;font-weight:700;white-space:nowrap}
+.gt-t small{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gt-nav{display:flex;gap:2px;margin-inline-start:auto}
+.gt-nav a{padding:7px 14px;border-radius:999px;font-size:14px;font-weight:500}
+.gt-nav a:hover{color:var(--text);background:var(--surface2)}
+.gt-theme{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;color:var(--text2);cursor:pointer;border:1px solid transparent;background:none}
+.gt-theme:hover{color:var(--em);background:var(--surface2);border-color:var(--line)}
+.gt-theme svg{width:19px;height:19px}.gt-moon{display:none}
+:root[data-theme=light] .gt-sun{display:none}:root[data-theme=light] .gt-moon{display:block}
+@media (max-width:760px){
+  .gtop{padding:8px 14px;gap:8px}
+  .gt-t small{display:none}
+  .gt-nav a{padding:6px 10px;font-size:13px}
+  .gt-nav a:first-child{display:none}
+}
+
+/* ---------- رأس المحاضرة (الشريط اللاصق) ---------- */
+.site-header{background:rgb(var(--s0)/.86)!important;border-bottom:1px solid var(--line)!important;box-shadow:none!important}
+.brand-logo{background:var(--surface2)!important;border:1px solid var(--line2);color:var(--em)!important;box-shadow:none!important;border-radius:10px!important}
+.brand-logo svg{width:20px;height:20px}
+.brand-name{font-weight:700!important;font-size:16px!important}
+.header-instructor{background:rgb(var(--amb)/.12)!important;border-color:rgb(var(--amb)/.32)!important;color:var(--orange)!important}
+.header-nav a.active{border-color:rgb(var(--acc)/.35)!important}
+.read-progress span{background:linear-gradient(90deg,var(--em),var(--cy))!important}
+.chap-switch{border-color:var(--line2)!important}
+.chap-switch a:hover{color:var(--em)!important;background:rgb(var(--acc)/.12)!important}
+.chap-switch a[aria-current=page]{background:var(--em)!important;color:var(--em-ink)!important}
+
+/* ---------- الأزرار والعناوين بهوية الموقع ---------- */
+.btn{border-radius:14px!important;font-weight:600!important;padding:13px 26px!important}
+.btn-primary{background:var(--em)!important;color:var(--em-ink)!important;box-shadow:0 8px 30px -8px rgb(var(--acc)/.6)!important}
+.btn-primary:hover{box-shadow:0 12px 36px -8px rgb(var(--acc)/.75)!important}
+.btn-ghost{border:1px solid var(--line2)!important;color:var(--text)!important}
+.btn-ghost:hover{border-color:var(--em)!important;color:var(--em)!important;background:transparent!important}
+.hero-instructor{background:rgb(var(--amb)/.14)!important;color:var(--orange)!important;border:1px solid rgb(var(--amb)/.35)}
+.hero-badge{border:1px solid var(--line)}
+.hero-section{background:transparent!important}
+.section-subtitle{display:inline-flex;align-items:center;gap:10px;font-weight:500!important;letter-spacing:.06em}
+.section-subtitle::before{content:"";width:22px;height:1px;background:currentColor;opacity:.7}
+.section-title,.sub-title{letter-spacing:-.3px;font-weight:700!important}
+.card{border-radius:22px!important}
+
+/* هيرو الفصل الأول (إطارات الحاسوب) داكن دائمًا بصرف النظر عن السمة */
+.pc-hero-section{--text:#e9f4ef;--text2:#b6cdc3;--ink:255 255 255;--s0:4 8 7;--s1:10 19 17;--em:#2ee89a;--em-ink:#03150e;--acc:46 232 154;--blue:#2ee89a;color:#e9f4ef}
+/* الإطارات معاد تدريجها لتتقاطع حوافها مع هذا اللون (#040907 كما يفكّه المتصفح من WebP) فلا يظهر أي قص */
+.pc-hero-section,.pc-sticky-viewport,.pc-loader{background:#040907!important}
+.pc-hud-bar{background:linear-gradient(90deg,var(--em),var(--cy))!important}
+
+/* ---------- التنقل بين الفصول + التذييل ---------- */
+.lnav{max-width:1120px;margin:0 auto;padding:56px 24px 8px;font-family:var(--font)}
+.lnav-h{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--em);margin-bottom:16px}
+.lnav-h::after{content:"";flex:1;height:1px;background:var(--line)}
+.lnav-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.lnav a{display:block;padding:18px 22px;border-radius:18px;border:1px solid var(--line);background:var(--surface);color:var(--text);transition:transform .25s,border-color .25s}
+.lnav a:hover{border-color:var(--em);transform:translateY(-3px)}
+.lnav small{display:block;color:var(--muted);font-size:12.5px}
+.lnav b{display:block;font-size:17px;font-weight:700;line-height:1.5}
+.lnav a.next{text-align:end}.lnav a.solo{grid-column:1/-1;text-align:center}
+.lnav .back{margin-top:12px;display:flex;justify-content:center}
+.lnav .back a{display:inline-flex;gap:8px;align-items:center;padding:10px 22px;border-radius:999px;font-weight:600;font-size:14.5px;color:var(--em)}
+@media (max-width:620px){.lnav-grid{grid-template-columns:1fr}.lnav a.next{text-align:start}.lnav{padding-inline:16px}}
+.site-footer{background:rgb(var(--s0)/.7)!important;border-top:1px solid var(--line)!important;color:var(--text2)!important;margin-top:40px}
+.footer-prep{background:rgb(var(--acc)/.1)!important;border:1px solid rgb(var(--acc)/.28)!important;color:var(--em)!important}
+.gfoot{max-width:1120px;margin:0 auto;padding:0 24px 28px;display:flex;gap:18px;flex-wrap:wrap;font:500 13px var(--font);color:var(--muted)}
+.gfoot a{color:var(--text2);text-decoration:underline;text-underline-offset:3px}.gfoot a:hover{color:var(--em)}
+@media (max-width:480px){.gfoot{padding:0 14px 84px}}
+.fb-fab{background:var(--surface)!important;color:var(--em)!important;border-color:var(--line2)!important;font-family:var(--font)!important}
+
+/* ---------- قواعد تسلسل خط زين للمحاضرات (Zain Lecture Font Hierarchy) ---------- */
+.section-title, .sub-title, .hero-title, .chapter-title, .concept-card h3, .term { font-weight: 800!important; line-height: 1.35!important; }
+.btn, .gt-nav a, .lnav b, .chap-switch a, .header-nav a { font-weight: 600!important; }
+body, p, li, td, .def, .desc, .step-desc { font-weight: 400!important; line-height: 1.75!important; }
+.section-subtitle, .lnav small, .gt-t small, .hero-badge, .concept-card small { font-weight: 200!important; }
+.swash-text, .brand-accent { font-family: var(--font-swashes)!important; }
+

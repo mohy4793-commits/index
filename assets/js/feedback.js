@@ -1,0 +1,1 @@
+/* Feedback widget removed as requested */

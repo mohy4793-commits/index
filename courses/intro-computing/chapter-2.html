@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مقدمة في الحوسبة — الفصل الثاني: أجهزة الإدخال</title>
+<link rel="stylesheet" href="../../assets/css/fonts.css?v=zain">
+<style>
+/* =====================================================================
+   CompuBasics — ثنائي اللغة (عربي / English)
+   مبدأ الحركة: كل حركة إمّا (1) تمثّل عملية حقيقية في الحاسوب (انتقال بيانات، معالجة، حفظ)
+   أو (2) استجابة مباشرة لتفاعل الطالب. لا توجد حركات زخرفية.
+   الرسومات تنعكس مع اتجاه اللغة: العربية من اليمين لليسار، والإنجليزية من اليسار لليمين.
+   ===================================================================== */
+:root{--header-h:64px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 12px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+p{margin:0}
+.mono{font-family:var(--mono);font-weight:500}
+.ltr{direction:ltr;unicode-bidi:isolate}
+/* التسمية الثانوية باللغة الأخرى: إنجليزية بخط Mono في الوضع العربي، وعربية بخط Cairo في الوضع الإنجليزي */
+html[lang=ar] .alt{font-family:var(--mono);font-weight:500}
+html[lang=en] .alt{font-family:var(--font);font-weight:600}
+
+/* ---------- Header ---------- */
+.site-header{position:sticky;top:0;z-index:20;background:rgb(var(--s0) / 0.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--text);border-bottom:1px solid rgb(var(--acc) / 0.2);box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.header-container{max-width:1280px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:14px;min-height:var(--header-h)}
+.brand{display:flex;align-items:center;gap:10px;flex:none}
+.brand-logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--em2));display:grid;place-items:center;font-weight:800;color:var(--em-ink);font-size:16px;box-shadow:0 0 12px rgb(var(--acc) / 0.4)}
+.brand-name{font-weight:800;font-size:18px;letter-spacing:.2px;color:var(--text)}
+.brand-sub{font-size:14px;color:rgb(var(--ink) / 0.75)}
+.header-instructor{font-size:12px;opacity:.9;background:rgb(var(--acc) / .15);border:1px solid rgb(var(--acc) / .3);color:var(--blue);padding:2px 10px;border-radius:6px;margin-inline-start:4px}
+.header-nav{flex:1 1 auto;min-width:0;display:flex;justify-content:flex-end;gap:2px;font-size:14px;font-weight:600;align-items:center;overflow-x:auto;scrollbar-width:none}
+.header-nav::-webkit-scrollbar{display:none}
+.header-nav a{padding:5px 12px;border-radius:999px;white-space:nowrap;color:rgb(var(--ink) / .82);transition:background .2s,color .2s}
+.header-nav a:hover{color:var(--blue);background:rgb(var(--acc) / .12)}
+.header-nav a.active{color:var(--blue);background:rgb(var(--acc) / .18);border:1px solid rgb(var(--acc) / .3)}
+.header-nav a.nav-quiz{color:var(--orange);background:rgb(var(--amb) / .15);padding:5px 14px;border:1px solid rgb(var(--amb) / .3)}
+.header-nav a.nav-quiz.active{background:var(--orange);color:var(--em-ink)}
+.lang-switch{flex:none;display:inline-flex;background:rgb(var(--ink) / .08);border:1px solid rgb(var(--acc) / .22);border-radius:999px;padding:3px;gap:2px}
+.lang-switch button{cursor:pointer;border:0;background:transparent;color:rgb(var(--ink) / .85);font-weight:700;font-size:13px;line-height:1.5;padding:4px 12px;border-radius:999px;transition:background .2s,color .2s}
+.lang-switch button:hover{color:var(--blue);background:rgb(var(--acc) / .1)}
+.lang-switch button[aria-pressed=true]{background:var(--blue);color:var(--em-ink)}
+.read-progress{height:3px;background:rgb(var(--ink) / .08)}
+.read-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--orange))}
+
+/* ---------- Hero ---------- */
+.hero-section{background:var(--navy);color:var(--text);padding:56px 24px 72px}
+.hero-container{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center}
+.hero-text-block{display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center}
+.hero-badges{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+.hero-badge{font-size:13px;font-weight:700;background:rgb(var(--ink) / .1);padding:4px 14px;border-radius:999px}
+.hero-instructor{font-size:13px;font-weight:700;background:var(--orange);color:var(--navy);padding:4px 14px;border-radius:999px}
+.hero-section h1{margin:0;font-size:clamp(32px,5vw,52px);line-height:1.25;font-weight:800;text-wrap:pretty;text-align:center}
+.hero-lead{font-size:18px;opacity:.85;max-width:520px;text-wrap:pretty;text-align:center;margin-left:auto;margin-right:auto}
+.hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;justify-content:center}
+.btn{display:inline-block;font-weight:700;padding:12px 24px;border-radius:10px;transition:transform .15s,box-shadow .15s,background .2s}
+.btn-primary{background:var(--orange);color:var(--navy);box-shadow:0 4px 12px rgb(var(--amb) / .3)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgb(var(--amb) / .4)}
+.btn-ghost{border:1.5px solid rgb(var(--ink) / .4);color:var(--text);font-weight:600}
+.btn-ghost:hover{background:rgb(var(--ink) / .08)}
+
+.sim-card{background:rgb(var(--ink) / .05);border:1.5px solid rgb(var(--ink) / .14);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:18px;box-shadow:0 16px 40px -10px rgba(0,0,0,.3)}
+.sim-panel{background:rgb(var(--s0) / .7);border-radius:16px;padding:14px 14px 12px;border:1px solid rgb(var(--amb) / .3)}
+.sim-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;margin-bottom:6px;flex-wrap:wrap}
+.sim-title{font-weight:800;color:var(--orange);display:flex;align-items:center;gap:8px}
+.live-dot{position:relative;display:inline-block;width:8px;height:8px;border-radius:50%;background:#7C8BA0;flex:none}
+.live-dot.on{background:var(--green)}
+.live-dot.on::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--green);animation:livePing 1.6s ease-out infinite}
+@keyframes livePing{from{transform:scale(.6);opacity:.9}to{transform:scale(1.6);opacity:0}}
+.auto-toggle{cursor:pointer;font-size:12px;font-weight:700;color:var(--text);background:rgb(var(--ink) / .08);border:1px solid rgb(var(--ink) / .2);border-radius:999px;padding:3px 12px;transition:background .2s}
+.auto-toggle:hover{background:rgb(var(--ink) / .16)}
+
+.legend{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;font-size:12px;margin-top:4px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.lg-data{display:inline-flex;gap:2px}
+.lg-data i{width:6px;height:6px;border-radius:1.5px;background:var(--data)}
+.lg-info{width:10px;height:13px;border-radius:2px;background:var(--info)}
+.hero-section .legend{color:var(--text2)}
+.hero-section .lg-data i{background:#A0AEC0}
+
+.hero-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:12px}
+.hc{position:relative;overflow:hidden;text-align:start;cursor:pointer;border-radius:14px;padding:14px 16px;border:1.5px solid rgb(var(--ink) / .15);background:rgb(var(--ink) / .04);color:var(--text);display:flex;flex-direction:column;gap:2px;transition:background .3s,border-color .3s,color .3s}
+.hc:hover{border-color:rgb(var(--amb) / .6)}
+.hc.on{background:var(--orange);border-color:var(--orange);color:var(--navy)}
+.hc-top{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.hc-top .alt{font-size:12px;opacity:.8}
+.hc-icon{font-size:22px}
+.hc-name{font-size:22px;font-weight:800}
+.hc-chef{font-size:13px;opacity:.85}
+.sim-analogy{font-size:14px;opacity:.9;text-wrap:pretty;text-align:center;background:rgb(var(--ink) / .06);padding:10px 16px;border-radius:12px;border:1px solid rgb(var(--ink) / .1)}
+
+/* شريط التقدم التلقائي: يوضح متى ينتقل العرض إلى المرحلة التالية */
+.autobar{position:absolute;bottom:0;inset-inline-start:0;height:3px;width:0;background:currentColor;opacity:.45}
+.autobar.run{animation:autobar var(--step-ms,3500ms) linear forwards}
+@keyframes autobar{from{width:0}to{width:100%}}
+
+/* ---------- Sections ---------- */
+.main-container{max-width:1120px;margin:0 auto;padding:0 24px}
+.section{padding:72px 0 24px;display:flex;flex-direction:column;gap:28px}
+.section-header{display:flex;flex-direction:column;gap:6px;text-align:center;align-items:center}
+.section-subtitle{font-size:14px;font-weight:700;color:var(--blue);font-family:var(--mono)}
+html[lang=en] .section-subtitle{font-family:var(--font)}
+.section-title{margin:0;font-size:clamp(26px,3.6vw,34px);font-weight:800;line-height:1.35;color:var(--text);text-wrap:balance}
+.section-desc{font-size:17px;color:var(--text2);max-width:760px;text-wrap:pretty}
+.sub-title{margin:0;font-size:24px;font-weight:800;text-align:center;color:var(--text)}
+.sub-title small{font-size:15px;color:var(--blue);font-weight:600}
+.card{background:rgb(var(--s1) / 0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;padding:28px;color:var(--text);box-shadow:0 12px 36px rgba(0,0,0,0.5),0 0 20px rgb(var(--acc) / 0.06)}
+.kv{display:flex;flex-direction:column;gap:4px}
+.kv .k{font-size:13px;color:var(--muted);font-weight:600}
+.kv.example{background:rgb(var(--amb) / 0.12);border:1px solid rgb(var(--amb) / 0.3);border-radius:12px;padding:12px 16px}
+.kv.example .k{color:var(--orange);font-weight:700}
+.swap{animation:swapIn .35s ease}
+@keyframes swapIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Cycle pills */
+.pills{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}
+.pill{position:relative;overflow:hidden;cursor:pointer;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;border:1.5px solid var(--line);background:rgb(var(--s1) / 0.7);color:var(--text);font-weight:700;font-size:15px;transition:all .25s}
+.pill:hover{border-color:var(--blue)}
+.pill.on{background:var(--blue);color:var(--em-ink);border-color:var(--blue);box-shadow:0 0 15px rgb(var(--acc) / 0.4)}
+.pill .alt{font-size:12px;opacity:.75}
+.stage-detail{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:center}
+.stage-info{display:flex;flex-direction:column;gap:16px}
+.stage-name{font-size:26px;font-weight:800;color:var(--text)}
+.stage-name .alt{font-size:15px;color:var(--blue)}
+.stage-what{font-size:18px;font-weight:600;color:var(--text)}
+.stage-ex{font-size:17px;font-weight:600;color:var(--orange)}
+
+/* Cycle diagram (SVG) */
+.cycle-diagram svg{display:block;width:100%;height:auto;overflow:visible}
+.cyc{--n-fill:rgb(var(--s1) / 0.9);--n-stroke:rgb(var(--acc) / 0.3);--n-text:var(--text);--n-muted:var(--muted);--n-on:rgb(var(--amb) / 0.25);--l:rgb(var(--acc) / 0.35);--pk-data:var(--data)}
+[data-theme=dark] .cyc{--n-fill:rgb(var(--s0) / 0.95);--n-stroke:rgb(var(--acc) / 0.4);--n-text:var(--text);--n-muted:var(--muted);--n-on:rgb(var(--amb) / 0.3);--l:rgb(var(--acc) / 0.4);--pk-data:var(--blue)}
+.cyc .node rect{fill:var(--n-fill);stroke:var(--n-stroke);stroke-width:1.5;transition:fill .35s,stroke .35s}
+.cyc .node.on rect{fill:var(--n-on);stroke:var(--orange);stroke-width:2.5}
+.cyc text{text-anchor:middle}
+.cyc .t-ico{font-size:21px}
+.cyc .t-main{fill:var(--n-text);font-weight:800;font-size:13px}
+.cyc .t-alt{fill:var(--n-muted);font-size:9.5px}
+html[lang=ar] .t-alt{font-family:var(--mono);font-weight:500}
+html[lang=en] .t-alt{font-family:var(--font);font-weight:600;font-size:10.5px}
+.cyc .link{stroke:var(--l);stroke-width:2;fill:none;transition:stroke .35s}
+.cyc .link.on{stroke:var(--orange);stroke-width:2.5}
+.cyc .ah{fill:var(--l)}
+.cyc .ah-on{fill:var(--orange)}
+.cyc .pk-data rect{fill:var(--pk-data)}
+.cyc .pk-info rect.doc{fill:var(--info)}
+.cyc .pk-info line{stroke:var(--text);stroke-width:1.4;stroke-linecap:round}
+
+/* Data vs information */
+.data-info{position:relative}
+.data-info-grid{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:16px;align-items:stretch}
+.di-card{background:rgb(var(--s1) / 0.8);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:10px;text-align:center;align-items:center;border:1.5px solid var(--line);transition:box-shadow .3s}
+.di-data{border:1.5px dashed rgb(var(--acc) / 0.4)}
+.di-info{border:1.5px solid var(--green)}
+.di-emoji{font-size:24px}
+.di-label{font-size:13px;font-weight:700;color:var(--muted)}
+.di-info .di-label{color:var(--green-deep)}
+.di-text{font-size:16px;color:var(--text)}
+.di-sample{font-family:var(--mono);font-weight:500;font-size:18px;background:rgb(var(--s0) / 0.85);color:var(--blue);border-radius:8px;padding:6px 16px;direction:ltr;border:1px solid var(--line);transition:box-shadow .3s}
+.di-result{font-size:18px;font-weight:700;background:var(--green-bg);color:var(--green);border:1px solid rgba(0,230,118,0.4);border-radius:8px;padding:6px 16px;transition:box-shadow .3s}
+.di-note{font-size:14px;color:var(--muted)}
+.di-sample.hl{box-shadow:0 0 0 3px rgb(var(--acc) / 0.45)}
+.di-result.hl{box-shadow:0 0 0 3px rgba(0,230,118,0.45)}
+.data-info-arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--blue);font-weight:700;font-size:14px;min-width:80px}
+.gear{display:inline-block;font-size:32px;line-height:1}
+.data-info-arrow-icon{font-size:24px;line-height:1;display:inline-block}
+.tok{position:absolute;top:0;left:0;pointer-events:none;opacity:0;z-index:2}
+.tok-data{display:flex;gap:3px}
+.tok-data i{width:9px;height:9px;border-radius:2px;background:var(--data)}
+.tok-info{width:16px;height:20px;border-radius:3px;background:var(--info);box-shadow:0 2px 6px rgba(0,230,118,0.5)}
+.plain-note{font-size:15px;color:var(--text2);text-align:center;background:rgb(var(--s1) / 0.8);padding:12px 18px;border-radius:12px;border:1px solid var(--line)}
+
+/* ---------- Components ---------- */
+.components-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px}
+.cb{cursor:pointer;text-align:center;border-radius:16px;padding:18px;border:1.5px solid var(--line);background:rgb(var(--s1) / 0.75);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:all .25s}
+.cb:hover{border-color:var(--blue)}
+.cb.on{background:linear-gradient(135deg,rgb(var(--acc) / 0.25),rgb(var(--acc) / 0.05));border-color:var(--blue);color:var(--text);box-shadow:0 0 20px rgb(var(--acc) / 0.3)}
+.cb-ico{font-size:26px;margin-bottom:2px}
+.cb .alt{font-size:12px;opacity:.75}
+.cb-name{font-size:19px;font-weight:800;line-height:1.4}
+.cb-fac{font-size:13px;opacity:.85;color:var(--muted)}
+.comp-detail{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:center}
+.comp-info{display:flex;flex-direction:column;gap:20px}
+.comp-func{font-size:22px;font-weight:800;color:var(--text)}
+.comp-fac{font-size:15px;color:var(--text2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--chip);color:var(--blue);border:1px solid rgb(var(--acc) / 0.3);font-weight:600;font-size:15px;padding:6px 14px;border-radius:999px}
+.comp-svg svg{display:block;width:100%;height:auto}
+.cmp .box{fill:rgb(var(--s0) / 0.85);stroke:var(--line);stroke-width:1.5;transition:fill .35s,stroke .35s}
+.cmp .n.on .box{fill:rgb(var(--acc) / 0.15);stroke:var(--blue);stroke-width:2.5}
+.cmp .n.dim{opacity:.55}
+.cmp .n{transition:opacity .35s}
+.cmp .other .box{stroke-dasharray:5 4}
+.cmp text{text-anchor:middle}
+.cmp .t-main{fill:var(--text);font-weight:800;font-size:13px}
+.cmp .t-sm{fill:var(--text);font-weight:700;font-size:12px}
+.cmp .t-ico{font-size:20px}
+.cmp .inner{fill:rgb(var(--s1) / 0.9);stroke:var(--line2);stroke-width:1.2;transition:fill .35s,stroke .35s}
+.cmp .n.on .inner{fill:rgb(var(--acc) / 0.2);stroke:var(--blue2)}
+.cmp .ln{stroke:rgb(var(--acc) / 0.3);stroke-width:2;fill:none;transition:stroke .35s}
+.cmp .ln.on{stroke:var(--blue);stroke-width:2.5;stroke-dasharray:6 6;animation:flow .9s linear infinite}
+.cmp .ah{fill:rgb(var(--acc) / 0.3)}
+.cmp .ah-on{fill:var(--blue)}
+@keyframes flow{from{stroke-dashoffset:12}to{stroke-dashoffset:0}}
+
+/* ---------- Software ---------- */
+.sw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.sw-card{border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:10px;text-align:center;align-items:center;background:rgb(var(--s1) / 0.85);border:1.5px solid var(--line);color:var(--text)}
+.sw-sys{background:rgb(var(--s0) / 0.95);border-color:var(--blue);box-shadow:0 0 20px rgb(var(--acc) / 0.15)}
+.sw-app{background:rgb(var(--s1) / 0.85);border:1.5px solid var(--line2)}
+.sw-ico{font-size:28px}
+.sw-card .alt{font-size:13px}
+.sw-sys .alt{color:var(--blue)}
+.sw-app .alt{color:var(--muted)}
+.sw-name{font-size:24px;font-weight:800;color:var(--text)}
+.sw-role{font-size:17px}
+.sw-sys .sw-role{color:var(--text2)}
+.sw-app .sw-role{color:var(--text2)}
+.sw-tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.sw-sys .sw-tags span{background:rgb(var(--acc) / .15);border:1px solid rgb(var(--acc) / .3);color:var(--blue);padding:4px 12px;border-radius:999px;font-size:14px}
+.sw-app .sw-tags span{background:var(--chip);padding:4px 12px;border-radius:999px;font-size:14px;color:var(--text);border:1px solid var(--line);font-weight:600}
+.run-head{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.play-btn{cursor:pointer;font-size:14px;font-weight:700;border:1.5px solid var(--blue);background:rgb(var(--acc) / 0.1);color:var(--blue);border-radius:999px;padding:5px 16px;transition:all .2s}
+.play-btn:hover{background:var(--blue);color:var(--em-ink)}
+.run-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.rs{cursor:pointer;text-align:start;background:rgb(var(--s1) / 0.8);border:1.5px solid var(--line);border-radius:14px;padding:18px;display:flex;gap:14px;align-items:center;color:var(--text);transition:all .25s}
+.rs:hover{border-color:var(--blue)}
+.rs.on{border-color:var(--blue);box-shadow:0 0 0 3px rgb(var(--acc) / .25)}
+.rs-num{flex:none;width:36px;height:36px;border-radius:50%;background:var(--blue);color:var(--em-ink);display:grid;place-items:center;font-weight:800;font-size:16px}
+.rs-num.g{background:var(--green)}
+.rs strong{font-size:17px;color:var(--text)}
+.rs .d{color:var(--text2);font-size:14px}
+.run-svg{background:rgb(var(--s0) / 0.9);border:1px solid var(--line);border-radius:18px;padding:16px 12px 8px}
+.run-svg svg{display:block;width:100%;max-width:680px;height:auto;margin:0 auto}
+.prg .box{fill:rgb(var(--s1) / 0.9);stroke:var(--line2);stroke-width:1.5;transition:fill .35s,stroke .35s}
+.prg .n.on .box{fill:rgb(var(--acc) / 0.15);stroke:var(--blue2);stroke-width:2.5}
+.prg text{text-anchor:middle}
+.prg .t-main{fill:var(--text);font-weight:800;font-size:13px}
+.prg .ico{fill:none;stroke:var(--blue);stroke-width:2}
+.prg .ico-f{fill:var(--blue)}
+.prg .ln{stroke:rgb(var(--acc) / 0.3);stroke-width:2;fill:none;transition:stroke .35s}
+.prg .ln.on{stroke:var(--blue2);stroke-width:2.5}
+.prg .ah{fill:rgb(var(--acc) / 0.3)}
+.prg .ah-on{fill:var(--blue2)}
+.prg .badge rect{fill:var(--blue2)}
+.prg .badge line{stroke:var(--em-ink);stroke-width:1.3;stroke-linecap:round}
+.prg .badge{transition:opacity .3s}
+.prg .win{transition:opacity .35s}
+.prog-box{background:rgb(var(--amb) / 0.12);border:1px solid rgb(var(--amb) / 0.3);border-radius:18px;padding:24px 28px;display:flex;flex-direction:column;gap:6px;text-align:center;color:var(--text)}
+.prog-box .k{font-size:13px;color:var(--orange);font-weight:700}
+.prog-box p{font-size:17px}
+.prog-box p.ex{font-size:15px;color:var(--text2)}
+
+/* ---------- Categories ---------- */
+.cat-scroll{overflow-x:auto;padding-bottom:6px}
+.cat-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr)) minmax(0,1.15fr);column-gap:8px;row-gap:6px;align-items:end;min-width:900px}
+.kb{grid-row:1;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;text-align:center;border-radius:12px;padding:12px 8px;border:1.5px solid var(--line);background:rgb(var(--s1) / 0.8);color:var(--text);transition:all .25s}
+.kb:hover{border-color:var(--blue)}
+.kb.emb{background:rgb(var(--amb) / 0.12);border-color:rgb(var(--amb) / 0.3)}
+.kb.on{background:var(--blue);color:var(--em-ink);border-color:var(--blue);box-shadow:0 0 15px rgb(var(--acc) / 0.4)}
+.kb-ico{font-size:22px;margin-bottom:2px}
+.kb-short{font-size:14px;font-weight:800;line-height:1.35;hyphens:auto;overflow-wrap:anywhere}
+html[lang=en] .kb-short{font-size:13px}
+.kb.emb{grid-column:8;margin-inline-start:14px}
+.cat-sep{grid-column:8;grid-row:1 / span 3;align-self:stretch;border-inline-start:2px dashed var(--line2);margin-inline-start:2px;pointer-events:none}
+.cat-bracket{grid-column:1 / span 2;grid-row:2;display:flex;flex-direction:column;align-items:center;gap:2px}
+.cat-bracket i{display:block;width:calc(100% - 16px);height:9px;border:2px solid var(--line2);border-top:0;border-radius:0 0 8px 8px}
+.cat-bracket span{font-size:12px;font-weight:700;color:var(--muted);text-align:center;line-height:1.4}
+.cat-axis{grid-column:1 / span 7;grid-row:3;height:22px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:var(--muted)}
+.axis-line{flex:1;height:2px;background:var(--line2);position:relative}
+.axis-line::after{content:"";position:absolute;top:50%;transform:translateY(-50%);border:6px solid transparent}
+[dir=rtl] .axis-line::after{left:-2px;border-right:9px solid var(--line2);border-left:0}
+[dir=ltr] .axis-line::after{right:-2px;border-left:9px solid var(--line2);border-right:0}
+.cat-detail{display:flex;flex-direction:column;gap:20px}
+.cat-top{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:24px}
+.cat-name{font-size:24px;font-weight:800;color:var(--text)}
+.cat-alt{font-size:13px;color:var(--blue)}
+.cat-desc{font-size:17px;font-weight:600;color:var(--text)}
+.emb-box{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-direction:column;gap:12px}
+.emb-box[hidden]{display:none}
+.emb-title{font-size:17px;font-weight:800;text-align:center;color:var(--text)}
+.emb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px}
+.emb-grid div{background:rgb(var(--s0) / 0.8);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.emb-grid span{font-size:14px;color:var(--text2)}
+
+/* ---------- Information system ---------- */
+.el-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:10px}
+.el{border-radius:14px;padding:16px 12px;border:1.5px solid var(--line);background:rgb(var(--s1) / 0.8);color:var(--muted);transition:all .35s;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px}
+.el.on{background:var(--green);color:var(--em-ink);border-color:var(--green);box-shadow:0 0 15px rgba(0,230,118,0.4)}
+.el.pop{animation:pop .45s ease}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
+.el-ico{font-size:22px}
+.el-name{font-size:19px;font-weight:800}
+.el .alt{font-size:12px;opacity:.8}
+.st-list{display:flex;flex-direction:column;gap:10px}
+.st{cursor:pointer;text-align:start;display:flex;gap:14px;align-items:center;border-radius:14px;padding:14px 18px;border:1.5px solid var(--line);background:rgb(var(--s1) / 0.6);color:var(--text);font-size:16px;transition:all .25s}
+.st:hover{border-color:var(--green)}
+.st.on{background:rgb(var(--s1) / 0.95);border-color:var(--green)}
+.st-num{flex:none;width:32px;height:32px;border-radius:50%;background:var(--line);color:var(--text);display:grid;place-items:center;font-weight:800;font-size:15px;transition:all .25s}
+.st.on .st-num{background:var(--green);color:var(--em-ink)}
+.st-text{font-weight:600}
+
+/* ---------- Pros & cons ---------- */
+.pc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.pc{background:rgb(var(--s1) / 0.85);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;border:1px solid var(--line)}
+.pc-pro{border-top:5px solid var(--green)}
+.pc-con{border-top:5px solid var(--red)}
+.pc-title{font-size:20px;font-weight:800;text-align:center}
+.pc-pro .pc-title{color:var(--green)}
+.pc-con .pc-title{color:var(--red)}
+.pc-list{display:flex;flex-direction:column;gap:12px}
+.pc-item{display:flex;gap:10px;align-items:flex-start}
+.pc-item>span{font-size:20px}
+.pc-item .d{color:var(--text2)}
+.green-box{background:var(--green-bg);border-radius:18px;padding:24px 28px;display:flex;flex-direction:column;gap:8px;text-align:center;border:1px solid var(--green)}
+.green-box .ico{font-size:28px}
+.green-box .t{font-size:18px;font-weight:800;color:var(--green)}
+.green-box .d{font-size:16px;color:var(--text)}
+
+/* ---------- Quiz ---------- */
+.quiz-header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.quiz-head-text{display:flex;flex-direction:column;gap:4px}
+.quiz-head-text .section-subtitle{align-self:flex-start}
+.quiz-header h2{margin:0;font-size:34px;font-weight:800;color:var(--text)}
+.score{background:linear-gradient(135deg,var(--blue),var(--em2));color:var(--em-ink);font-weight:800;padding:8px 16px;border-radius:10px;font-size:15px;display:inline-block;box-shadow:0 0 12px rgb(var(--acc) / 0.3)}
+.score.bump{animation:pop .4s ease}
+.reset{cursor:pointer;border:1.5px solid var(--line);background:rgb(var(--s1) / 0.8);color:var(--blue);font-weight:700;padding:7px 16px;border-radius:10px;transition:all .2s}
+.reset:hover{border-color:var(--blue);background:rgb(var(--acc) / 0.1)}
+.quiz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px}
+.qc{background:rgb(var(--s1) / 0.85);border:1px solid var(--line);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.qc-text{font-size:17px;font-weight:700;color:var(--text)}
+.qc-text b{color:var(--blue)}
+.qc-opts{display:flex;flex-direction:column;gap:8px}
+.opt{cursor:pointer;text-align:start;border-radius:10px;padding:10px 14px;border:1.5px solid var(--line2);background:rgb(var(--s0) / 0.8);color:var(--text);font-size:15px;font-weight:600;transition:all .25s;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.opt:hover:not([disabled]){border-color:var(--blue)}
+.opt[disabled]{cursor:default}
+.opt.ok{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.opt.bad{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+.opt.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.opt .mk{font-weight:800}
+.opt.ok .mk{color:var(--green)}
+.opt.bad .mk{color:var(--red)}
+.qc-fb{font-size:14px;font-weight:700}
+
+/* ---------- Footer ---------- */
+.site-footer{background:rgb(var(--s0) / 0.95);color:var(--text);border-top:1px solid rgb(var(--acc) / 0.2)}
+.footer-container{max-width:1120px;margin:0 auto;padding:28px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:14px}
+.footer-prep{opacity:.9;background:rgb(var(--acc) / .12);border:1px solid rgb(var(--acc) / .25);color:var(--blue);padding:4px 14px;border-radius:6px;font-weight:600}
+
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1379px){.header-instructor{display:none}}
+@media (max-width:1180px){.brand-sub{display:none}}
+@media (max-width:1020px){
+  .header-container{display:grid;grid-template-columns:1fr auto;grid-template-areas:"brand lang" "nav nav";row-gap:6px;padding:8px 16px}
+  .brand{grid-area:brand}
+  .lang-switch{grid-area:lang}
+  .header-nav{grid-area:nav;justify-content:flex-start;margin:0 -16px;padding:0 12px}
+  :root{--header-h:100px}
+}
+@media (max-width:900px){
+  .stage-detail,.comp-detail{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .hero-section{padding:36px 16px 48px}
+  .main-container{padding:0 16px}
+  .sim-card{padding:14px;border-radius:18px}
+  .card{padding:20px}
+  .section{padding-top:56px}
+  .data-info-grid{grid-template-columns:1fr}
+  .data-info-arrow{flex-direction:row;padding:4px 0}
+  [dir=rtl] .data-info-arrow-icon{transform:rotate(-90deg)}   /* ← يصبح ↓ */
+  [dir=ltr] .data-info-arrow-icon{transform:rotate(90deg)}    /* → يصبح ↓ */
+}
+/* على الهاتف تُكبَّر نصوص الرسومات لأن الرسم يُصغَّر ليناسب العرض */
+@media (max-width:560px){
+  .cyc .t-main{font-size:16px} .cyc .t-alt{font-size:11px} .cyc .t-ico{font-size:24px}
+  html[lang=en] .cyc .t-main{font-size:14px}
+  .cmp .t-main{font-size:16px} .cmp .t-sm{font-size:15px} .cmp .t-ico{font-size:24px}
+  html[lang=en] .cmp .t-main{font-size:14.5px}
+  html[lang=en] .cmp .t-sm{font-size:13px}
+  .prg .t-main{font-size:16px}
+  html[lang=en] .prg .t-main{font-size:15px}
+  .components-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cb{padding:14px 10px}
+  .cb-name{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* ---------- 3D PC Sequence Hero Section (Mobile-First) ---------- */
+.pc-hero-section {
+  position: relative;
+  height: 300vh;
+  background: #040807;
+}
+@media (max-width: 768px) {
+  .pc-hero-section {
+    height: 260vh;
+  }
+}
+
+.pc-sticky-viewport {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #040807;
+}
+
+.pc-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.pc-overlay-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1120px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 50px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.pc-hero-content {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  max-width: 680px;
+  margin-top: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 6px 16px;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  will-change: opacity, transform;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.pc-hero-title {
+  margin: 0;
+  font-size: clamp(24px, 4.5vw, 42px);
+  line-height: 1.25;
+  font-weight: 900;
+  color: var(--text);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 0 30px rgba(0, 210, 255, 0.5);
+}
+
+.pc-hero-lead {
+  font-size: clamp(13px, 1.8vw, 15.5px);
+  color: rgba(240, 246, 252, 0.92);
+  max-width: 560px;
+  line-height: 1.55;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+}
+
+.pc-stage-hud {
+  pointer-events: auto;
+  background: rgba(11, 25, 44, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  border-radius: 18px;
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(100%, 360px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 210, 255, 0.12);
+  margin-bottom: 12px;
+}
+
+.pc-hud-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue);
+}
+
+.pc-hud-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 10px var(--blue);
+  animation: pulse-glow 1.8s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+.pc-hud-progress {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pc-hud-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--orange));
+  border-radius: 4px;
+  transition: width 0.1s ease-out;
+}
+
+.pc-hud-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.pc-hud-sub {
+  color: var(--orange);
+  font-weight: 700;
+}
+
+.pc-scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  animation: float-bounce 2s infinite ease-in-out;
+}
+
+.mouse-icon {
+  width: 20px;
+  height: 32px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  position: relative;
+}
+
+.mouse-icon .wheel {
+  width: 3px;
+  height: 6px;
+  background: var(--blue);
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scroll-wheel 1.6s infinite ease-in-out;
+}
+
+@keyframes scroll-wheel {
+  0% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, 12px); }
+}
+
+@keyframes float-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+.pc-loader {
+  position: absolute;
+  inset: 0;
+  background: #060B13;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.pc-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.pc-loader-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(0, 210, 255, 0.18);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.pc-loader-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.sim-card-wrapper {
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 600px) {
+  .pc-overlay-container {
+    padding: 68px 14px 16px;
+  }
+  .pc-hero-content {
+    padding: 16px 18px;
+    border-radius: 18px;
+    gap: 10px;
+  }
+  .pc-hero-lead {
+    font-size: 13.5px;
+  }
+  .pc-stage-hud {
+    padding: 10px 14px;
+    border-radius: 14px;
+    width: 100%;
+  }
+}
+
+/* ---------- مبدّل الفصول (إضافة الفصل الثاني) ---------- */
+.chap-switch{flex:none;display:inline-flex;align-items:center;gap:2px;background:rgb(var(--ink) / .08);border:1px solid rgb(var(--amb) / .35);border-radius:999px;padding:3px}
+.chap-switch span{font-size:12px;font-weight:700;color:rgb(var(--ink) / .75);padding:0 8px}
+.chap-switch a{font-weight:800;font-size:13px;line-height:1.5;padding:4px 11px;border-radius:999px;color:rgb(var(--ink) / .85);transition:background .2s,color .2s}
+.chap-switch a:hover{color:var(--orange);background:rgb(var(--amb) / .12)}
+.chap-switch a[aria-current=page]{background:var(--orange);color:var(--em-ink)}
+@media (max-width:1020px){.header-container{grid-template-columns:1fr auto auto;grid-template-areas:"brand chap lang" "nav nav nav"}.chap-switch{grid-area:chap}.chap-switch span{display:none}}
+@media (max-width:480px){.header-container{column-gap:8px}.brand{gap:7px}.brand-logo{width:28px;height:28px;font-size:14px}.brand-name{font-size:15px}.lang-switch button{padding:3px 8px;font-size:12px}.chap-switch a{padding:3px 8px;font-size:12px}}
+@media (max-width:1280px){.brand-sub{display:none}}
+</style>
+<style>
+/* ============ إضافات الفصل الثاني (نفس الألوان والمكوّنات، عناصر جديدة فقط) ============ */
+.chap-switch{flex:none;display:inline-flex;align-items:center;gap:2px;background:rgb(var(--ink) / .08);border:1px solid rgb(var(--amb) / .35);border-radius:999px;padding:3px}
+.chap-switch span{font-size:12px;font-weight:700;color:rgb(var(--ink) / .75);padding:0 8px}
+.chap-switch a{font-weight:800;font-size:13px;line-height:1.5;padding:4px 11px;border-radius:999px;color:rgb(var(--ink) / .85);transition:background .2s,color .2s}
+.chap-switch a:hover{color:var(--orange);background:rgb(var(--amb) / .12)}
+.chap-switch a[aria-current=page]{background:var(--orange);color:var(--em-ink)}
+@media (max-width:1020px){.header-container{grid-template-columns:1fr auto auto;grid-template-areas:"brand chap lang" "nav nav nav"}.chap-switch{grid-area:chap}.chap-switch span{display:none}}
+@media (max-width:480px){.header-container{column-gap:8px}.brand{gap:7px}.brand-logo{width:28px;height:28px;font-size:14px}.brand-name{font-size:15px}.lang-switch button{padding:3px 8px;font-size:12px}.chap-switch a{padding:3px 8px;font-size:12px}}
+.header-nav a{padding:5px 9px}
+
+.c2-hero{padding:48px 24px 56px;border-bottom:1px solid var(--line)}
+.c2-hero .hero-lead{max-width:560px}
+.dgm svg{display:block;width:100%;height:auto;overflow:visible}
+.dgm text{text-anchor:middle}
+.dgm .box{fill:rgb(var(--s0) / .9);stroke:var(--line);stroke-width:1.5;transition:fill .35s,stroke .35s}
+.dgm .n.on .box{fill:rgb(var(--acc) / .15);stroke:var(--blue);stroke-width:2.5}
+.dgm .t-main{fill:var(--text);font-weight:800;font-size:13px}
+.dgm .t-sm{fill:var(--text2);font-weight:600;font-size:10.5px}
+.dgm .t-ico{font-size:22px}
+.dgm .ln{stroke:rgb(var(--acc) / .3);stroke-width:2;fill:none;transition:stroke .35s}
+.dgm .ln.on{stroke:var(--blue);stroke-width:2.5}
+.dgm .ah{fill:rgb(var(--acc) / .3)} .dgm .ah-on{fill:var(--blue)}
+.dgm .flow{stroke-dasharray:6 6;animation:flow .9s linear infinite}
+.tk-data rect{fill:var(--data)} .tk-ins rect{fill:var(--orange)} .tk-ins line{stroke:var(--em-ink);stroke-width:1.3;stroke-linecap:round}
+.lg-ins{width:14px;height:10px;border-radius:2px;background:var(--orange)}
+.two-col{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:center}
+.d-name{font-size:24px;font-weight:800;color:var(--text)}
+.d-name .alt{font-size:14px;color:var(--blue);margin-inline-start:6px}
+.d-def{font-size:17px;font-weight:600;color:var(--text)}
+.d-list{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.d-list li{background:rgb(var(--s0) / .8);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:15px}
+.d-list li b{color:var(--text)} .d-list li span{color:var(--text2)}
+.fact-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px}
+.fact{background:rgb(var(--s1) / .8);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.fact .k{font-size:13px;font-weight:700;color:var(--orange)}
+.fact .v{font-size:15px;color:var(--text)}
+.fact .chips{margin-top:2px} .fact .chip{font-size:13px;padding:3px 10px}
+
+/* لوحة المفاتيح */
+.kbd-wrap{overflow-x:auto;padding-bottom:4px}
+.kbd-wrap svg{display:block;width:100%;min-width:660px;height:auto;direction:ltr}
+.key rect{fill:rgb(var(--s1) / .95);stroke:rgb(var(--ink) / .22);stroke-width:1;transition:fill .2s,stroke .2s}
+.key text{fill:var(--text2);font-family:var(--mono);font-size:8.5px;font-weight:500;text-anchor:middle;pointer-events:none}
+.key{cursor:pointer}
+.key.hl rect{fill:rgb(var(--acc) / .28);stroke:var(--blue)} .key.hl text{fill:var(--text)}
+.key.down rect{fill:var(--orange);stroke:var(--orange)} .key.down text{fill:var(--em-ink)}
+.key.lit rect{stroke:var(--green);stroke-width:2}
+.type-line{direction:ltr;text-align:left;font-family:var(--mono);font-size:18px;min-height:46px;background:rgb(var(--s0) / .9);border:1px solid var(--line);border-radius:12px;padding:8px 14px;color:var(--text);white-space:pre-wrap;word-break:break-all}
+.caret{display:inline-block;width:2px;height:1.15em;background:var(--orange);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.type-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.led{display:inline-flex;align-items:center;gap:6px;font-weight:700}
+.led i{width:9px;height:9px;border-radius:50%;background:#44546A} .led.on i{background:var(--green);box-shadow:0 0 8px var(--green)} .led.on{color:var(--green)}
+
+/* الفأرة */
+.mouse-svg{max-width:240px;margin:0 auto}
+.ms .body{fill:rgb(var(--s1) / .95);stroke:rgb(var(--ink) / .35);stroke-width:2}
+.ms .part{fill:rgb(var(--s0) / .9);stroke:rgb(var(--ink) / .35);stroke-width:1.5;transition:fill .15s}
+.ms .part.hold{fill:var(--orange)}
+.ms .part.b1{animation:press .45s ease 1} .ms .part.b2{animation:press .3s ease 2} .ms .part.b3{animation:press .25s ease 3}
+@keyframes press{0%,100%{fill:rgb(var(--s0) / .9)}40%,70%{fill:var(--orange)}}
+.ms .ticks{stroke:var(--blue);stroke-width:2;stroke-dasharray:3 5;opacity:0}
+.ms .ticks.rot{opacity:1;animation:flow .5s linear infinite} .ms .ticks.spin{opacity:1;animation:flow .12s linear infinite}
+.ms .wheelg{transition:transform .25s} .ms .wheelg.tilt{animation:tilt 1s ease-in-out 2}
+@keyframes tilt{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.ms .mv{opacity:0} .ms .mv.on{opacity:1}
+.ms .whole.moving{animation:mmove 1.6s ease-in-out 1}
+@keyframes mmove{0%,100%{transform:translate(0,0)}50%{transform:translate(26px,-14px)}}
+.ms .lbl{fill:var(--text2);font-size:10.5px;font-weight:600}
+.op-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.op{cursor:pointer;border-radius:10px;padding:8px 10px;border:1.5px solid var(--line);background:rgb(var(--s1) / .7);color:var(--text);font-weight:700;font-size:14px;text-align:start;transition:all .2s}
+.op{display:flex;flex-direction:column;gap:0;line-height:1.4}.op small{font-size:11.5px;opacity:.75;font-weight:500}.op:hover{border-color:var(--blue)} .op.on{background:var(--blue);color:var(--em-ink);border-color:var(--blue)}
+
+/* الكاميرا */
+.run-svg{overflow-x:auto}#camSvg svg{min-width:560px}
+.cam .light{stroke:#FFD54A} .cam .ana{stroke:var(--orange)} .cam .dig{stroke:var(--green)}
+.px-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.px-row .lab{font-size:13px;font-weight:700;color:var(--muted);min-width:120px}
+.px-canvas{width:100%;max-width:300px;aspect-ratio:1;border-radius:12px;border:1px solid var(--line);object-fit:cover;display:block;margin:0 auto;background:#000}
+.px-read{font-size:14px;font-weight:700;color:var(--blue);text-align:center;margin-top:8px;line-height:1.7}.px-read bdi{font-family:var(--mono);font-weight:500}
+.rd #rdObj{fill:var(--text)}
+
+/* القارئات */
+.rd .beam{opacity:0;fill:none}
+.rd.light .b-light,.rd.laser .b-laser,.rd.radio .b-radio{opacity:1}
+.rd .b-light{stroke:#FFD54A;stroke-width:2.5;stroke-dasharray:5 6;animation:flow .7s linear infinite}
+.rd .b-laser{stroke:var(--red);stroke-width:2.5}
+.rd.laser .b-laser{animation:sweep 1.2s ease-in-out infinite alternate}
+@keyframes sweep{from{transform:translateY(-12px)}to{transform:translateY(12px)}}
+.rd .b-radio path{stroke:var(--blue);stroke-width:2.5;fill:none;opacity:.2;animation:rad 1.5s linear infinite}
+.rd .b-radio path:nth-child(2){animation-delay:.3s} .rd .b-radio path:nth-child(3){animation-delay:.6s}
+@keyframes rad{0%{opacity:.15}30%{opacity:1}100%{opacity:.15}}
+.rd.mag .obj{animation:swipe 1.8s ease-in-out infinite}
+@keyframes swipe{0%,100%{transform:translateY(-26px)}50%{transform:translateY(26px)}}
+.sig-tag{display:inline-block;font-size:13px;font-weight:800;color:var(--em-ink);background:var(--orange);border-radius:999px;padding:2px 12px;align-self:flex-start}
+
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.gcard{background:rgb(var(--s1) / .85);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:6px}
+.gcard .ico{font-size:24px} .gcard b{font-size:17px;color:var(--text)} .gcard .alt{font-size:12px;color:var(--blue)} .gcard span.d{font-size:14.5px;color:var(--text2)}
+.steps3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+@media (max-width:900px){.two-col{grid-template-columns:1fr}}
+@media (max-width:560px){.dgm .t-main{font-size:15px}.dgm .t-sm{font-size:12px}}
+</style>
+<link rel="stylesheet" href="../../assets/css/lecture.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+
+
+<header class="site-header">
+  <div class="header-container">
+    <a href="#top" class="brand">
+      <span class="brand-logo"></span>
+      <span class="brand-name">مقدمة في الحوسبة</span>
+      <span class="header-instructor" data-t="instructor"></span>
+    </a>
+    <nav class="header-nav" id="nav" data-t-aria="navLabel">
+      <a href="#what" data-t="nWhat"></a>
+      <a href="#keyboard" data-t="nKbd"></a>
+      <a href="#pointing" data-t="nPoint"></a>
+      <a href="#touch" data-t="nTouch"></a>
+      <a href="#camera" data-t="nCam"></a>
+      <a href="#media" data-t="nMedia"></a>
+      <a href="#scan" data-t="nScan"></a>
+      <a href="#bio" data-t="nBio"></a>
+      <a href="#users" data-t="nUsers"></a>
+      <a href="#quiz" class="nav-quiz" data-t="navQuiz"></a>
+    </nav>
+    <div class="chap-switch" role="group"><span data-t="chapLbl"></span><a href="chapter-1.html" data-ch="1">1</a><a href="chapter-2.html" data-ch="2" aria-current="page">2</a></div>
+    <div class="lang-switch" role="group" aria-label="Language / اللغة">
+      <button type="button" data-lang="ar" lang="ar">عربي</button>
+      <button type="button" data-lang="en" lang="en">English</button>
+    </div>
+  </div>
+  <div class="read-progress" aria-hidden="true"><span id="readBar"></span></div>
+</header>
+
+<section id="top" class="hero-section c2-hero">
+  <div class="hero-container">
+    <div class="hero-text-block">
+      <div class="hero-badges"><span class="hero-badge" data-t="heroBadge"></span><span class="hero-instructor" data-t="instructor"></span></div>
+      <h1 data-t="heroTitle"></h1>
+      <p class="hero-lead" data-t="heroLead"></p>
+      <div class="hero-buttons"><a href="#what" class="btn btn-primary" data-t="btnStart"></a><a href="#quiz" class="btn btn-ghost" data-t="navQuiz"></a></div>
+    </div>
+    <div class="sim-card">
+      <div class="sim-panel">
+        <div class="sim-head"><span class="sim-title"><span class="live-dot on"></span><span data-t="simTitle"></span></span></div>
+        <div class="dgm" id="inSvg"></div>
+        <div class="legend" aria-hidden="true">
+          <span><span class="lg-data"><i></i><i></i><i></i></span><span data-t="lgData"></span></span>
+          <span><span class="lg-ins"></span><span data-t="lgIns"></span></span>
+        </div>
+      </div>
+      <p class="sim-analogy" data-t="analogy"></p>
+    </div>
+  </div>
+</section>
+
+<main class="main-container">
+
+  <section id="what" class="section">
+    <div class="section-header"><span class="section-subtitle" data-t="e1"></span><h2 class="section-title" data-t="t1"></h2><p class="section-desc" data-t="d1"></p></div>
+    <div class="pills" id="inPills"></div>
+    <div class="card" id="inDetail" aria-live="polite"></div>
+    <p class="plain-note" data-t="inDev"></p>
+  </section>
+
+  <section id="keyboard" class="section">
+    <div class="section-header"><span class="section-subtitle" data-t="e2"></span><h2 class="section-title" data-t="t2"></h2><p class="section-desc" data-t="d2"></p></div>
+    <div class="pills" id="kbPills"></div>
+    <div class="card" style="display:flex;flex-direction:column;gap:14px">
+      <div class="kv" id="kbDetail" aria-live="polite"></div>
+      <div class="kbd-wrap" id="kbSvg"></div>
+      <div class="kv"><span class="k" data-t="kbTry"></span><div class="type-line" id="typeLine"></div>
+        <div class="type-meta"><span data-t="kbCaretNote"></span><span class="led" id="capsLed"><i></i>Caps Lock</span></div></div>
+    </div>
+    <div class="fact-row" id="kbFacts"></div>
+  </section>
+
+  <section id="pointing" class="section">
+    <div class="section-header"><span class="section-subtitle" data-t="e3"></span><h2 class="section-title" data-t="t3"></h2><p class="section-desc" data-t="d3"></p></div>
+    <div class="card two-col">
+      <div><div class="mouse-svg" id="msSvg"></div></div>
+      <div class="comp-info">
+        <div class="kv"><span class="k" data-t="msK"></span><span class="d-def" data-t="msDef"></span></div>
+        <div class="kv" aria-live="polite"><span class="k" data-t="opK"></span><span class="d-name" id="opName"></span><span class="d-def" id="opDesc"></span></div>
+      </div>
+    </div>
+    <div class="op-grid" id="opGrid"></div>
+    <h3 class="sub-title" style="font-size:22px" data-t="otherPt"></h3>
+    <div class="grid-cards" id="ptCards"></div>
+  </section>
+
+  <section id="touch" class="section">
+    <div class="section-header"><span class="section-subtitle" data-t="e4"></span><h2 class="section-title" data-t="t4"></h2><p class="section-desc" data-t="d4"></p></div>
+    <div class="pills" id="tcPills"></div>
+    <div class="card" id="tcDetail" aria-live="polite"></div>
+  </section>
+
+  <section id="camera" class="section">
+    <div class="section-header"><span class="section-subtitle" data-t="e5"></span><h2 class="section-title" data-t="t5"></h2><p class="section-desc" data-t="d5"></p></div>
+    <div class="grid-cards" id="camTypes"></div>
+    <div class="run-head"><h3 class="sub-title" style="font-size:22px" data-t="camHow"></h3><button class="play-btn" id="camPlay" type="button" data-t="runPlay"></button></div>
+    <div class="run-svg dgm cam" id="camSvg"></div>
+    <div class="steps3" id="camSteps"></div>
+    <h3 class="sub-title" style="font-size:22px" data-t="qTitle"></h3>
+    <div class="card two-col">
+      <div><img class="px-canvas" id="pxImg" alt="صورة توضيحية للجودة" /><div class="px-read" id="pxRead"></div></div>
+      <div class="comp-info">
+        <div class="kv"><span class="k" data-t="resK"></span><span class="d-def" data-t="resDef"></span><div class="px-row" id="resBtns"></div></div>
+        <div class="kv"><span class="k" data-t="bitK"></span><span class="d-def" data-t="bitDef"></span><div class="px-row" id="bitBtns"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="media" class="section">
+    <div class="section-header"><span class="section-subtitle" data-t="e6"></span><h2 class="section-title" data-t="t6"></h2><p class="section-desc" data-t="d6"></p></div>
+    <div class="pills" id="mdPills"></div>
+    <div class="card" id="mdDetail" aria-live="polite"></div>
+  </section>
+
+  <section id="scan" class="section">
+    <div class="section-header"><span class="section-subtitle" data-t="e7"></span><h2 class="section-title" data-t="t7"></h2><p class="section-desc" data-t="d7"></p></div>
+    <div class="grid-cards" id="scTypes"></div>
+    <div class="run-head"><h3 class="sub-title" style="font-size:22px" data-t="scHow"></h3><button class="play-btn" id="scPlay" type="button" data-t="runPlay"></button></div>
+    <div class="run-svg dgm" id="scSvg"></div>
+    <div class="steps3" id="scSteps"></div>
+    <h3 class="sub-title" style="font-size:22px" data-t="rdTitle"></h3>
+    <div class="pills" id="rdPills"></div>
+    <div class="card two-col">
+      <div class="dgm" id="rdSvg"></div>
+      <div id="rdDetail" class="comp-info" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="bio" class="section">
+    <div class="section-header"><span class="section-subtitle" data-t="e8"></span><h2 class="section-title" data-t="t8"></h2><p class="section-desc" data-t="d8"></p></div>
+    <div class="grid-cards" id="bioCards"></div>
+    <h3 class="sub-title" style="font-size:22px" data-t="termTitle"></h3>
+    <p class="plain-note" data-t="termDef"></p>
+    <div class="grid-cards" id="termCards"></div>
+  </section>
+
+  <section id="users" class="section">
+    <div class="section-header"><span class="section-subtitle" data-t="e9"></span><h2 class="section-title" data-t="t9"></h2><p class="section-desc" data-t="d9"></p></div>
+    <div class="pills" id="usPills"></div>
+    <div class="card" id="usDetail" aria-live="polite"></div>
+    <h3 class="sub-title" style="font-size:22px" data-t="pcTitle"></h3>
+    <div class="grid-cards" id="pcCards"></div>
+  </section>
+
+  <section id="quiz" class="section" style="padding-bottom:80px;gap:24px">
+    <div class="quiz-header">
+      <div class="quiz-head-text"><span class="section-subtitle" data-t="e10"></span><h2 data-t="navQuiz"></h2></div>
+      <div style="display:flex;gap:10px;align-items:center"><span class="score" id="score" aria-live="polite"></span><button class="reset" id="resetQuiz" type="button" data-t="reset"></button></div>
+    </div>
+    <div class="quiz-grid" id="quizGrid"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container"><span data-t="fChapter"></span><span class="footer-prep" data-t="fPrep"></span><span style="opacity:.85" data-t="fRef"></span></div>
+</footer>
+
+<script>
+(() => {
+'use strict';
+/* =====================================================================
+   الفصل الثاني: أجهزة الإدخال — المرجع: ملف Chapter 02 (Discovering Computers)
+   كل النصوص: [العربية, English]. الإنجليزية مأخوذة من نص المحاضرة.
+   ===================================================================== */
+const S = {
+  docTitle: ['مقدمة في الحوسبة — الفصل الثاني: أجهزة الإدخال', 'Introduction to Computing — Chapter 2: Input Devices'],
+  instructor: ['المحاضر: م. عقيل البحري', 'Lecturer: Eng. Aqeel Albahri'],
+  navLabel: ['أقسام الدرس', 'Lesson sections'], chapLbl: ['الفصل', 'Chapter'],
+  nWhat: ['الإدخال', 'Input'], nKbd: ['لوحة المفاتيح', 'Keyboard'], nPoint: ['التأشير', 'Pointing'], nTouch: ['اللمس والقلم', 'Touch & Pen'],
+  nCam: ['الكاميرا', 'Camera'], nMedia: ['الصوت والفيديو', 'Audio & Video'], nScan: ['الماسحات', 'Scanners'], nBio: ['البيومترية', 'Biometrics'], nUsers: ['المستخدمون', 'Users'],
+  navQuiz: ['اختبر نفسك', 'Test Yourself'], btnStart: ['ابدأ التعلّم', 'Start Learning'],
+  heroBadge: ['الفصل الثاني · أجهزة الإدخال', 'Chapter Two · Input Devices'],
+  heroTitle: ['كيف تدخل البيانات إلى الحاسوب؟', 'How Does Data Get Into a Computer?'],
+  heroLead: ['الإدخال هو أي بيانات وتعليمات تدخل إلى ذاكرة الحاسوب. تعرّف على لوحة المفاتيح، وأجهزة التأشير، واللمس، والكاميرا، والماسحات، والقياسات الحيوية.',
+             'Input is any data and instructions entered into the memory of a computer. Explore the keyboard, pointing devices, touch, cameras, scanners, and biometrics.'],
+  simTitle: ['من جهاز الإدخال إلى الذاكرة', 'From Input Device to Memory'],
+  lgData: ['بيانات (Data)', 'Data'], lgIns: ['تعليمات (Instructions)', 'Instructions'],
+  analogy: ['💡 <strong>تشبيه:</strong> أجهزة الإدخال مثل حواس الإنسان: بها يستقبل الحاسوب ما يأتيه من الخارج، ثم يحفظه في ذاكرته ليعالجه.',
+            '💡 <strong>Analogy:</strong> input devices are like human senses: through them the computer receives what comes from outside, then holds it in memory to process it.'],
+  nDev: ['جهاز الإدخال', 'Input device'], nMem: ['الذاكرة', 'Memory'], nMemSub: ['داخل الحاسوب', 'inside the computer'],
+
+  e1: ['01 · What Is Input?', '01 · ما هو الإدخال؟'], t1: ['ما هو الإدخال؟', 'What Is Input?'],
+  d1: ['الإدخال (Input) هو أي بيانات وتعليمات تدخل إلى ذاكرة الحاسوب. والتعليمات تدخل بثلاث صور: برامج، وأوامر، واستجابات المستخدم. اختر نوعاً لتراه يدخل الذاكرة.',
+       'Input is any data and instructions entered into the memory of a computer. Instructions can be entered in the form of programs, commands, and user responses. Choose a type to watch it enter memory.'],
+  inDev: ['<strong>جهاز الإدخال (Input Device)</strong> = أي مكوّن من العتاد يسمح للمستخدم بإدخال البيانات والتعليمات إلى الحاسوب.',
+          'An <strong>input device</strong> is any hardware component that allows users to enter data and instructions into a computer.'],
+  kEx: ['مثال', 'Example'],
+
+  e2: ['02 · The Keyboard', '02 · لوحة المفاتيح'], t2: ['لوحة المفاتيح', 'The Keyboard'],
+  d2: ['لوحة المفاتيح جهاز إدخال فيه مفاتيح يضغطها المستخدم لإدخال البيانات والتعليمات. اختر مجموعة لتراها على اللوحة، أو اضغط الحروف وجرّب الكتابة.',
+       'A keyboard is an input device that contains keys users press to enter data and instructions into a computer. Choose a group to see it on the keyboard, or press the letter keys and try typing.'],
+  kbTry: ['جرّب: نقطة الإدراج (Insertion Point)', 'Try it: the insertion point'],
+  kbCaretNote: ['الخط الوامض هو نقطة الإدراج: يبيّن أين سيظهر الحرف التالي.', 'The blinking line is the insertion point: it shows where the next character you type will appear.'],
+
+  e3: ['03 · Pointing Devices', '03 · أجهزة التأشير'], t3: ['أجهزة التأشير والفأرة', 'Pointing Devices and the Mouse'],
+  d3: ['جهاز التأشير (Pointing Device) جهاز إدخال يتحكم به المستخدم في المؤشر على الشاشة. والمؤشر (Pointer) رمز صغير يتغير مكانه وشكله كلما حرّكت جهاز التأشير.',
+       'A pointing device is an input device that allows a user to control a pointer on the screen. A pointer is a small symbol on the screen whose location and shape change as a user moves a pointing device.'],
+  msK: ['الفأرة (Mouse)', 'Mouse'],
+  msDef: ['جهاز تأشير يستقر تحت راحة اليد. هي أكثر أجهزة التأشير استخداماً مع الحواسيب المكتبية، وتكون سلكية أو لاسلكية.',
+          'A pointing device that fits under the palm of your hand comfortably. It is the most widely used pointing device on desktop computers, and can be wired or wireless.'],
+  opK: ['العملية المختارة', 'Selected operation'], otherPt: ['أجهزة تأشير أخرى', 'Other Pointing Devices'],
+  msL: ['الزر الأيسر', 'Left button'], msR: ['الزر الأيمن', 'Right button'], msW: ['العجلة', 'Wheel'], msT: ['زر الإبهام', 'Thumb button'],
+
+  e4: ['04 · Touch, Pen & Game Input', '04 · اللمس والقلم والألعاب'], t4: ['اللمس والقلم وأدوات الألعاب', 'Touch, Pen, and Game Controllers'],
+  d4: ['طرق إدخال تعتمد على الإصبع أو القلم أو حركة اللاعب. اختر نوعاً لتفاصيله.', 'Ways of entering input with a finger, a pen, or a player’s movements. Choose a type for details.'],
+
+  e5: ['05 · Digital Cameras', '05 · الكاميرا الرقمية'], t5: ['الكاميرا الرقمية', 'Digital Cameras'],
+  d5: ['الكاميرا الرقمية جهاز محمول يلتقط الصور ويخزنها رقمياً. لها ثلاثة أنواع:', 'A digital camera is a mobile device that allows users to take pictures and store them digitally. There are three types:'],
+  camHow: ['كيف تعمل الكاميرا الرقمية؟', 'How a Digital Camera Works'], runPlay: ['▶ شاهد الخطوات', '▶ Watch the steps'],
+  camN: [['المشهد', 'العدسة', 'شريحة CCD', 'محوّل ADC', 'وسيط التخزين'], ['Scene', 'Lens', 'CCD chip', 'ADC', 'Storage media']],
+  camSig: [['ضوء', 'ضوء', 'إشارة تناظرية', 'إشارة رقمية'], ['light', 'light', 'analog signal', 'digital signal']],
+  qTitle: ['ما الذي يحدد جودة الصورة؟', 'What Affects Photo Quality?'],
+  resK: ['1) الدقة (Resolution)', '1) Resolution'],
+  resDef: ['عدد البكسلات الأفقية والرأسية. والبكسل (Pixel) أصغر عنصر في الصورة. جرّب تغيير العدد:', 'The number of horizontal and vertical pixels. A pixel is the smallest element in an electronic display. Try changing the number:'],
+  bitK: ['2) عدد البتات في كل بكسل', '2) Number of bits stored in each pixel'],
+  bitDef: ['كلما زادت البتات التي تمثل البكسل، زاد عدد الألوان ودرجات الرمادي الممكنة:', 'The more bits used to represent a pixel, the more colors and shades of gray that can be represented:'],
+  pxUnit: ['بكسل', 'pixels'], colors: ['لون', 'colors'], bit: ['بت', 'bit'],
+
+  e6: ['06 · Voice, Audio & Video Input', '06 · إدخال الصوت والفيديو'], t6: ['إدخال الصوت والفيديو', 'Voice, Audio, and Video Input'],
+  d6: ['الميكروفون والكاميرا أجهزة إدخال أيضاً. اختر نوعاً لتفاصيله.', 'Microphones and cameras are input devices too. Choose a type for details.'],
+
+  e7: ['07 · Scanners & Reading Devices', '07 · الماسحات وأجهزة القراءة'], t7: ['الماسحات وأجهزة القراءة', 'Scanners and Reading Devices'],
+  d7: ['أجهزة تلتقط البيانات من الورق أو المنتجات مباشرة بدل كتابتها باليد. أنواع الماسحات الضوئية أربعة:', 'Devices that capture data directly from paper or products instead of typing it. There are four types of scanners:'],
+  scHow: ['كيف يعمل الماسح المسطح؟', 'How a Flatbed Scanner Works'],
+  scN: [['الماسح', 'ذاكرة الحاسوب', 'الاستخدام'], ['Scanner', 'Computer memory', 'Use']],
+  scUse: [['عرض · طباعة · بريد · صفحة ويب', 'display · print · e-mail · Web page']],
+  rdTitle: ['أجهزة القراءة: بماذا يقرأ كل جهاز؟', 'Reading Devices: What Does Each One Read With?'],
+  rdReader: ['القارئ', 'Reader'], rdHow: ['يقرأ بواسطة', 'Reads using'], rdUses: ['يُستخدم في', 'Used for'],
+
+  e8: ['08 · Biometric Input & Terminals', '08 · القياسات الحيوية والطرفيات'], t8: ['الإدخال البيومتري', 'Biometric Input'],
+  d8: ['القياسات الحيوية (Biometrics) تتحقق من هوية الشخص بفحص صفة شخصية فيه. أنواعها:', 'Biometrics authenticates a person’s identity by verifying a personal characteristic. The types are:'],
+  termTitle: ['الطرفيات (Terminals)', 'Terminals'],
+  termDef: ['<strong>الطرفية (Terminal)</strong> = حاسوب يسمح للمستخدم بإرسال البيانات إلى حاسوب مضيف (Host) و/أو استقبال المعلومات منه.',
+            'A <strong>terminal</strong> is a computer that allows users to send data to and/or receive information from a host computer.'],
+
+  e9: ['09 · Putting It All Together', '09 · من يستخدم ماذا؟'], t9: ['أجهزة الإدخال المقترحة لكل مستخدم', 'Suggested Input Devices by User'],
+  d9: ['لكل نوع من المستخدمين أجهزة إدخال تناسب عمله. اختر مستخدماً.', 'Each type of user needs input devices that suit their work. Choose a user.'],
+  pcTitle: ['أجهزة إدخال لذوي الاحتياجات الخاصة', 'Input Devices for Physically Challenged Users'],
+
+  e10: ['10 · Quick Review', '10 · مراجعة سريعة'],
+  reset: ['إعادة', 'Reset'], scoreLbl: ['النتيجة', 'Score'], fbOk: ['إجابة صحيحة', 'Correct!'], fbAns: ['الإجابة الصحيحة: ', 'Correct answer: '],
+  fChapter: ['<strong>مقدمة في الحوسبة</strong> · الفصل الثاني: أجهزة الإدخال', '<strong>Introduction to Computing</strong> · Chapter Two: Input Devices'],
+  fPrep: ['إعداد: محي الدين القديمي', 'Prepared by: <span lang="ar" dir="rtl">محي الدين القديمي</span>'],
+  fRef: ['المرجع: Discovering Computers — Chapter 2', 'Reference: Discovering Computers — Chapter 2']
+};
+
+const B = (ar, en) => ({ ar, en });
+/* ---- 1) صور الإدخال ---- */
+const INPUT = [
+  { icon: '🔢', kind: 'data', ar: { name: 'بيانات', def: 'المادة الخام التي تدخل الحاسوب: نصوص، أرقام، صور، صوت.', ex: 'تكتب اسمك ورقم هاتفك في نموذج.' },
+                en: { name: 'Data', def: 'The raw material entered into the computer: text, numbers, images, sound.', ex: 'You type your name and phone number into a form.' } },
+  { icon: '📜', kind: 'ins', ar: { name: 'برنامج', def: 'سلسلة تعليمات مترابطة تخبر الحاسوب ما المهام التي ينفذها وكيف ينفذها.', ex: 'تشغيل برنامج معالجة النصوص: تعليماته تدخل الذاكرة.' },
+                en: { name: 'Program', def: 'A series of related instructions that tells a computer what tasks to perform and how to perform them.', ex: 'Starting a word processing program: its instructions enter memory.' } },
+  { icon: '⚡', kind: 'ins', ar: { name: 'أمر', def: 'تعليمة يصدرها المستخدم فيستجيب لها البرنامج.', ex: 'تضغط "حفظ" أو "طباعة".' },
+                en: { name: 'Command', def: 'An instruction a user issues; programs respond to commands that a user issues.', ex: 'You click “Save” or “Print”.' } },
+  { icon: '💬', kind: 'ins', ar: { name: 'استجابة المستخدم', def: 'تعليمة يصدرها المستخدم بالرد على سؤال يعرضه البرنامج.', ex: 'البرنامج يسأل: "هل تريد حفظ التغييرات؟" فتجيب "نعم".' },
+                en: { name: 'User Response', def: 'An instruction a user issues by replying to a question displayed by a program.', ex: 'The program asks “Do you want to save the changes?” and you answer “Yes”.' } }
+];
+/* ---- 2) لوحة المفاتيح ---- */
+const ZONES = [
+  { z: 'type', ar: { name: 'منطقة الكتابة', def: 'الحروف والأرقام والرموز، مع Tab و Shift و Spacebar.' }, en: { name: 'Typing area', def: 'Letters, numbers, and symbols, with Tab, Shift, and the Spacebar.' } },
+  { z: 'fn', ar: { name: 'مفاتيح الوظائف', def: 'مفاتيح خاصة (F1–F12) مبرمجة لإصدار أوامر.' }, en: { name: 'Function keys', def: 'Special keys (F1–F12) programmed to issue commands.' } },
+  { z: 'num', ar: { name: 'لوحة الأرقام', def: 'أرقام مرتبة مثل الآلة الحاسبة في يمين لوحة المفاتيح.' }, en: { name: 'Numeric keypad', def: 'Numbers arranged like a calculator, on the right side of the keyboard.' } },
+  { z: 'arrow', ar: { name: 'مفاتيح الأسهم والتنقل', def: 'الأسهم مع Insert و Delete و Home و End و Page Up و Page Down.' }, en: { name: 'Arrow & navigation keys', def: 'Arrow keys with Insert, Delete, Home, End, Page Up, and Page Down.' } },
+  { z: 'mod', ar: { name: 'مفاتيح CTRL و ALT', def: 'تُضغط مع مفاتيح أخرى لإصدار أوامر.' }, en: { name: 'CTRL and ALT keys', def: 'Pressed together with other keys to issue commands.' } },
+  { z: 'win', ar: { name: 'مفتاح WINDOWS ومفتاح APPLICATION', def: 'مفتاحان خاصان بالأوامر في لوحات الحواسيب المكتبية.' }, en: { name: 'WINDOWS and APPLICATION keys', def: 'Two specialized command keys found on desktop computer keyboards.' } },
+  { z: 'tog', ar: { name: 'مفاتيح التبديل', def: 'مفتاح يبدّل بين حالتين عند كل ضغطة: Caps Lock و Num Lock و Scroll Lock. جرّب Caps Lock ثم اكتب.' }, en: { name: 'Toggle keys', def: 'A key that switches between two states each time you press it: Caps Lock, Num Lock, Scroll Lock. Try Caps Lock, then type.' } }
+];
+const KB_FACTS = [
+  { ar: ['لوحة الحاسوب المكتبي', 'معظمها فيه بين 101 و 105 مفاتيح.'], en: ['Desktop keyboards', 'Most have between 101 and 105 keys.'], chips: [] },
+  { ar: ['التوصيل السلكي', 'بالكابل إلى الحاسوب:'], en: ['Wired keyboards', 'Connected by cable:'], chips: [B('منفذ USB', 'USB port'), B('منفذ لوحة المفاتيح', 'Keyboard port')] },
+  { ar: ['التوصيل اللاسلكي', 'بدون كابل:'], en: ['Wireless keyboards', 'No cable:'], chips: [B('Bluetooth', 'Bluetooth'), B('IrDA (أشعة تحت الحمراء)', 'IrDA')] },
+  { ar: ['اللوحة المريحة (Ergonomic)', 'تصميمها يقلل احتمال إصابات المعصم واليد. وعلم الإرغونوميكس يدخل الراحة والكفاءة والأمان في تصميم مكان العمل.'], en: ['Ergonomic keyboard', 'Its design reduces the chance of wrist and hand injuries. Ergonomics incorporates comfort, efficiency, and safety into the design of the workplace.'], chips: [] },
+  { ar: ['لوحات الأجهزة المحمولة', 'أصغر و/أو بمفاتيح أقل. وبعض الهواتف فيها إدخال نص تنبؤي (Predictive text) يوفر الوقت.'], en: ['Mobile device keyboards', 'Typically smaller and/or have fewer keys. Some phones have predictive text input, which saves time.'], chips: [B('لوحة صغيرة (Mini-keyboard)', 'Mini-keyboard'), B('لوحة على الشاشة', 'On-screen keyboard'), B('لوحة أرقام (Keypad)', 'Keypad')] }
+];
+/* ---- 3) عمليات الفأرة ---- */
+const OPS = [
+  { p: '', fx: 'move', ar: ['تأشير (Point)', 'حرّك الفأرة حتى يقف المؤشر على العنصر.'], en: ['Point', 'Move the mouse until the pointer is positioned on the item.'] },
+  { p: 'L', n: 1, ar: ['نقر (Click)', 'اضغط الزر الأيسر مرة واحدة ثم اتركه.'], en: ['Click', 'Press and release the left mouse button.'] },
+  { p: 'R', n: 1, ar: ['نقر يمين (Right-click)', 'اضغط الزر الأيمن مرة واحدة ثم اتركه.'], en: ['Right-click', 'Press and release the right mouse button.'] },
+  { p: 'L', n: 2, ar: ['نقر مزدوج (Double-click)', 'اضغط الزر الأيسر مرتين بسرعة.'], en: ['Double-click', 'Quickly press and release the left mouse button twice.'] },
+  { p: 'L', n: 3, ar: ['نقر ثلاثي (Triple-click)', 'اضغط الزر الأيسر ثلاث مرات بسرعة.'], en: ['Triple-click', 'Quickly press and release the left mouse button three times.'] },
+  { p: 'L', hold: 1, fx: 'move', ar: ['سحب (Drag)', 'أبقِ الزر الأيسر مضغوطاً وحرّك الفأرة، ثم اتركه.'], en: ['Drag', 'Hold down the left mouse button while moving the mouse, then release.'] },
+  { p: 'R', hold: 1, fx: 'move', ar: ['سحب يمين (Right-drag)', 'أبقِ الزر الأيمن مضغوطاً وحرّك الفأرة، ثم اتركه.'], en: ['Right-drag', 'Hold down the right mouse button while moving the mouse, then release.'] },
+  { p: 'W', fx: 'rot', ar: ['تدوير العجلة (Rotate wheel)', 'أدر العجلة للأمام أو للخلف.'], en: ['Rotate wheel', 'Roll the wheel forward or backward.'] },
+  { p: 'W', fx: 'spin', ar: ['دوران حر (Free-spin wheel)', 'ادفع العجلة فتدور بحرية وحدها.'], en: ['Free-spin wheel', 'Whirl the wheel so that it spins freely on its own.'] },
+  { p: 'W', n: 1, ar: ['ضغط العجلة (Press wheel)', 'اضغط زر العجلة نفسه.'], en: ['Press wheel', 'Press the wheel button.'] },
+  { p: 'W', fx: 'tilt', ar: ['إمالة العجلة (Tilt wheel)', 'أمل العجلة إلى اليمين أو اليسار.'], en: ['Tilt wheel', 'Press the wheel toward the right or left.'] },
+  { p: 'T', n: 1, ar: ['زر الإبهام (Press thumb button)', 'اضغط الزر الجانبي بإبهامك.'], en: ['Press thumb button', 'Press the button on the side of the mouse with your thumb.'] }
+];
+const PT = [
+  { icon: '🖲️', ar: ['كرة التتبع', 'Trackball', 'جهاز تأشير ثابت، في أعلاه أو جانبه كرة تديرها بإبهامك أو أصابعك.'], en: ['Trackball', 'كرة التتبع', 'A stationary pointing device with a ball on its top or side that you rotate with your thumb or fingers.'] },
+  { icon: '▭', ar: ['لوحة اللمس', 'Touchpad', 'جهاز تأشير صغير مسطح مستطيل، حساس للضغط والحركة.'], en: ['Touchpad', 'لوحة اللمس', 'A small, flat, rectangular pointing device that is sensitive to pressure and motion.'] },
+  { icon: '🔴', ar: ['عصا التأشير', 'Pointing Stick', 'جهاز تأشير حساس للضغط، شكله مثل ممحاة القلم، موضعه بين مفاتيح لوحة المفاتيح.'], en: ['Pointing Stick', 'عصا التأشير', 'A pressure-sensitive pointing device shaped like a pencil eraser that is positioned between keys on a keyboard.'] }
+];
+/* ---- 4) اللمس والقلم والألعاب ---- */
+const L = (ar, en) => ({ ar, en });
+const TOUCH = [
+  { icon: '👆', ar: { name: 'شاشة اللمس', def: 'شاشة عرض حساسة للمس: تُدخل بلمسها بإصبعك.' }, en: { name: 'Touch Screen', def: 'A touch-sensitive display device.' },
+    items: [L('شاشة لمس على حاسوب مكتبي', 'Touch screen on a desktop computer'), L('شاشة الهاتف الذكي', 'Smart phone screen'), L('كشك (Kiosk) الخدمة الذاتية', 'Self-service kiosk'), L('Microsoft Surface: حاسوب بسطح يُلمس', 'Microsoft Surface: a touch tabletop computer')] },
+  { icon: '🎚️', ar: { name: 'اللوحة الحساسة للمس', def: 'لوحة حساسة للمس في مشغلات الوسائط المحمولة: تتحكم بها بحركة إصبعك.' }, en: { name: 'Touch-Sensitive Pad', def: 'A touch-sensitive pad on portable media players, controlled by the motion of your finger.' }, items: [] },
+  { icon: '✍️', ar: { name: 'الإدخال بالقلم', def: 'تلمس سطحاً مستوياً بقلم الشاشة (Stylus) أو القلم الرقمي (Digital pen) لتكتب أو ترسم أو تختار.' }, en: { name: 'Pen Input', def: 'You touch a stylus or digital pen on a flat surface to write, draw, or make selections.' },
+    items: [L('قلم Stylus مع الهاتف الذكي', 'Stylus with a smart phone'), L('لوحة التقاط التوقيع (Signature capture pad)', 'Signature capture pad'), L('قلم على اللوح الرسومي (Graphics tablet)', 'Pen on a graphics tablet')] },
+  { icon: '📱', ar: { name: 'إدخال آخر للهواتف الذكية', def: 'ملحقات تزيد طرق الإدخال في الهاتف الذكي:' }, en: { name: 'Other Input for Smart Phones', def: 'Accessories that add more ways of entering input on a smart phone:' },
+    items: [L('مستقبل ملاحة GPS', 'GPS navigation receiver'), L('قلم Stylus', 'Stylus'), L('لوحة مفاتيح لاسلكية', 'Wireless keyboard'), L('سماعة Bluetooth بميكروفون', 'Bluetooth wireless headset'), L('كاميرا رقمية مدمجة', 'Built-in digital camera'), L('كابل نقل البيانات إلى الحاسوب', 'Data cable to a computer'), L('لوحة مفاتيح ضوئية مسقطة', 'Projected (virtual) keyboard')] },
+  { icon: '🎮', ar: { name: 'أدوات تحكم الألعاب', def: 'جهاز الإدخال في ألعاب الفيديو والحاسوب: يوجّه حركات وأفعال العناصر على الشاشة.' }, en: { name: 'Game Controllers', def: 'The input device for video and computer games: it directs movements and actions of on-screen objects.' },
+    items: [L('Gamepad: يُمسك باليدين', 'Gamepads'), L('عصا التحكم وعجلة القيادة (Joysticks and wheels)', 'Joysticks and wheels'), L('المسدس الضوئي (Light gun)', 'Light guns'), L('بساط الرقص (Dance pad)', 'Dance pads'), L('أدوات تستشعر الحركة (Motion-sensing)', 'Motion-sensing controllers')] }
+];
+/* ---- 5) الكاميرا ---- */
+const CAM_TYPES = [
+  { icon: '🏛️', ar: ['كاميرا الاستوديو', 'Studio camera', 'ثابتة، تُستخدم في استوديوهات التصوير.'], en: ['Studio camera', 'كاميرا الاستوديو', 'Stationary camera used in photography studios.'] },
+  { icon: '📰', ar: ['الكاميرا الميدانية', 'Field camera', 'محمولة، يستخدمها المصورون الصحفيون.'], en: ['Field camera', 'الكاميرا الميدانية', 'Portable camera used by photojournalists.'] },
+  { icon: '📷', ar: ['كاميرا "صوّب والتقط"', 'Point-and-shoot camera', 'صغيرة وخفيفة، للاستخدام اليومي.'], en: ['Point-and-shoot camera', 'كاميرا صوّب والتقط', 'Compact, lightweight camera for everyday use.'] }
+];
+const CAM_STEPS = [
+  B('صوّب إلى المشهد والتقط الصورة: الضوء يدخل عدسة الكاميرا.', 'Point to the image and take the picture. Light passes into the lens of the camera.'),
+  B('تتركز الصورة على شريحة اسمها CCD (charge-coupled device).', 'The image is focused on a chip called a charge-coupled device (CCD).'),
+  B('شريحة CCD تولّد إشارة تناظرية (Analog) تمثل الصورة.', 'The CCD generates an analog signal that represents the image.'),
+  B('محوّل ADC يحوّل الإشارة التناظرية إلى إشارة رقمية (Digital).', 'The analog signal is converted to a digital signal by an analog-to-digital converter (ADC).'),
+  B('معالج في الكاميرا يضبط جودة الصورة ويخزنها على وسيط التخزين.', 'A processor in the camera adjusts the quality of the image and stores the digital photo on media in the camera.')
+];
+/* ---- 6) الصوت والفيديو ---- */
+const MEDIA = [
+  { icon: '🎙️', ar: { name: 'الإدخال الصوتي', def: 'الإدخال الصوتي (Voice input): إدخال بالتحدث في الميكروفون. والتعرف على الصوت (Voice recognition): قدرة الحاسوب على تمييز الكلمات المنطوقة.' },
+               en: { name: 'Voice Input', def: 'Voice input is the process of entering input by speaking into a microphone. Voice recognition is the computer’s capability of distinguishing spoken words.' }, items: [] },
+  { icon: '🎵', ar: { name: 'إدخال الصوتيات', def: 'إدخال الصوتيات (Audio input): إدخال أي صوت إلى الحاسوب، مثل:' }, en: { name: 'Audio Input', def: 'Audio input is the process of entering any sound into the computer, such as:' },
+    items: [L('الكلام (Speech)', 'Speech'), L('الموسيقى (Music)', 'Music'), L('المؤثرات الصوتية (Sound effects)', 'Sound effects')] },
+  { icon: '🎥', ar: { name: 'إدخال الفيديو', def: 'التقاط صور متحركة كاملة وتخزينها على وسيط تخزين الحاسوب. خطواته:' }, en: { name: 'Video Input', def: 'The process of capturing full-motion images and storing them on a computer’s storage medium. The steps:' },
+    items: [L('1) سجّل الفيديو بكاميرا فيديو رقمية (DV camera).', '1) Record video on a digital video (DV) camera.'), L('2) صِل الكاميرا بمنفذ في وحدة النظام (USB أو FireWire).', '2) Connect the camera to a port on the system unit (USB or FireWire).'), L('3) انقل الفيديو والصور إلى الحاسوب.', '3) Transfer video and images to the computer.')] },
+  { icon: '📹', ar: { name: 'كاميرا الويب', def: 'كاميرا الويب (Web cam) نوع من كاميرات الفيديو الرقمية، تمكّن المستخدم من:' }, en: { name: 'Web Cam', def: 'A Web cam is a type of digital video camera that enables a user to:' },
+    items: [L('التقاط فيديو وصور ثابتة', 'Capture video and still images'), L('إرسال بريد إلكتروني بمرفقات فيديو', 'Send e-mail messages with video attachments'), L('إضافة صور حية إلى الرسائل الفورية', 'Add live images to instant messages'), L('بث صور حية عبر الإنترنت', 'Broadcast live images over the Internet'), L('إجراء مكالمات فيديو', 'Make video telephone calls')] },
+  { icon: '👥', ar: { name: 'مؤتمر الفيديو', def: 'مؤتمر الفيديو (Video conference): اجتماع بين شخصين أو أكثر في أماكن جغرافية متباعدة.' }, en: { name: 'Video Conference', def: 'A video conference is a meeting between two or more geographically separated people.' }, items: [] }
+];
+/* ---- 7) الماسحات والقارئات ---- */
+const SC_TYPES = [
+  { icon: '🖨️', ar: ['المسطح', 'Flatbed', 'توضع الورقة على لوح زجاجي.'], en: ['Flatbed', 'المسطح', 'The document is placed on a glass window.'] },
+  { icon: '🖊️', ar: ['القلمي أو اليدوي', 'Pen or Handheld', 'صغير يُمسك باليد ويُمرَّر على النص.'], en: ['Pen or Handheld', 'القلمي أو اليدوي', 'A small device held in the hand and moved across the text.'] },
+  { icon: '📄', ar: ['بتغذية الورق', 'Sheet-fed', 'تُسحب الورقة إلى داخله.'], en: ['Sheet-fed', 'بتغذية الورق', 'The sheet is pulled into the scanner.'] },
+  { icon: '🛢️', ar: ['الأسطواني', 'Drum', 'تدور الورقة على أسطوانة.'], en: ['Drum', 'الأسطواني', 'The document rotates on a drum.'] }
+];
+const SC_STEPS = [
+  B('ضع الورقة ووجهها للأسفل على الزجاج، وابدأ المسح من أزرار الماسح أو برنامجه.', 'Place the document face down on the glass window, and start the scan using the scanner’s buttons or program.'),
+  B('الماسح يحوّل محتوى الورقة إلى معلومات رقمية تنتقل عبر الكابل إلى ذاكرة الحاسوب.', 'The scanner converts the document content to digital information, which is transmitted through the cable to the memory of the computer.'),
+  B('بعد وصولها للذاكرة تستطيع عرض الصورة، أو طباعتها، أو إرسالها بالبريد، أو وضعها في مستند أو صفحة ويب.', 'Once in memory, users can display the image, print it, e-mail it, include it in a document, or place it on a Web page.')
+];
+const READERS = [
+  { icon: '🔤', obj: '📄', sig: 'light', ar: { name: 'OCR', full: 'التعرف الضوئي على الحروف', def: 'يقرأ حروفاً مطبوعة بخط OCR من المستندات العادية.', how: 'الضوء', use: 'المستند المُعاد (Turnaround document): مثل قسيمة الفاتورة التي تعيدها للشركة مع الدفع.' },
+    en: { name: 'OCR', full: 'Optical Character Recognition', def: 'Involves reading characters printed in OCR fonts from ordinary documents.', how: 'light', use: 'Turnaround documents: a document you return to the company that creates and sends it, such as a bill stub.' } },
+  { icon: '📝', obj: '📝', sig: 'light', ar: { name: 'OMR', full: 'التعرف الضوئي على العلامات', def: 'يقرأ علامات مرسومة باليد، مثل الدوائر أو المستطيلات الصغيرة.', how: 'الضوء المنعكس من العلامات', use: 'أوراق إجابات الاختبارات.' },
+    en: { name: 'OMR', full: 'Optical Mark Recognition', def: 'Reads hand-drawn marks such as small circles or rectangles.', how: 'light reflected from the marks', use: 'Test answer sheets.' } },
+  { icon: '▮▯▮', obj: '▌▍▎▌▎', sig: 'laser', ar: { name: 'قارئ الباركود', full: 'Bar Code Reader', def: 'يسمى أيضاً ماسح الباركود. يقرأ الرموز الشريطية (Bar codes).', how: 'أشعة الليزر', use: 'ملصقات المنتجات في المتاجر.' },
+    en: { name: 'Bar Code Reader', full: 'قارئ الباركود', def: 'Also called a bar code scanner; it reads bar codes.', how: 'laser beams', use: 'Product labels in stores.' } },
+  { icon: '📡', obj: '🏷️', sig: 'radio', ar: { name: 'RFID', full: 'تحديد الهوية بموجات الراديو', def: 'يتصل بوسم (Tag) موضوع في الشيء أو ملصق عليه. وقارئ RFID يقرأ المعلومات من الوسم.', how: 'موجات الراديو', use: 'ضبط المخزون، أمتعة الطيران، كتب المكتبات، ضغط الإطارات، رسوم الطرق المدفوعة مسبقاً.' },
+    en: { name: 'RFID', full: 'Radio Frequency Identification', def: 'Uses radio signals to communicate with a tag placed in or attached to an object. An RFID reader reads information on the tag.', how: 'radio waves', use: 'Inventory control, airline baggage, library books, tire pressure, prepaid tolls.' } },
+  { icon: '💳', obj: '💳', sig: 'mag', ar: { name: 'قارئ الشريط المغناطيسي', full: 'Magnetic Stripe Card Reader', def: 'يقرأ الشريط المغناطيسي في ظهر البطاقة عند تمريرها.', how: 'المغناطيسية (بتمرير البطاقة)', use: 'بطاقات الائتمان، البطاقات البنكية، بطاقات الترفيه.' },
+    en: { name: 'Magnetic Stripe Card Reader', full: 'قارئ الشريط المغناطيسي', def: 'Reads the magnetic stripe on the back of a card when it is swiped.', how: 'magnetism (the card is swiped)', use: 'Credit cards, bank cards, entertainment cards.' } },
+  { icon: '🏦', obj: '🧾', sig: 'mag', ar: { name: 'MICR', full: 'التعرف على حروف الحبر المغناطيسي', def: 'يقرأ نصاً مطبوعاً بحبر ممغنط، ويحوّله إلى صيغة يعالجها الحاسوب.', how: 'المغناطيسية (حبر ممغنط)', use: 'يستخدمه قطاع البنوك تقريباً وحده، لمعالجة الشيكات.' },
+    en: { name: 'MICR', full: 'Magnetic Ink Character Recognition', def: 'Reads text printed with magnetized ink and converts it into a form the computer can process.', how: 'magnetism (magnetized ink)', use: 'Used almost exclusively by the banking industry for check processing.' } },
+  { icon: '📦', obj: '📦', sig: 'none', ar: { name: 'جهاز جمع البيانات', full: 'Data Collection Device', def: 'يحصل على البيانات مباشرة في المكان الذي تحدث فيه العملية أو الحدث.', how: '—', use: 'المطاعم، البقالات، المصانع، المستودعات، والأماكن المفتوحة.' },
+    en: { name: 'Data Collection Device', full: 'جهاز جمع البيانات', def: 'Obtains data directly at the location where the transaction or event takes place.', how: '—', use: 'Restaurants, grocery stores, factories, warehouses, the outdoors.' } }
+];
+/* ---- 8) البيومترية والطرفيات ---- */
+const BIO = [
+  ['☝️', 'قارئ بصمة الإصبع', 'Fingerprint reader'], ['🙂', 'نظام التعرف على الوجه', 'Face recognition system'], ['✋', 'نظام هندسة اليد', 'Hand geometry system'],
+  ['🗣️', 'نظام التحقق من الصوت', 'Voice verification system'], ['✒️', 'نظام التحقق من التوقيع', 'Signature verification system'], ['👁️', 'نظام التعرف على القزحية', 'Iris recognition system'], ['🔬', 'ماسح الشبكية', 'Retinal scanner']
+];
+const TERMS = [
+  { icon: '🛒', ar: ['طرفية نقطة البيع', 'POS Terminal', 'تسجّل المشتريات وتعالج الدفع وتحدّث المخزون.'], en: ['POS Terminal', 'نقطة البيع', 'Records purchases, processes payment, and updates inventory.'] },
+  { icon: '🏧', ar: ['الصراف الآلي', 'ATM', 'جهاز بنكي بخدمة ذاتية تصل منه إلى حسابك البنكي.'], en: ['Automated Teller Machine (ATM)', 'الصراف الآلي', 'A self-service banking machine that lets you access your bank account.'] },
+  { icon: '📀', ar: ['كشك DVD', 'DVD Kiosk', 'جهاز خدمة ذاتية لاستئجار أقراص DVD.'], en: ['DVD Kiosk', 'كشك DVD', 'A self-service DVD rental machine.'] }
+];
+/* ---- 9) المستخدمون ---- */
+const kbm = [L('لوحة مفاتيح محسّنة أو مريحة', 'Enhanced keyboard or ergonomic keyboard'), L('فأرة', 'Mouse')];
+const USERS = [
+  { icon: '🏠', ar: 'المستخدم المنزلي', en: 'Home User', items: [...kbm, L('قلم Stylus للهاتف الذكي أو جهاز محمول آخر', 'Stylus for smart phone or other mobile device'), L('أداة/أدوات تحكم ألعاب', 'Game controller(s)'), L('ماسح ملوّن 30 بت، 600×1200 ppi', '30-bit 600 × 1200 ppi color scanner'), L('كاميرا رقمية 4 MP', '4 MP digital camera'), L('سماعة رأس بميكروفون (Headset)', 'Headphones that include a microphone (headset)'), L('كاميرا ويب', 'Web cam'), L('قارئ بصمة', 'Fingerprint reader')] },
+  { icon: '🏢', ar: 'مكتب صغير / منزلي (SOHO)', en: 'Small Office/Home Office User', items: [...kbm, L('قلم ولوحة مفاتيح محمولة للهاتف الذكي، أو قلم رقمي لـ Tablet PC', 'Stylus and portable keyboard for smart phone or other mobile device, or digital pen for Tablet PC'), L('ماسح ملوّن 36 بت، 600×1200 ppi', '36-bit 600 × 1200 ppi color scanner'), L('كاميرا رقمية 5 MP', '5 MP digital camera'), L('سماعة رأس بميكروفون', 'Headphones that include a microphone (headset)'), L('كاميرا ويب', 'Web cam')] },
+  { icon: '🧳', ar: 'المستخدم المتنقل', en: 'Mobile User', items: [L('فأرة لاسلكية للحاسوب المحمول', 'Wireless mouse for notebook computer'), L('لوحة لمس أو عصا تأشير في الحاسوب المحمول', 'Touchpad or pointing stick on notebook computer'), L('قلم ولوحة مفاتيح محمولة للهاتف الذكي، أو قلم رقمي لـ Tablet PC', 'Stylus and portable keyboard for smart phone or other mobile device, or digital pen for Tablet PC'), L('كاميرا رقمية 4 أو 5 MP', '4 or 5 MP digital camera'), L('سماعة رأس بميكروفون', 'Headphones that include a microphone (headset)'), L('قارئ بصمة للحاسوب المحمول', 'Fingerprint reader for notebook computer')] },
+  { icon: '🚀', ar: 'المستخدم المحترف', en: 'Power User', items: [...kbm, L('قلم ولوحة مفاتيح محمولة للهاتف الذكي', 'Stylus and portable keyboard for smart phone or other mobile device'), L('قلم للوح الرسومي', 'Pen for graphics tablet'), L('ماسح ملوّن 48 بت، 1200×1200 ppi', '48-bit 1200 × 1200 ppi color scanner'), L('كاميرا رقمية 6 إلى 12 MP', '6 to 12 MP digital camera'), L('سماعة رأس بميكروفون', 'Headphones that include a microphone (headset)'), L('كاميرا ويب', 'Web cam')] },
+  { icon: '🏛️', ar: 'مستخدم المؤسسة', en: 'Enterprise User', items: [...kbm, L('قلم ولوحة مفاتيح محمولة للهاتف الذكي، أو قلم رقمي لـ Tablet PC', 'Stylus and portable keyboard for smart phone or other mobile device, or digital pen for Tablet PC'), L('شاشة لمس', 'Touch screen'), L('ماسح ملوّن 42 بت، 1200×1200 ppi', '42-bit 1200 × 1200 ppi color scanner'), L('كاميرا رقمية 6 إلى 12 MP', '6 to 12 MP digital camera'), L('قارئات OCR/OMR، قارئات باركود، قارئ MICR، أو أجهزة جمع بيانات', 'OCR/OMR readers, bar code readers, MICR reader, or data collection devices'), L('ميكروفون', 'Microphone'), L('كاميرا فيديو لمؤتمرات الفيديو', 'Video camera for video conferences'), L('قارئ بصمة أو جهاز بيومتري آخر', 'Fingerprint reader or other biometric device')] }
+];
+const PC = [
+  ['🛡️', 'واقي المفاتيح', 'Keyguard', 'لوح يوضع فوق لوحة المفاتيح يمنع ضغط مفاتيح بالخطأ.', 'A plate placed over the keyboard that prevents accidental key presses.'],
+  ['🔠', 'لوحات بمفاتيح أكبر', 'Keyboards with larger keys', '', ''], ['🖥️', 'لوحة مفاتيح على الشاشة', 'On-screen keyboard', '', ''],
+  ['🖲️', 'أجهزة تأشير متنوعة', 'Various pointing devices', '', ''],
+  ['🧢', 'مؤشر يُثبَّت على الرأس', 'Head-mounted pointer', 'كاميرا فوق الشاشة تتبع سطحاً عاكساً يلبسه المستخدم على رأسه.', 'A camera on top of the monitor tracks a reflective surface the user wears on the head.'],
+  ['🤲', 'التعرف على الإيماءات', 'Gesture recognition', '', ''], ['🧠', 'أجهزة مزروعة محوسبة', 'Computerized implant devices', '', '']
+];
+/* ---- 10) الاختبار ---- */
+const QUIZ = [
+  { a: 1, ar: { text: 'الإدخال (Input) هو:', options: ['أي معلومات تظهر على الشاشة', 'أي بيانات وتعليمات تدخل إلى ذاكرة الحاسوب', 'أي ملف محفوظ على القرص الصلب'] }, en: { text: 'Input is:', options: ['Any information shown on the screen', 'Any data and instructions entered into the memory of a computer', 'Any file saved on the hard disk'] } },
+  { a: 2, ar: { text: 'تعليمة يصدرها المستخدم بالرد على سؤال يعرضه البرنامج هي:', options: ['برنامج (Program)', 'أمر (Command)', 'استجابة المستخدم (User response)'] }, en: { text: 'An instruction a user issues by replying to a question displayed by a program is a:', options: ['Program', 'Command', 'User response'] } },
+  { a: 0, ar: { text: 'نقطة الإدراج (Insertion point) تبيّن:', options: ['أين سيظهر الحرف التالي الذي تكتبه', 'مكان مؤشر الفأرة', 'عدد الحروف المكتوبة'] }, en: { text: 'The insertion point shows:', options: ['Where the next character you type will appear', 'Where the mouse pointer is', 'How many characters were typed'] } },
+  { a: 1, ar: { text: 'Caps Lock مثال على:', options: ['مفاتيح الوظائف', 'مفاتيح التبديل (Toggle keys)', 'لوحة الأرقام'] }, en: { text: 'Caps Lock is an example of:', options: ['Function keys', 'Toggle keys', 'The numeric keypad'] } },
+  { a: 2, ar: { text: 'في الكاميرا الرقمية، ما الذي يحوّل الإشارة التناظرية إلى رقمية؟', options: ['العدسة', 'شريحة CCD', 'محوّل ADC'] }, en: { text: 'In a digital camera, what converts the analog signal to a digital signal?', options: ['The lens', 'The CCD chip', 'The ADC'] } },
+  { a: 0, ar: { text: 'قارئ الباركود يقرأ الرموز الشريطية باستخدام:', options: ['أشعة الليزر', 'موجات الراديو', 'الحبر الممغنط'] }, en: { text: 'A bar code reader reads bar codes using:', options: ['Laser beams', 'Radio waves', 'Magnetized ink'] } },
+  { a: 1, ar: { text: 'أي تقنية تستخدمها البنوك لمعالجة الشيكات؟', options: ['OMR', 'MICR', 'RFID'] }, en: { text: 'Which technology does the banking industry use for check processing?', options: ['OMR', 'MICR', 'RFID'] } },
+  { a: 2, ar: { text: 'قارئ بصمة الإصبع مثال على:', options: ['جهاز تأشير', 'طرفية (Terminal)', 'جهاز بيومتري (Biometric)'] }, en: { text: 'A fingerprint reader is an example of a:', options: ['Pointing device', 'Terminal', 'Biometric device'] } }
+];
+
+/* ================= أدوات ================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const wait = ms => new Promise(r => setTimeout(r, RM ? 0 : ms));
+const tr = (x, y, s = 1) => `translate(${x}px, ${y}px) scale(${s})`;
+function move(el, frames, ms) { const a = el.animate(frames, { duration: RM ? 0 : ms, easing: 'cubic-bezier(.45,0,.25,1)', fill: 'forwards' }); return a.finished.catch(() => {}); }
+const stop = el => el && el.getAnimations().forEach(a => a.cancel());
+function swap(el) { el.classList.remove('swap'); void el.offsetWidth; el.classList.add('swap'); }
+let LANG = 'ar';
+const t = k => S[k][LANG === 'ar' ? 0 : (S[k].length > 1 ? 1 : 0)];
+const o = () => (LANG === 'ar' ? 'en' : 'ar');
+const rtl = () => LANG === 'ar';
+const mx = (W, x) => (rtl() ? x : W - x);
+const marker = (id) => `<defs><marker id="${id}a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker><marker id="${id}b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-on" d="M0,0 L10,5 L0,10 z"/></marker></defs>`;
+// منتقي عام: أزرار + لوحة تفاصيل
+function picker(pillsSel, data, label, onPick, st) {
+  const host = $(pillsSel);
+  host.innerHTML = data.map((d, i) => `<button class="pill" type="button" data-i="${i}"><span>${d.icon || ''}</span><span>${esc(label(d))}</span></button>`).join('');
+  const paint = (anim) => { $$('.pill', host).forEach(b => { const on = +b.dataset.i === st.i; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); }); onPick(st.i, anim); };
+  host.onclick = e => { const b = e.target.closest('.pill'); if (!b) return; st.i = +b.dataset.i; paint(true); };
+  paint(false);
+}
+const liList = items => items.length ? `<ul class="d-list">${items.map(x => `<li>${esc(x[LANG])}</li>`).join('')}</ul>` : '';
+const gcards = (sel, arr) => { $(sel).innerHTML = arr.map(c => `<div class="gcard"><span class="ico">${c.icon}</span><b>${esc(c[LANG][0])}</b><span class="alt">${esc(c[LANG][1])}</span><span class="d">${esc(c[LANG][2])}</span></div>`).join(''); };
+
+/* =====================================================================
+   1) الإدخال: بيانات (مربعات زرقاء) وتعليمات (بطاقة برتقالية) تنتقل من جهاز الإدخال إلى الذاكرة
+   ===================================================================== */
+const IW = 420, inSt = { i: 0 };
+function buildInput() {
+  const X = x => mx(IW, x);
+  $('#inSvg').innerHTML = `<svg viewBox="0 0 ${IW} 150" role="img" aria-label="${esc(t('simTitle'))}">${marker('i')}
+    <path class="ln on" d="M${X(300)},70 L${X(160)},70" marker-end="url(#ib)"/>
+    <g class="n on"><rect class="box" x="${X(360) - 55}" y="25" width="110" height="90" rx="14"/><text class="t-ico" x="${X(360)}" y="62">⌨️</text><text class="t-main" x="${X(360)}" y="90">${esc(t('nDev'))}</text></g>
+    <g class="n"><rect class="box" x="${X(90) - 65}" y="20" width="130" height="100" rx="14"/><text class="t-ico" x="${X(90)}" y="56">🧠</text><text class="t-main" x="${X(90)}" y="84">${esc(t('nMem'))}</text><text class="t-sm" x="${X(90)}" y="102">${esc(t('nMemSub'))}</text></g>
+    <g class="tk tk-data" style="opacity:0"><rect x="-13" y="-4" width="8" height="8" rx="1.5"/><rect x="-4" y="-4" width="8" height="8" rx="1.5"/><rect x="5" y="-4" width="8" height="8" rx="1.5"/></g>
+    <g class="tk tk-ins" style="opacity:0"><rect x="-11" y="-8" width="22" height="16" rx="3"/><line x1="-6" y1="-3" x2="6" y2="-3"/><line x1="-6" y1="1" x2="3" y2="1"/><line x1="-6" y1="5" x2="5" y2="5"/></g>
+  </svg>`;
+}
+let inTimer = null;
+function playInput() {
+  clearTimeout(inTimer);
+  const svg = $('#inSvg svg'), d = INPUT[inSt.i], a = $('.tk-data', svg), b = $('.tk-ins', svg);
+  stop(a); stop(b); a.style.opacity = 0; b.style.opacity = 0;
+  const tk = d.kind === 'data' ? a : b, x1 = mx(IW, 288), x2 = mx(IW, 172);
+  move(tk, [{ transform: tr(x1, 70), opacity: 0 }, { transform: tr(x1, 70), opacity: 1, offset: .12 }, { transform: tr(x2, 70), opacity: 1, offset: .85 }, { transform: tr(mx(IW, 150), 70, .6), opacity: 0 }], 1500);
+  if (!RM) inTimer = setTimeout(playInput, 2600);
+}
+function renderInput(i, anim) {
+  const d = INPUT[i], det = $('#inDetail');
+  det.innerHTML = `<div class="cat-top"><div class="kv"><span class="d-name">${d.icon} ${esc(d[LANG].name)}<span class="alt">${esc(d[o()].name)}</span></span></div>
+    <div class="kv"><span class="d-def">${esc(d[LANG].def)}</span></div>
+    <div class="kv example"><span class="k">${esc(t('kEx'))}</span><span class="cat-desc">${esc(d[LANG].ex)}</span></div></div>`;
+  if (anim) swap(det);
+  playInput();
+}
+
+/* =====================================================================
+   2) لوحة المفاتيح: التخطيط حقيقي (104 مفاتيح) ويبقى من اليسار لليمين في اللغتين
+   ===================================================================== */
+const kb = { i: 0, caps: false, text: '' };
+function buildKeyboard() {
+  const U = 31, H = 28, keys = [];
+  const row = (y, x0, list) => { let x = x0; list.forEach(k => { const [lab, w, z, gap] = Array.isArray(k) ? k : [k, 1, 'type']; if (lab !== null) keys.push({ lab, x, y, w: w * U - 3, z: z || 'type' }); x += w * U + (gap || 0); }); };
+  const fk = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => ['F' + (a + i), 1, 'fn']);
+  row(0, 0, [['Esc', 1, 'x'], [null, 1], ...fk(1, 4), [null, .5], ...fk(5, 8), [null, .5], ...fk(9, 12)]);
+  row(38, 0, ['`', ...'1234567890-='.split(''), ['Backspace', 2, 'type']]);
+  row(69, 0, [['Tab', 1.5, 'type'], ...'QWERTYUIOP[]'.split(''), ['\\', 1.5, 'type']]);
+  row(100, 0, [['Caps Lock', 1.75, 'tog'], ...'ASDFGHJKL;\''.split(''), ['Enter', 2.25, 'type']]);
+  row(131, 0, [['Shift', 2.25, 'type'], ...'ZXCVBNM,./'.split(''), ['Shift', 2.75, 'type']]);
+  row(162, 0, [['Ctrl', 1.25, 'mod'], ['Win', 1.25, 'win'], ['Alt', 1.25, 'mod'], ['Space', 6.25, 'type'], ['Alt', 1.25, 'mod'], ['Win', 1.25, 'win'], ['Menu', 1.25, 'win'], ['Ctrl', 1.25, 'mod']]);
+  const NX = 15 * U + 10, PX = NX + 3 * U + 10;
+  row(0, NX, [['PrtSc', 1, 'x'], ['ScrLk', 1, 'tog'], ['Pause', 1, 'x']]);
+  row(38, NX, [['Ins', 1, 'arrow'], ['Home', 1, 'arrow'], ['PgUp', 1, 'arrow']]);
+  row(69, NX, [['Del', 1, 'arrow'], ['End', 1, 'arrow'], ['PgDn', 1, 'arrow']]);
+  row(131, NX, [[null, 1], ['↑', 1, 'arrow']]);
+  row(162, NX, [['←', 1, 'arrow'], ['↓', 1, 'arrow'], ['→', 1, 'arrow']]);
+  row(38, PX, [['NumLk', 1, 'tog'], ['/', 1, 'num'], ['*', 1, 'num'], ['-', 1, 'num']]);
+  row(69, PX, [['7', 1, 'num'], ['8', 1, 'num'], ['9', 1, 'num']]);
+  row(100, PX, [['4', 1, 'num'], ['5', 1, 'num'], ['6', 1, 'num']]);
+  row(131, PX, [['1', 1, 'num'], ['2', 1, 'num'], ['3', 1, 'num']]);
+  row(162, PX, [['0', 2, 'num'], ['.', 1, 'num']]);
+  keys.push({ lab: '+', x: PX + 3 * U, y: 69, w: U - 3, h: 2 * H + 3, z: 'num' }, { lab: 'Ent', x: PX + 3 * U, y: 131, w: U - 3, h: 2 * H + 3, z: 'num' });
+  const W = PX + 4 * U;
+  $('#kbSvg').innerHTML = `<svg viewBox="-4 -4 ${W + 5} 198" role="img" aria-label="Keyboard layout, ${keys.length} keys">${keys.map(k =>
+    `<g class="key" data-z="${k.z}" data-k="${esc(k.lab)}"><rect x="${k.x}" y="${k.y}" width="${k.w}" height="${k.h || H}" rx="4"/><text x="${k.x + k.w / 2}" y="${k.y + (k.h || H) / 2 + 3}">${esc(k.lab)}</text></g>`).join('')}</svg>`;
+}
+function renderType() {
+  $('#typeLine').innerHTML = esc(kb.text) + '<span class="caret"></span>';
+  $('#capsLed').classList.toggle('on', kb.caps);
+  $$('#kbSvg .key[data-k="Caps Lock"]').forEach(k => k.classList.toggle('lit', kb.caps));
+}
+$('#kbSvg').addEventListener('click', e => {
+  const g = e.target.closest('.key'); if (!g) return;
+  const k = g.dataset.k; g.classList.add('down'); setTimeout(() => g.classList.remove('down'), 160);
+  if (k === 'Caps Lock') kb.caps = !kb.caps;                      // مفتاح تبديل: كل ضغطة تعكس الحالة
+  else if (k === 'Backspace') kb.text = kb.text.slice(0, -1);
+  else if (k === 'Space') kb.text += ' ';
+  else if (k.length === 1 && g.dataset.z !== 'arrow') kb.text += /[A-Z]/.test(k) ? (kb.caps ? k : k.toLowerCase()) : k;
+  if (kb.text.length > 60) kb.text = kb.text.slice(-60);
+  renderType();
+});
+function renderZone(i, anim) {
+  const z = ZONES[i];
+  $$('#kbSvg .key').forEach(k => k.classList.toggle('hl', k.dataset.z === z.z));
+  const det = $('#kbDetail');
+  det.innerHTML = `<span class="d-name">${esc(z[LANG].name)}<span class="alt">${esc(z[o()].name)}</span></span><span class="d-def">${esc(z[LANG].def)}</span>`;
+  if (anim) swap(det);
+}
+function buildKbFacts() {
+  $('#kbFacts').innerHTML = KB_FACTS.map(f => `<div class="fact"><span class="k">${esc(f[LANG][0])}</span><span class="v">${esc(f[LANG][1])}</span>${f.chips.length ? `<div class="chips">${f.chips.map(c => `<span class="chip">${esc(c[LANG])}</span>`).join('')}</div>` : ''}</div>`).join('');
+}
+
+/* =====================================================================
+   3) الفأرة: الجزء المضغوط يضيء بعدد الضغطات الحقيقي، والسهم يظهر عند تحريك الفأرة
+   ===================================================================== */
+const ms = { i: 1, timer: null };
+// الاسم بالعربية والمصطلح الإنجليزي يُعرضان في سطرين منفصلين
+const opName = op => { const a = op.ar[0], k = a.lastIndexOf(' ('); const arName = a.slice(0, k), enName = a.slice(k + 2, -1); return LANG === 'ar' ? [arName, enName] : [op.en[0], arName]; };
+function buildMouse() {
+  $('#msSvg').innerHTML = `<svg class="ms" viewBox="0 0 240 250" role="img" aria-label="Mouse">
+    <g class="whole">
+      <rect class="body" x="60" y="30" width="110" height="170" rx="55"/>
+      <path class="part" data-p="L" d="M60,105 V85 a55,55 0 0 1 52,-55 V105 z"/>
+      <path class="part" data-p="R" d="M170,105 V85 a55,55 0 0 0 -52,-55 V105 z"/>
+      <g class="wheelg"><rect class="part" data-p="W" x="106" y="52" width="18" height="38" rx="9"/><line class="ticks" x1="115" y1="56" x2="115" y2="86"/></g>
+      <rect class="part" data-p="T" x="52" y="118" width="12" height="34" rx="6"/>
+    </g>
+    <g class="mv"><path d="M185,70 L215,52" stroke="var(--blue)" stroke-width="2.5" fill="none" marker-end="url(#mb)"/></g>${marker('m')}
+    <text class="lbl" x="84" y="222" text-anchor="middle">${esc(t('msL'))}</text><text class="lbl" x="150" y="222" text-anchor="middle">${esc(t('msR'))}</text>
+    <text class="lbl" x="115" y="18" text-anchor="middle">${esc(t('msW'))}</text><text class="lbl" x="30" y="178" text-anchor="middle">${esc(t('msT'))}</text>
+  </svg>`;
+  $('#opGrid').innerHTML = OPS.map((op, i) => { const [n, a] = opName(op); return `<button class="op" type="button" data-i="${i}"><span>${esc(n)}</span><small class="alt">${esc(a)}</small></button>`; }).join('');
+  gcards('#ptCards', PT);
+}
+function playOp() {
+  clearTimeout(ms.timer);
+  const op = OPS[ms.i], svg = $('#msSvg svg');
+  $$('.part', svg).forEach(p => p.classList.remove('hold', 'b1', 'b2', 'b3'));
+  const tk = $('.ticks', svg), wg = $('.wheelg', svg), wh = $('.whole', svg), mv = $('.mv', svg);
+  tk.classList.remove('rot', 'spin'); wg.classList.remove('tilt'); wh.classList.remove('moving'); mv.classList.remove('on');
+  void svg.getBoundingClientRect();
+  const part = op.p && $(`.part[data-p="${op.p}"]`, svg);
+  if (part && op.hold) part.classList.add('hold');
+  if (part && op.n) part.classList.add('b' + op.n);
+  if (op.fx === 'move') { wh.classList.add('moving'); mv.classList.add('on'); }
+  if (op.fx === 'rot') tk.classList.add('rot');
+  if (op.fx === 'spin') tk.classList.add('spin');
+  if (op.fx === 'tilt') wg.classList.add('tilt');
+  if ((op.fx === 'rot' || op.fx === 'spin' || op.fx === 'tilt') && part) part.classList.add('hold');
+  if (!RM) ms.timer = setTimeout(playOp, 2600);
+}
+function renderOp(anim) {
+  const op = OPS[ms.i];
+  $$('#opGrid .op').forEach(b => { const on = +b.dataset.i === ms.i; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  const [on_, oa_] = opName(op); $('#opName').innerHTML = esc(on_) + '<span class="alt">' + esc(oa_) + '</span>'; $('#opDesc').textContent = op[LANG][1];
+  if (anim) swap($('#opDesc'));
+  playOp();
+}
+$('#opGrid').addEventListener('click', e => { const b = e.target.closest('.op'); if (!b) return; ms.i = +b.dataset.i; renderOp(true); });
+
+/* ================= 4 + 6) منتقيات نصية ================= */
+const tcSt = { i: 0 }, mdSt = { i: 0 }, usSt = { i: 0 };
+const textDetail = (sel, d, anim) => { const det = $(sel); det.innerHTML = `<div class="kv" style="gap:12px"><span class="d-name">${d.icon} ${esc(d[LANG].name)}<span class="alt">${esc(d[o()].name)}</span></span><span class="d-def">${esc(d[LANG].def)}</span>${liList(d.items)}</div>`; if (anim) swap(det); };
+
+/* =====================================================================
+   5) الكاميرا: ضوء ← عدسة ← CCD ← إشارة تناظرية (موجة) ← ADC ← إشارة رقمية (نبضات) ← تخزين
+   ===================================================================== */
+const CW = 760, cam = { cur: 0, play: 0 };
+function buildCam() {
+  const xs = [692, 536, 380, 224, 68].map(x => mx(CW, x)), s = rtl() ? -1 : 1, ic = ['🌄', '🔍', '▦', '⚙️', '💽'], N = t('camN'), G = t('camSig');
+  const paths = [0, 1, 2, 3].map(i => {
+    const a = xs[i] + s * 42, b = xs[i + 1] - s * 44, y = 62; let d;
+    if (i === 2) { d = `M${a},${y}`; const n = 8, st = (b - a) / n; for (let k = 0; k < n; k++) d += ` q${st / 2},${k % 2 ? 16 : -16} ${st},0`; }          // موجة ملساء = تناظرية
+    else if (i === 3) { d = `M${a},${y + 7}`; const n = 8, st = (b - a) / n; for (let k = 0; k < n; k++) d += ` v${k % 2 ? 14 : -14} h${st}`; }             // نبضات مربعة = رقمية
+    else d = `M${a},${y} L${b},${y}`;
+    return `<path class="ln ${i < 2 ? 'light' : i === 2 ? 'ana' : 'dig'}" data-s="${i + 1}" d="${d}"/>`;
+  }).join('');
+  const nodes = xs.map((x, i) => `<g class="n" data-n="${i}"><rect class="box" x="${x - 42}" y="20" width="84" height="88" rx="12"/><text class="t-ico" x="${x}" y="58">${ic[i]}</text><text class="t-main" x="${x}" y="90" style="font-size:12.5px">${esc(N[i])}</text></g>`).join('');
+  const labels = [0, 1, 2, 3].map(i => {
+    const a = xs[i] + s * 42, b = xs[i + 1] - s * 44;
+    return `<text class="t-sm" data-s="${i + 1}" x="${(a + b) / 2}" y="32" style="opacity:0">${esc(G[i])}</text>`;
+  }).join('');
+  $('#camSvg').innerHTML = `<svg viewBox="0 0 ${CW} 128" role="img" aria-label="${esc(t('camHow'))}">${paths}${nodes}${labels}</svg>`;
+  $('#camSteps').innerHTML = CAM_STEPS.map((c, i) => `<button class="rs" type="button" data-i="${i + 1}"><span class="rs-num${i === 4 ? ' g' : ''}">${i + 1}</span><div><span class="d">${esc(c[LANG])}</span></div></button>`).join('');
+}
+function camState(st) {
+  cam.cur = st; const svg = $('#camSvg svg');
+  // الخطوة 1: مشهد→عدسة، 2: عدسة→CCD، 3: الموجة التناظرية، 4: النبضات الرقمية، 5: التخزين
+  const link = st >= 1 && st <= 4 ? st : 0, nodes = { 0: [], 1: [0, 1], 2: [1, 2], 3: [2], 4: [3], 5: [4] }[st];
+  $$('.ln', svg).forEach(p => { const on = +p.dataset.s === link; p.classList.toggle('on', on); p.classList.toggle('flow', on && (link < 3)); });
+  $$('text[data-s]', svg).forEach(x => x.style.opacity = +x.dataset.s === link ? 1 : 0);
+  $$('.n', svg).forEach(g => g.classList.toggle('on', nodes.includes(+g.dataset.n)));
+  $$('#camSteps .rs').forEach(b => { const on = +b.dataset.i === st; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+}
+async function playCam() { const my = ++cam.play; for (const st of [1, 2, 3, 4, 5]) { if (my !== cam.play) return; camState(st); await wait(1900); } }
+$('#camSteps').addEventListener('click', e => { const b = e.target.closest('.rs'); if (!b) return; cam.play++; camState(+b.dataset.i); });
+$('#camPlay').addEventListener('click', playCam);
+
+/* ---- جودة الصورة: عرض الصور الحقيقية من المجلدات المضافة ---- */
+const RES_MAP = {
+  8: { src: 'assets/quality/res-8.webp', label: '8 × 8', count: '64' },
+  32: { src: 'assets/quality/res-32.webp', label: '32 × 32', count: '1,024' },
+  128: { src: 'assets/quality/res-128.webp', label: '128 × 128', count: '16,384' },
+  512: { src: 'assets/quality/res-512.webp', label: '512 × 512', count: '262,144' }
+};
+
+const BIT_MAP = {
+  1: { src: 'assets/quality/bit-1.webp', label: '1 بت', colors: '2' },
+  8: { src: 'assets/quality/bit-8.webp', label: '8 بت', colors: '256' },
+  24: { src: 'assets/quality/bit-24.webp', label: '24 بت', colors: '16,777,216' }
+};
+
+const px = { mode: 'res', v: 128 };
+
+function drawPx() {
+  const img = $('#pxImg');
+  if (!img) return;
+  if (px.mode === 'res') {
+    const item = RES_MAP[px.v] || RES_MAP[128];
+    img.src = item.src;
+    $('#pxRead').innerHTML = `<div><bdi dir="ltr">${item.label} = ${item.count}</bdi> ${esc(t('pxUnit'))}</div>`;
+    $$('#resBtns .op').forEach(b => b.classList.toggle('on', +b.dataset.v === px.v));
+    $$('#bitBtns .op').forEach(b => b.classList.remove('on'));
+  } else {
+    const item = BIT_MAP[px.v] || BIT_MAP[24];
+    img.src = item.src;
+    $('#pxRead').innerHTML = `<div><bdi dir="ltr">${px.v}</bdi> ${esc(t('bit'))} → <bdi dir="ltr">${item.colors}</bdi> ${esc(t('colors'))}</div>`;
+    $$('#bitBtns .op').forEach(b => b.classList.toggle('on', +b.dataset.v === px.v));
+    $$('#resBtns .op').forEach(b => b.classList.remove('on'));
+  }
+}
+
+function buildPx() {
+  $('#resBtns').innerHTML = [8, 32, 128, 512].map(v => `<button class="op" type="button" data-v="${v}" style="text-align:center">${v} × ${v}</button>`).join('');
+  $('#bitBtns').innerHTML = [1, 8, 24].map(v => `<button class="op" type="button" data-v="${v}" style="text-align:center">${v} ${esc(t('bit'))}</button>`).join('');
+  drawPx();
+}
+
+$('#resBtns').addEventListener('click', e => { const b = e.target.closest('.op'); if (b) { px.mode = 'res'; px.v = +b.dataset.v; drawPx(); } });
+$('#bitBtns').addEventListener('click', e => { const b = e.target.closest('.op'); if (b) { px.mode = 'bit'; px.v = +b.dataset.v; drawPx(); } });
+
+/* =====================================================================
+   7) الماسح المسطح: (1) شريط الضوء يمر على الورقة (2) المعلومات الرقمية تنتقل للذاكرة (3) الاستخدام
+   ===================================================================== */
+const SW = 520, sc = { cur: 0, play: 0 }, rdSt = { i: 2 };
+function buildScan() {
+  const xs = [440, 260, 80].map(x => mx(SW, x)), s = rtl() ? -1 : 1, N = t('scN');
+  $('#scSvg').innerHTML = `<svg viewBox="0 0 ${SW} 132" role="img" aria-label="${esc(t('scHow'))}">${marker('s')}
+    <path class="ln" data-s="2" d="M${xs[0] + s * 58},66 L${xs[1] - s * 60},66" marker-end="url(#sa)"/>
+    <path class="ln" data-s="3" d="M${xs[1] + s * 58},66 L${xs[2] - s * 60},66" marker-end="url(#sa)"/>
+    <g class="n" data-n="0"><rect class="box" x="${xs[0] - 56}" y="16" width="112" height="100" rx="12"/><rect x="${xs[0] - 30}" y="30" width="60" height="44" rx="3" fill="var(--text)"/>
+      ${[38, 46, 54, 62].map(y => `<line x1="${xs[0] - 22}" y1="${y}" x2="${xs[0] + 20}" y2="${y}" stroke="var(--muted)" stroke-width="2"/>`).join('')}
+      <rect class="scanbar" x="${xs[0] - 30}" y="30" width="5" height="44" fill="#FFD54A" style="opacity:0"/><text class="t-main" x="${xs[0]}" y="100">${esc(N[0])}</text></g>
+    <g class="n" data-n="1"><rect class="box" x="${xs[1] - 56}" y="16" width="112" height="100" rx="12"/><text class="t-ico" x="${xs[1]}" y="62">🧠</text><text class="t-main" x="${xs[1]}" y="96" style="font-size:12px">${esc(N[1])}</text></g>
+    <g class="n" data-n="2"><rect class="box" x="${xs[2] - 56}" y="16" width="112" height="100" rx="12"/><text class="t-ico" x="${xs[2]}" y="56">🖥️ 🖨️ ✉️</text><text class="t-main" x="${xs[2]}" y="88">${esc(N[2])}</text></g>
+  </svg>`;
+  $('#scSteps').innerHTML = SC_STEPS.map((c, i) => `<button class="rs" type="button" data-i="${i + 1}"><span class="rs-num${i === 2 ? ' g' : ''}">${i + 1}</span><div><span class="d">${esc(c[LANG])}</span></div></button>`).join('');
+  gcards('#scTypes', SC_TYPES);
+}
+function scState(st) {
+  sc.cur = st; const svg = $('#scSvg svg'), bar = $('.scanbar', svg); stop(bar); bar.style.opacity = 0;
+  $$('.ln', svg).forEach(p => { const on = +p.dataset.s === st; p.classList.toggle('on', on); p.classList.toggle('flow', on && st === 2); p.setAttribute('marker-end', on ? 'url(#sb)' : 'url(#sa)'); });
+  $$('.n', svg).forEach(g => { const n = +g.dataset.n; g.classList.toggle('on', (st === 1 && n === 0) || (st === 2 && n < 2) || (st === 3 && n > 0)); });
+  if (st === 1) move(bar, [{ transform: 'translateX(0)', opacity: 1 }, { transform: 'translateX(55px)', opacity: 1, offset: .95 }, { transform: 'translateX(55px)', opacity: 0 }], 1600);
+  $$('#scSteps .rs').forEach(b => { const on = +b.dataset.i === st; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+}
+async function playScan() { const my = ++sc.play; for (const st of [1, 2, 3]) { if (my !== sc.play) return; scState(st); await wait(2000); } }
+$('#scSteps').addEventListener('click', e => { const b = e.target.closest('.rs'); if (!b) return; sc.play++; scState(+b.dataset.i); });
+$('#scPlay').addEventListener('click', playScan);
+
+/* ---- القارئات: شكل الإشارة بين القارئ والشيء = الوسيلة الفعلية (ضوء / ليزر / موجات راديو / تمرير مغناطيسي) ---- */
+function buildReaderSvg() {
+  const W = 360, X = x => mx(W, x), s = rtl() ? -1 : 1;
+  $('#rdSvg').innerHTML = `<svg class="rd" viewBox="0 0 ${W} 170" role="img" aria-label="${esc(t('rdTitle'))}">
+    <g class="n on"><rect class="box" x="${X(290) - 50}" y="40" width="100" height="90" rx="12"/><text class="t-ico" x="${X(290)}" y="82">🔦</text><text class="t-main" x="${X(290)}" y="112">${esc(t('rdReader'))}</text></g>
+    <path class="beam b-light" d="M${X(238)},85 L${X(112)},85"/>
+    <path class="beam b-laser" d="M${X(238)},85 L${X(112)},85"/>
+    <g class="beam b-radio">${[20, 40, 60].map(r => `<path d="M${X(238) - s * r},${85 - r * .7} q${-s * r * .45},${r * .7} 0,${r * 1.4}"/>`).join('')}</g>
+    <g class="obj"><rect class="box" x="${X(70) - 42}" y="50" width="84" height="70" rx="10"/><text class="t-ico" id="rdObj" x="${X(70)}" y="95"></text></g>
+  </svg>`;
+}
+function renderReader(i, anim) {
+  const d = READERS[i], svg = $('#rdSvg svg');
+  svg.setAttribute('class', 'rd ' + d.sig); $('#rdObj').textContent = d.obj;
+  const det = $('#rdDetail');
+  det.innerHTML = `<div class="kv"><span class="d-name">${esc(d[LANG].name)}<span class="alt">${esc(d[LANG].full)}</span></span><span class="d-def">${esc(d[LANG].def)}</span></div>
+    <div class="kv"><span class="k">${esc(t('rdHow'))}</span><span class="sig-tag">${esc(d[LANG].how)}</span></div>
+    <div class="kv example"><span class="k">${esc(t('rdUses'))}</span><span class="cat-desc" style="font-size:15px">${esc(d[LANG].use)}</span></div>`;
+  if (anim) swap(det);
+}
+
+/* ================= 8 + 9) بطاقات ================= */
+function buildCards() {
+  gcards('#camTypes', CAM_TYPES); gcards('#termCards', TERMS);
+  $('#bioCards').innerHTML = BIO.map(b => `<div class="gcard"><span class="ico">${b[0]}</span><b>${esc(LANG === 'ar' ? b[1] : b[2])}</b><span class="alt">${esc(LANG === 'ar' ? b[2] : b[1])}</span></div>`).join('');
+  $('#pcCards').innerHTML = PC.map(b => `<div class="gcard"><span class="ico">${b[0]}</span><b>${esc(LANG === 'ar' ? b[1] : b[2])}</b><span class="alt">${esc(LANG === 'ar' ? b[2] : b[1])}</span>${b[3] ? `<span class="d">${esc(LANG === 'ar' ? b[3] : b[4])}</span>` : ''}</div>`).join('');
+}
+function renderUser(i, anim) { const u = USERS[i], det = $('#usDetail'); det.innerHTML = `<div class="kv" style="gap:12px"><span class="d-name">${u.icon} ${esc(u[LANG])}<span class="alt">${esc(u[o()])}</span></span><div class="chips">${u.items.map(x => `<span class="chip">${esc(x[LANG])}</span>`).join('')}</div></div>`; if (anim) swap(det); }
+
+/* ================= 10) الاختبار ================= */
+const answers = {};
+function buildQuiz() {
+  $('#quizGrid').innerHTML = QUIZ.map((q, qi) => `<div class="qc" data-q="${qi}"><span class="qc-text"><b>${qi + 1}.</b> ${esc(q[LANG].text)}</span>
+    <div class="qc-opts">${q[LANG].options.map((op, oi) => `<button class="opt" type="button" data-o="${oi}"><span>${esc(op)}</span><span class="mk"></span></button>`).join('')}</div><span class="qc-fb" hidden></span></div>`).join('');
+}
+function renderQuiz(changed) {
+  let correct = 0;
+  QUIZ.forEach((q, qi) => {
+    const card = $(`.qc[data-q="${qi}"]`), sel = answers[qi], done = sel !== undefined; if (sel === q.a) correct++;
+    $$('.opt', card).forEach(b => { const oi = +b.dataset.o; b.disabled = done; b.classList.toggle('ok', done && oi === q.a); b.classList.toggle('bad', done && oi === sel && sel !== q.a);
+      $('.mk', b).textContent = done && oi === q.a ? '✓' : (done && oi === sel ? '✗' : '');
+      if (changed === qi && oi === sel && sel !== q.a) { b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); } });
+    const fb = $('.qc-fb', card); fb.hidden = !done; fb.textContent = done ? (sel === q.a ? t('fbOk') : t('fbAns') + q[LANG].options[q.a]) : ''; fb.style.color = sel === q.a ? 'var(--green)' : 'var(--red)';
+  });
+  const s = $('#score'); s.textContent = `${t('scoreLbl')}: ${correct} / ${QUIZ.length}`;
+  if (changed !== undefined) { s.classList.remove('bump'); void s.offsetWidth; s.classList.add('bump'); }
+}
+$('#quizGrid').addEventListener('click', e => { const b = e.target.closest('.opt'); if (!b || b.disabled) return; const qi = +b.closest('.qc').dataset.q; answers[qi] = +b.dataset.o; renderQuiz(qi); });
+$('#resetQuiz').addEventListener('click', () => { Object.keys(answers).forEach(k => delete answers[k]); renderQuiz(); });
+
+/* ================= اللغة ================= */
+function setLang(lang, first) {
+  LANG = lang === 'en' ? 'en' : 'ar';
+  const html = document.documentElement; html.lang = LANG; html.dir = rtl() ? 'rtl' : 'ltr'; document.title = t('docTitle');
+  $$('[data-t]').forEach(el => { el.innerHTML = t(el.dataset.t); });
+  $$('[data-t-aria]').forEach(el => el.setAttribute('aria-label', t(el.dataset.tAria)));
+  $$('.section-subtitle').forEach(el => el.setAttribute('dir', rtl() ? 'ltr' : 'rtl'));
+  $$('.lang-switch button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === LANG));
+  $$('.chap-switch a').forEach(a => { a.href = a.getAttribute('href').split('?')[0] + '?lang=' + LANG; });
+  buildInput(); picker('#inPills', INPUT, d => d[LANG].name, renderInput, inSt);
+  buildKeyboard(); picker('#kbPills', ZONES, d => d[LANG].name, renderZone, kb); renderType(); buildKbFacts();
+  buildMouse(); renderOp(false);
+  picker('#tcPills', TOUCH, d => d[LANG].name, (i, a) => textDetail('#tcDetail', TOUCH[i], a), tcSt);
+  buildCards();
+  buildCam(); cam.play++; camState(cam.cur); buildPx();
+  picker('#mdPills', MEDIA, d => d[LANG].name, (i, a) => textDetail('#mdDetail', MEDIA[i], a), mdSt);
+  buildScan(); sc.play++; scState(sc.cur); buildReaderSvg(); picker('#rdPills', READERS, d => d[LANG].name, renderReader, rdSt);
+  picker('#usPills', USERS, d => d[LANG], renderUser, usSt);
+  buildQuiz(); renderQuiz();
+  if (!first) { try { localStorage.setItem('cb-lang', LANG); } catch (e) {} try { const u = new URL(location.href); u.searchParams.set('lang', LANG); history.replaceState(null, '', u); } catch (e) {} }
+}
+$$('.lang-switch button').forEach(b => b.addEventListener('click', () => { if (b.dataset.lang !== LANG) setLang(b.dataset.lang); }));
+function initialLang() {
+  try { const q = new URLSearchParams(location.search).get('lang'); if (q === 'en' || q === 'ar') return q; } catch (e) {}
+  try { const s = localStorage.getItem('cb-lang'); if (s === 'en' || s === 'ar') return s; } catch (e) {}
+  return 'ar';
+}
+setLang(initialLang(), true);
+// المخططات ذات الخطوات تُعرض تلقائياً مرة واحدة عند أول ظهور
+const once = (sel, fn, st) => new IntersectionObserver((es, ob) => { if (es[0].isIntersecting) { ob.disconnect(); if (st.cur === 0) fn(); } }, { threshold: .6 }).observe($(sel));
+once('#camSvg', playCam, cam); once('#scSvg', playScan, sc);
+
+const navLinks = $$('#nav a');
+const secObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-40% 0px -55% 0px' });
+['top', 'what', 'keyboard', 'pointing', 'touch', 'camera', 'media', 'scan', 'bio', 'users', 'quiz'].forEach(id => secObs.observe(document.getElementById(id)));
+const bar = $('#readBar');
+const onScroll = () => { const h = document.documentElement.scrollHeight - innerHeight; bar.style.width = (h > 0 ? scrollY / h * 100 : 0) + '%'; };
+addEventListener('scroll', onScroll, { passive: true }); onScroll();
+})();
+</script>
+<script src="../../data/data.js"></script>
+<script src="../../assets/js/lecture-shell.js"></script>
+<script src="../../assets/js/feedback.js"></script>
+</body>
+</html>
