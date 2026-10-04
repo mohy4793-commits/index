@@ -127,3 +127,8 @@ body, p, li, td, .def, .desc, .step-desc { font-weight: 400!important; line-heig
 .section-subtitle, .lnav small, .gt-t small, .hero-badge, .concept-card small { font-weight: 200!important; }
 .swash-text, .brand-accent { font-family: var(--font-swashes)!important; }
 
+/* نصوص الرسومات (SVG): خط Zain يمدّ الحروف (كشيدة) داخل المربعات الصغيرة ويفسد التوسيط مع الأيقونات،
+   لذا تُكتب النصوص داخل الرسومات بخط IBM Plex Sans Arabic المتّزن، والأيقونات بخط الإيموجي. */
+svg text{font-family:'IBM Plex Sans Arabic','Zain',system-ui,sans-serif;font-feature-settings:normal;letter-spacing:0;word-spacing:0}
+svg text.t-main,svg text.t-sm{font-weight:700}
+svg text.t-ico{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-weight:400}
