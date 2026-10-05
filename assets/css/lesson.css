@@ -2,6 +2,7 @@
    lesson.css — صفحات المحاضرات المبسّطة (شرح + تشبيه + أمثلة + أدوات تفاعلية + اختبار)
    يعتمد على رموز lecture.css (--em, --text, --surface, --line …) فيعمل بالسمتين الفاتحة والداكنة.
    ===================================================================== */
+.lesson,.lesson *{box-sizing:border-box}
 .lesson{max-width:880px;margin:0 auto;padding:0 20px 24px;line-height:1.85}
 .lesson p{margin:0 0 12px;color:var(--text2)}
 .lesson b,.lesson strong{color:var(--text);font-weight:700}
@@ -96,7 +97,7 @@
 .lab label{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--text2);min-width:0}
 .lab label span.v{font-family:var(--mono);color:var(--em);font-weight:600;direction:ltr;text-align:start}
 .lab input[type=range]{width:100%;accent-color:var(--em);direction:ltr}
-.lab input[type=number],.lab select{font:inherit;font-family:var(--mono);color:var(--text);background:var(--surface2);border:1px solid var(--line2);border-radius:10px;padding:7px 10px;width:100%;min-width:0;direction:ltr}
+.lab input[type=number],.lab select{font:inherit;font-family:var(--mono);color:var(--text);background:var(--surface2);border:1px solid var(--line2);border-radius:10px;padding:0 10px;height:40px;width:100%;min-width:0;direction:ltr}
 .lab .row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
 .lab .out{margin:0;padding:10px 14px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-family:var(--mono);font-size:13.5px;line-height:1.9;color:var(--text);direction:rtl;text-align:start}
 .lab .out [dir=ltr]{text-align:left;overflow-wrap:anywhere}
@@ -119,6 +120,12 @@
 .seg button{font:inherit;font-size:13.5px;font-weight:600;padding:5px 16px;border-radius:999px;border:0;background:transparent;color:var(--text2);cursor:pointer}
 .seg button[aria-pressed=true]{background:var(--em);color:var(--em-ink)}
 @media (max-width:720px){.lab .labb{grid-template-columns:1fr}}
+
+/* سهمان للمقارنة بين مقدارين */
+.arws{display:flex;flex-direction:column;gap:12px;max-width:380px;margin:12px 0;padding:14px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface2)}
+.arw{display:flex;align-items:center;gap:14px;direction:ltr}
+.arw svg{flex:none;height:18px;overflow:visible}
+.arw span{direction:rtl;font-size:14px;color:var(--text2);white-space:nowrap}
 
 /* اختبار سريع */
 .qz{margin:12px 0;border:1px solid var(--line2);border-radius:16px;background:var(--surface);overflow:hidden}
