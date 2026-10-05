@@ -56,6 +56,6 @@ node .claude/serve.mjs   # ثم افتح http://localhost:5173
 
 ## الاعتمادات
 - حركة الكرة النقطية مقتبسة من [thinking-orbs](https://github.com/Jakubantalik/thinking-orbs) (MIT © Jakub Antalik) ومُعاد كتابتها بجافاسكربت خالص (`assets/js/orb.js`).
-- الخطوط: IBM Plex Sans Arabic وIBM Plex Mono وCairo (SIL OFL) — مستضافة محليًا.
+- الخطوط: IBM Plex Sans Arabic وIBM Plex Mono (SIL OFL) — مستضافة محليًا، بلا خطوط نظام.
 - صفحات المحاضرات (`courses/intro-computing/`) هي المحتوى الأصلي للموقع القديم، منقولًا كما هو مع إصلاح المسارات.
 - إطارات الحاسوب ثلاثي الأبعاد (الفصل الأول) أُعيد تدريجها رياضيًا لتندمج مع الهوية؛ الأصلية في `_archive/originals/pc-sequence-navy/` والسكربت في `_archive/tools/regrade-pc-frames.mjs`.
