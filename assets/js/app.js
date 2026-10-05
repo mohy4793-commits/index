@@ -154,6 +154,11 @@
     if (h) h.outerHTML = head; else document.body.insertAdjacentHTML('afterbegin', head);
     if (f) f.outerHTML = foot + tabs + dlg; else document.body.insertAdjacentHTML('beforeend', foot + tabs + dlg);
 
+    /* رمز القسم: <ThinkingOrb state="connecting" size={64} /> من مكتبة thinking-orbs (assets/js/thinking-orb.js)؛ يبقى الرمز البديل إن لم يُحمَّل */
+    if (window.ThinkingOrb) {
+      var bm = qs('#brandMark'); bm.innerHTML = ''; bm.classList.add('has-orb');
+      window.ThinkingOrb.mount(bm, { state: 'connecting', size: 64, displaySize: 44, label: S.department });
+    }
     /* الشعار: يُحمَّل من S.logo إن وُجد الملف، وإلا يبقى الرمز البديل */
     if (S.logo) {
       var im = new Image(); im.alt = 'شعار ' + S.university;
