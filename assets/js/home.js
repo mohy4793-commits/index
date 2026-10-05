@@ -55,4 +55,5 @@
   }).join('') : '<div class="pending"><div><h3>قيد الإضافة</h3><p>لم تُرفع محاضرات بعد.</p></div></div>';
 
   A.reveal(document);
+  Orb.mount($('#orb'), { mode: 'globe', size: 'large', interactive: true });
 })();
