@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>قسم الذكاء الاصطناعي — جامعة إقليم سبأ</title>
-<meta name="description" content="مرجع طلاب قسم الذكاء الاصطناعي، كلية العلوم والتكنولوجيا، جامعة إقليم سبأ: المواد والمحاضرات والجدول الدراسي.">
+<title>شرح مبسّط لمواد الذكاء الاصطناعي</title>
+<meta name="description" content="محاضرات تفاعلية تسهّل فهم مواد الذكاء الاصطناعي لطلاب القسم. موقع طلابي غير رسمي.">
 <meta name="theme-color" content="#040807">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23040807'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%232ee89a' stroke-width='1.6'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%232ee89a'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/css/fonts.css?v=zain">
-<link rel="stylesheet" href="assets/css/site.css?v=credit">
+<link rel="stylesheet" href="assets/css/site.css?v=calm">
 <script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
 <body data-page="home">
@@ -20,30 +20,24 @@
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="wrap hero-grid">
       <div class="hero-text">
-        <span class="eyebrow rv" id="semEyebrow"></span>
-        <h1 class="rv" style="--d:.08s">مرجعك الدراسي في <em>الذكاء الاصطناعي</em></h1>
-        <p class="hero-lead rv" style="--d:.16s">المواد والمحاضرات والجدول الدراسي لطلاب قسم الذكاء الاصطناعي — كلية العلوم والتكنولوجيا، جامعة إقليم سبأ — في مكان واحد يتّسع لما يُضاف لاحقًا.</p>
-        <div class="hero-cta rv" style="--d:.24s">
-          <a class="btn btn-primary" href="schedule.html" id="ctaSchedule">الجدول الدراسي <span id="ctaIco"></span></a>
-          <a class="btn btn-ghost" href="courses.html">تصفّح المواد</a>
+        <h1 class="rv">شرح <em>مبسّط</em> لمواد الذكاء الاصطناعي</h1>
+        <p class="hero-lead rv" style="--d:.08s">محاضرات تفاعلية تسهّل الفهم لطلاب القسم.</p>
+        <div class="hero-cta rv" style="--d:.16s">
+          <a class="btn btn-primary" href="#lectures">ابدأ التعلّم <span id="ctaIco"></span></a>
+          <a class="btn btn-ghost" href="schedule.html">الجدول</a>
         </div>
-        <div class="facts rv" style="--d:.32s" id="facts"></div>
       </div>
       <div class="hero-side">
-        <div class="orb-box rv" aria-hidden="true"><canvas id="orb"></canvas></div>
-        <div class="next beam rv" style="--d:.2s" id="next" aria-live="polite"></div>
+        <div class="next beam rv" style="--d:.12s" id="next" aria-live="polite"></div>
       </div>
     </div>
   </section>
 
-  <!-- ============ الأسبوع ============ -->
-  <section class="sec" style="padding-top:8px" id="week">
+  <!-- ============ المحاضرات المتاحة ============ -->
+  <section class="sec" id="lectures">
     <div class="wrap">
-      <div class="sec-h">
-        <div><span class="eyebrow"><span class="ltr">01 · WEEK</span></span><h2>أسبوعك الدراسي</h2><p>مواعيد المحاضرات حسب الجدول الرسمي. اليوم الحالي مُضاء.</p></div>
-        <a class="more" href="schedule.html" id="moreWeek">الجدول التفاعلي </a>
-      </div>
-      <div class="week" id="weekGrid"></div>
+      <div class="sec-h"><h2>المحاضرات المتاحة</h2></div>
+      <div class="lec" id="lecList"></div>
     </div>
   </section>
 
@@ -51,30 +45,30 @@
   <section class="sec" id="courses">
     <div class="wrap">
       <div class="sec-h">
-        <div><span class="eyebrow"><span class="ltr">02 · COURSES</span></span><h2>المواد الدراسية</h2><p id="courseSub"></p></div>
+        <h2>المواد</h2>
         <a class="more" href="courses.html" id="moreCourses">كل المواد </a>
       </div>
       <div class="cards" id="cardGrid"></div>
     </div>
   </section>
 
-  <!-- ============ المحاضرات المتاحة ============ -->
-  <section class="sec" id="lectures">
+  <!-- ============ الأسبوع ============ -->
+  <section class="sec" id="week">
     <div class="wrap">
       <div class="sec-h">
-        <div><span class="eyebrow"><span class="ltr">03 · LECTURES</span></span><h2>المحاضرات المتاحة الآن</h2><p>كل ما رُفع من محتوى تفاعلي حتى الآن. تظهر المحاضرات الجديدة هنا تلقائيًا.</p></div>
+        <div><h2>جدول الأسبوع</h2><p>منقول من جدول الجامعة.</p></div>
+        <a class="more" href="schedule.html" id="moreWeek">الجدول كاملًا </a>
       </div>
-      <div class="lec" id="lecList"></div>
+      <div class="week" id="weekGrid"></div>
     </div>
   </section>
 </main>
 
 <div id="app-footer"></div>
-<p class="credit">إعداد: محي الدين القديمي</p>
+<p class="credit">موقع طلابي غير رسمي لتبسيط المواد، وليس تابعًا للجامعة · إعداد: محي الدين القديمي</p>
 <noscript><p style="padding:24px;text-align:center">يحتاج الموقع إلى تفعيل جافاسكربت لعرض المواد والجدول.</p></noscript>
 <script src="data/data.js"></script>
 <script src="assets/js/app.js"></script>
-<script src="assets/js/orb.js"></script>
 <script src="assets/js/home.js"></script>
 <script src="assets/js/feedback.js"></script>
 </body>

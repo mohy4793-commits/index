@@ -1,22 +1,11 @@
-/* الصفحة الرئيسية: المحاضرة القادمة، الأسبوع، المواد، المحاضرات المتاحة */
+/* الصفحة الرئيسية: المحاضرة القادمة، المحاضرات المتاحة، المواد، الأسبوع */
 (function () {
   'use strict';
   var A = window.App, S = A.S, $ = A.qs, icon = A.icon, esc = A.esc;
-  var sem = A.currentSemester();
 
-  $('#semEyebrow').textContent = sem.title + ' ' + sem.year + ' · ' + sem.level;
   $('#ctaIco').innerHTML = icon('arrow');
   $('#moreWeek').insertAdjacentHTML('beforeend', icon('arrow'));
   $('#moreCourses').insertAdjacentHTML('beforeend', icon('arrow'));
-
-  /* ---- حقائق عن حالة المحتوى (من البيانات فقط) ---- */
-  var total = A.courses.length, avail = A.courses.filter(A.isAvailable).length;
-  var lectures = A.courses.reduce(function (n, c) { return n + c.chapters.length; }, 0);
-  $('#facts').innerHTML =
-    '<div class="fact"><b>' + total + '</b><span>مواد في الفصل</span></div>' +
-    '<div class="fact"><b>' + lectures + '</b><span>محاضرات متاحة</span></div>' +
-    '<div class="fact"><b>' + (total - avail) + '</b><span>مواد قيد الإضافة</span></div>';
-  $('#courseSub').textContent = total + ' مواد لـ' + sem.level + ' — ' + sem.title + ' ' + sem.year + '. ' + (total - avail) + ' منها قيد الإضافة.';
 
   /* ---- بطاقة المحاضرة القادمة ---- */
   var nextEl = $('#next');
@@ -63,8 +52,7 @@
       '<div><span class="sub">' + esc(r.c.name) + (ch.label ? ' · ' + esc(ch.label) : '') + '</span><h3>' + esc(ch.title) + '</h3>' +
       (ch.topics && ch.topics.length ? '<div class="topics">' + ch.topics.map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' : '') +
       '</div><span class="arrow">' + icon('arrow') + '</span></a>';
-  }).join('') : '<div class="pending"><canvas id="pendOrb"></canvas><div><h3>قيد الإضافة</h3><p>لم تُرفع محاضرات بعد.</p></div></div>';
+  }).join('') : '<div class="pending"><div><h3>قيد الإضافة</h3><p>لم تُرفع محاضرات بعد.</p></div></div>';
 
   A.reveal(document);
-  Orb.mount($('#orb'), { mode: 'globe', size: 'large', interactive: true });
 })();
