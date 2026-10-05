@@ -6,8 +6,7 @@
    يُحمَّل بعد أنماط الصفحة نفسها ليتغلّب عليها بالترتيب.
    ===================================================================== */
 :root{
-  --font:'Zain','IBM Plex Sans Arabic',system-ui,-apple-system,sans-serif;
-  --font-swashes:'Zain Swashes','Zain',system-ui,sans-serif;
+  --font:'IBM Plex Sans Arabic',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
   --em:#2ee89a; --em2:#14b872; --em-ink:#03150e; --cy:#5ad6ff; --am:#ffb347;
   --s0:4 8 7; --s1:10 19 17; --acc:46 232 154; --amb:255 179 71; --ink:255 255 255;
@@ -120,15 +119,12 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 @media (max-width:480px){.gfoot{padding:0 14px 84px}}
 .fb-fab{background:var(--surface)!important;color:var(--em)!important;border-color:var(--line2)!important;font-family:var(--font)!important}
 
-/* ---------- قواعد تسلسل خط زين للمحاضرات (Zain Lecture Font Hierarchy) ---------- */
-.section-title, .sub-title, .hero-title, .chapter-title, .concept-card h3, .term { font-weight: 800!important; line-height: 1.35!important; }
-.btn, .gt-nav a, .lnav b, .chap-switch a, .header-nav a { font-weight: 600!important; }
-body, p, li, td, .def, .desc, .step-desc { font-weight: 400!important; line-height: 1.75!important; }
-.section-subtitle, .lnav small, .gt-t small, .hero-badge, .concept-card small { font-weight: 200!important; }
-.swash-text, .brand-accent { font-family: var(--font-swashes)!important; }
+/* ---------- أوزان الخط (IBM Plex Sans Arabic: 400 / 500 / 600 / 700) ---------- */
+.section-title,.sub-title,.hero-title,.chapter-title,.concept-card h3,.term{font-weight:700!important;line-height:1.35!important}
+.btn,.gt-nav a,.lnav b,.chap-switch a,.header-nav a{font-weight:600!important}
+body,p,li,td,.def,.desc,.step-desc{line-height:1.75!important}
 
-/* نصوص الرسومات (SVG): خط Zain يمدّ الحروف (كشيدة) داخل المربعات الصغيرة ويفسد التوسيط مع الأيقونات،
-   لذا تُكتب النصوص داخل الرسومات بخط IBM Plex Sans Arabic المتّزن، والأيقونات بخط الإيموجي. */
-svg text{font-family:'IBM Plex Sans Arabic','Zain',system-ui,sans-serif;font-feature-settings:normal;letter-spacing:0;word-spacing:0}
+/* نصوص الرسومات (SVG): خط متّزن بلا تمديد، والأيقونات بخط الإيموجي. */
+svg text{font-family:var(--font);letter-spacing:0;word-spacing:0}
 svg text.t-main,svg text.t-sm{font-weight:700}
 svg text.t-ico{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-weight:400}
