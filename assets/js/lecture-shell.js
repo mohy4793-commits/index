@@ -34,6 +34,7 @@
   document.getElementById('gtTheme').addEventListener('click', function () {
     var n = root.dataset.theme === 'light' ? 'dark' : 'light'; root.dataset.theme = n; try { localStorage.setItem('theme', n); } catch (e) { }
   });
+  if (window.ThinkingOrb) { var gm = document.getElementById('gtMark'); gm.innerHTML = ''; gm.classList.add('has-orb'); window.ThinkingOrb.mount(gm, { state: 'connecting', size: 64, displaySize: 40, label: S.department }); }
   if (S.logo) { var im = new Image(); im.alt = ''; im.onload = function () { var m = document.getElementById('gtMark'); m.innerHTML = ''; m.appendChild(im); }; im.src = '../../' + S.logo; }
 
   /* شعار رأس المحاضرة: أيقونة + اسم المادة بدل «CompuBasics» */

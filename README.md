@@ -55,6 +55,7 @@ node .claude/serve.mjs   # ثم افتح http://localhost:5173
 ```
 
 ## الاعتمادات
+- رمز القسم في الشريط العلوي هو `ThinkingOrb` بحالة `connecting` (نسخة جافاسكربت خالصة من المكتبة، انظر `tools/thinking-orb/README.md`).
 - حركة الكرة النقطية مقتبسة من [thinking-orbs](https://github.com/Jakubantalik/thinking-orbs) (MIT © Jakub Antalik) ومُعاد كتابتها بجافاسكربت خالص (`assets/js/orb.js`).
 - الخطوط: IBM Plex Sans Arabic وIBM Plex Mono وCairo (SIL OFL) — مستضافة محليًا.
 - صفحات المحاضرات (`courses/intro-computing/`) هي المحتوى الأصلي للموقع القديم، منقولًا كما هو مع إصلاح المسارات.
