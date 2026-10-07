@@ -473,7 +473,6 @@ body[data-page=home] .sec-h p{font-size:14px;color:var(--muted);margin-top:4px}
 .hero-lead{color:var(--text2)}
 .cc h3,.lrow h3{text-wrap:balance}
 .meta-strip b{overflow-wrap:anywhere}
-.week{grid-template-columns:repeat(6,minmax(0,1fr))}
 @media (max-width:1100px) and (min-width:821px){.week{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .btn-primary:active,.btn-ghost:active{transform:translateY(0) scale(.98)}
 .tt-grid{min-width:880px}
