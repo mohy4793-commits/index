@@ -37,7 +37,7 @@
     var body = list.length ? list.map(function (x) {
       return '<a class="mini" style="--h:' + A.hue(x.c) + '" href="course.html?c=' + esc(x.c.id) + '"><b>' + esc(x.c.name) + '</b><span>' + A.fmtRange(x.s.start, x.s.end) + '</span><em>' + esc(x.s.room) + '</em></a>';
     }).join('') : '<span class="day-empty">لا محاضرات</span>';
-    return '<div class="day rv' + (d.idx === today ? ' today' : '') + (list.length ? '' : ' off') + '" style="--d:' + (i * .05) + 's"><div class="day-h"><span>' + d.name + '</span>' + (d.idx === today ? '<small lang="en">TODAY</small>' : '') + '</div>' + body + '</div>';
+    return '<div class="day rv' + (d.idx === today ? ' today' : '') + (list.length ? '' : ' off') + '" style="--d:' + (i * .05) + 's"><div class="day-h"><span>' + d.name + '</span>' + (d.idx === today ? '<small>TODAY</small>' : '') + '</div>' + body + '</div>';
   }).join('');
 
   /* ---- المواد ---- */
@@ -48,7 +48,7 @@
   A.courses.forEach(function (c) { c.chapters.forEach(function (ch) { rows.push({ c: c, ch: ch }); }); });
   $('#lecList').innerHTML = rows.length ? rows.map(function (r, i) {
     var ch = r.ch;
-    return '<a class="lrow spot rv" style="--d:' + (i * .07) + 's" href="' + esc(ch.href) + '"><div class="lnum"><small lang="en" aria-hidden="true">CH</small>' + String(ch.n).padStart(2, '0') + '</div>' +
+    return '<a class="lrow spot rv" style="--d:' + (i * .07) + 's" href="' + esc(ch.href) + '"><div class="lnum"><small>CH</small>' + String(ch.n).padStart(2, '0') + '</div>' +
       '<div><span class="sub">' + esc(r.c.name) + (ch.label ? ' · ' + esc(ch.label) : '') + '</span><h3>' + esc(ch.title) + '</h3>' +
       (ch.topics && ch.topics.length ? '<div class="topics">' + ch.topics.map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' : '') +
       '</div><span class="arrow">' + icon('arrow') + '</span></a>';

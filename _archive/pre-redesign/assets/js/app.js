@@ -127,9 +127,6 @@
   var logoFallback = '<svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><circle cx="16" cy="16" r="3.2"/><circle cx="16" cy="5" r="1.7"/><circle cx="26" cy="11" r="1.5"/><circle cx="26" cy="21.5" r="1.7"/><circle cx="16" cy="27" r="1.5"/><circle cx="6" cy="21.5" r="1.7"/><circle cx="6" cy="11" r="1.5"/><g stroke="currentColor" stroke-width="1" opacity=".5"><path d="M16 16V5M16 16l10-5M16 16l10 5.5M16 16v11M16 16L6 21.5M16 16L6 11"/></g></svg>';
 
   function build() {
-    /* رابط تخطي + هدف المحتوى الرئيسي */
-    var mn = qs('main'); if (mn && !mn.id) mn.id = 'main';
-    document.body.insertAdjacentHTML('afterbegin', '<a class="skip" href="#main">تخطَّ إلى المحتوى</a>');
     var page = document.body.dataset.page, nav = PAGES.map(function (p) {
       return '<a href="' + p.href + '"' + (p.key === page ? ' aria-current="page"' : '') + '>' + p.label + '</a>';
     }).join('');
@@ -137,7 +134,7 @@
       '<a class="brand" href="index.html" aria-label="' + esc(S.department) + '"><span class="brand-mark" id="brandMark">' + logoFallback + '</span>' +
       '<span class="brand-t"><b>' + esc(S.department) + '</b><small>' + esc(S.college) + ' · ' + esc(S.university) + '</small></span></a>' +
       '<nav class="nav" aria-label="التنقل الرئيسي">' + nav + '</nav>' +
-      '<div class="actions"><button class="kbd-search" id="openSearch" type="button" aria-label="بحث">' + icon('search') + '<span>ابحث عن مادة أو محاضرة</span><kbd aria-hidden="true">Ctrl K</kbd></button>' +
+      '<div class="actions"><button class="kbd-search" id="openSearch" type="button" aria-label="بحث">' + icon('search') + '<span>ابحث عن مادة أو محاضرة</span><kbd>Ctrl K</kbd></button>' +
       '<button class="iconbtn" id="themeBtn" type="button" aria-label="تبديل السمة"><span class="theme-ico-sun">' + icon('sun') + '</span><span class="theme-ico-moon">' + icon('moon') + '</span></button></div>' +
       '</div></header>';
     var tabs = '<nav class="tabbar" aria-label="تنقل سريع">' + PAGES.map(function (p) {
@@ -145,12 +142,12 @@
     }).join('') + '<button type="button" id="openSearch2">' + icon('search') + '<span>بحث</span></button></nav>';
     var sem = currentSemester(), off = sem.official;
     var foot = '<footer class="foot"><div class="wrap"><div class="foot-grid">' +
-      '<div><h2 class="foot-h">عن القسم</h2><p><b>' + esc(S.department) + '</b><br>' + esc(S.college) + ' — ' + esc(S.university) + '. مرجع الطلاب للمواد والمحاضرات والجداول والمصادر.</p></div>' +
-      '<div><h2 class="foot-h">روابط</h2><ul><li><a href="index.html">الرئيسية</a></li><li><a href="courses.html">المواد</a></li><li><a href="schedule.html">الجدول الدراسي</a></li></ul></div>' +
-      '<div><h2 class="foot-h">الفصل الدراسي</h2><ul><li>' + esc(sem.title) + ' ' + esc(sem.year) + ' · ' + esc(sem.level) + '</li><li>' + esc(sem.system) + '</li>' +
-      '<li class="mono foot-ver">' + esc(off.version) + ' · <span class="ltr">' + esc(off.exportedAt.split(' ')[0]) + '</span></li></ul></div>' +
+      '<div><h4>ABOUT</h4><p><b>' + esc(S.department) + '</b><br>' + esc(S.college) + ' — ' + esc(S.university) + '. مرجع الطلاب للمواد والمحاضرات والجداول والمصادر.</p></div>' +
+      '<div><h4>LINKS</h4><ul><li><a href="index.html">الرئيسية</a></li><li><a href="courses.html">المواد</a></li><li><a href="schedule.html">الجدول الدراسي</a></li></ul></div>' +
+      '<div><h4>SEMESTER</h4><ul><li>' + esc(sem.title) + ' ' + esc(sem.year) + ' · ' + esc(sem.level) + '</li><li>' + esc(sem.system) + '</li>' +
+      '<li class="mono" style="font-size:12.5px;color:var(--muted)">' + esc(off.version) + ' · <span class="ltr">' + esc(off.exportedAt.split(' ')[0]) + '</span></li></ul></div>' +
       '</div></div></footer>';
-    var dlg = '<dialog id="palette" aria-label="بحث"><div class="pal" role="search"><div class="pal-in">' + icon('search') + '<input id="palInput" type="search" role="combobox" aria-expanded="true" aria-controls="palList" aria-autocomplete="list" autocomplete="off" placeholder="ابحث: مادة، مدرّس، قاعة، محاضرة…" aria-label="بحث"><button class="iconbtn" type="button" id="palClose" aria-label="إغلاق">' + icon('x') + '</button></div>' +
+    var dlg = '<dialog id="palette" aria-label="بحث"><div class="pal" role="search"><div class="pal-in">' + icon('search') + '<input id="palInput" type="search" autocomplete="off" placeholder="ابحث: مادة، مدرّس، قاعة، محاضرة…" aria-label="بحث"><button class="iconbtn" type="button" id="palClose" aria-label="إغلاق">' + icon('x') + '</button></div>' +
       '<div class="pal-list" id="palList" role="listbox"></div><div class="pal-foot"><span><kbd>↑↓</kbd>تنقّل</span><span><kbd>Enter</kbd>فتح</span><span><kbd>Esc</kbd>إغلاق</span></div></div></dialog>';
 
     var h = qs('#app-header'), f = qs('#app-footer');
@@ -176,10 +173,7 @@
     qs('#themeBtn').addEventListener('click', function () {
       var next = root.dataset.theme === 'light' ? 'dark' : 'light';
       root.dataset.theme = next; try { localStorage.setItem('theme', next); } catch (e) { }
-      label();
     });
-    function label() { qs('#themeBtn').setAttribute('aria-label', root.dataset.theme === 'light' ? 'التبديل إلى السمة الداكنة' : 'التبديل إلى السمة الفاتحة'); }
-    label();
   }
 
   /* ---------------- لوحة البحث ---------------- */
@@ -201,19 +195,18 @@
     function render() {
       var q = norm(input.value), words = q.split(' ').filter(Boolean);
       items = index.filter(function (x) { return !words.length ? x.g !== 'المحاضرات' : words.every(function (w) { return x.n.indexOf(w) !== -1; }); }).slice(0, 14);
-      sel = 0; input.setAttribute('aria-activedescendant', items.length ? 'pal-o0' : '');
+      sel = 0;
       if (!items.length) { list.innerHTML = '<div class="pal-empty">لا نتائج لـ «' + esc(input.value) + '»</div>'; return; }
       var html = '', g = '';
       items.forEach(function (x, i) {
         if (x.g !== g) { g = x.g; html += '<div class="pal-grp">' + g + '</div>'; }
-        html += '<a class="pal-it" role="option" id="pal-o' + i + '" href="' + esc(x.href) + '" data-i="' + i + '" aria-selected="' + (i === 0) + '">' + icon(x.i) + '<div><b>' + esc(x.t) + '</b><small>' + esc(x.s) + '</small></div></a>';
+        html += '<a class="pal-it" role="option" href="' + esc(x.href) + '" data-i="' + i + '" aria-selected="' + (i === 0) + '">' + icon(x.i) + '<div><b>' + esc(x.t) + '</b><small>' + esc(x.s) + '</small></div></a>';
       });
       list.innerHTML = html;
     }
     function mark(n) {
       sel = (n + items.length) % items.length;
       qsa('.pal-it', list).forEach(function (a) { a.setAttribute('aria-selected', +a.dataset.i === sel); });
-      input.setAttribute('aria-activedescendant', 'pal-o' + sel);
       var cur = qs('.pal-it[aria-selected=true]', list); if (cur) cur.scrollIntoView({ block: 'nearest' });
     }
     function open() { if (dlg.open) return; dlg.showModal(); input.value = ''; render(); setTimeout(function () { input.focus(); }, 30); }
@@ -241,33 +234,8 @@
   function reveal(root) {
     qsa('.rv:not(.in)', root).forEach(function (el) { io ? io.observe(el) : el.classList.add('in'); });
   }
-  /* تتابع: عناصر [data-stagger] تأخذ تأخيرًا متدرجًا لأبنائها .rv */
-  function stagger(root) {
-    qsa('[data-stagger]', root).forEach(function (p) {
-      qsa('.rv', p).forEach(function (el, i) { if (!el.style.getPropertyValue('--d')) el.style.setProperty('--d', (i * 0.07) + 's'); });
-    });
-  }
-  /* عنوان الهيرو: تقسيم الكلمات للدخول المتتابع (CSS يتولى الحركة) */
-  function splitHero() {
-    var h = qs('.hero h1'); if (!h || matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-    var i = 0;
-    (function walk(n) {
-      Array.prototype.slice.call(n.childNodes).forEach(function (c) {
-        if (c.nodeType === 3) {
-          var frag = document.createDocumentFragment();
-          c.nodeValue.split(/(\s+)/).forEach(function (t) {
-            if (!t) return;
-            if (/^\s+$/.test(t)) { frag.appendChild(document.createTextNode(t)); return; }
-            var w = document.createElement('span'); w.className = 'w'; w.style.setProperty('--i', i++); w.textContent = t; frag.appendChild(w);
-          });
-          n.replaceChild(frag, c);
-        } else if (c.nodeType === 1) walk(c);
-      });
-    })(h);
-    h.classList.remove('rv');
-  }
   function fx() {
-    splitHero(); stagger(document); reveal(document);
+    reveal(document);
     document.addEventListener('pointermove', function (e) {
       var t = e.target.closest && e.target.closest('.spot'); if (!t) return;
       var r = t.getBoundingClientRect(); t.style.setProperty('--mx', (e.clientX - r.left) + 'px'); t.style.setProperty('--my', (e.clientY - r.top) + 'px');

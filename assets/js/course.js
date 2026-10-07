@@ -6,7 +6,7 @@
 
   if (!c) {
     document.title = 'مادة غير موجودة — ' + A.S.department;
-    main.innerHTML = '<div class="wrap phead"><div class="empty" style="margin-top:30px"><h1 style="font-size:26px">لم نجد هذه المادة</h1><p style="margin:10px 0 20px">الرابط غير صحيح أو أن المادة لم تُضف بعد.</p><a class="btn btn-primary" href="courses.html">كل المواد ' + icon('arrow') + '</a></div></div>';
+    main.innerHTML = '<div class="wrap phead"><div class="empty"><h1>لم نجد هذه المادة</h1><p>الرابط غير صحيح أو أن المادة لم تُضف بعد.</p><a class="btn btn-primary" href="courses.html">كل المواد ' + icon('arrow') + '</a></div></div>';
     return;
   }
   document.title = c.name + ' — ' + A.S.department;
@@ -15,7 +15,7 @@
 
   var lectures = avail ? '<div class="lec">' + c.chapters.map(function (ch, k) {
     var ic = { page: 'file', pdf: 'file', video: 'play', link: 'link' }[ch.kind] || 'file';
-    return '<a class="lrow spot rv" style="--d:' + (k * .07) + 's" href="' + esc(ch.href) + '"' + (/^https?:/.test(ch.href) ? ' target="_blank" rel="noopener"' : '') + '><div class="lnum"><small>CH</small>' + String(ch.n).padStart(2, '0') + '</div>' +
+    return '<a class="lrow spot rv" style="--d:' + (k * .07) + 's" href="' + esc(ch.href) + '"' + (/^https?:/.test(ch.href) ? ' target="_blank" rel="noopener"' : '') + '><div class="lnum"><small lang="en" aria-hidden="true">CH</small>' + String(ch.n).padStart(2, '0') + '</div>' +
       '<div>' + (ch.label ? '<span class="sub">' + esc(ch.label) + '</span>' : '') + '<h3>' + esc(ch.title) + '</h3>' +
       (ch.topics && ch.topics.length ? '<div class="topics">' + ch.topics.map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' : '') +
       '</div><span class="arrow">' + icon(ic === 'file' ? 'arrow' : ic) + '</span></a>';
@@ -25,9 +25,9 @@
   var res = c.resources && c.resources.length
     ? '<div class="res">' + c.resources.map(function (r) {
       var ic = { pdf: 'file', video: 'play', link: 'link' }[r.kind] || 'link';
-      return '<a href="' + esc(r.href) + '" target="_blank" rel="noopener">' + icon(ic) + '<span>' + esc(r.title) + '</span></a>';
+      return '<a href="' + esc(r.href) + '" target="_blank" rel="noopener">' + icon(ic) + '<span>' + esc(r.title) + '<span class="sr-only"> (يفتح في نافذة جديدة)</span></span></a>';
     }).join('') + '</div>'
-    : '<p style="color:var(--muted);font-size:14.5px">لا توجد مصادر مضافة بعد.</p>';
+    : '<p class="muted-p">لا توجد مصادر مضافة بعد.</p>';
 
   var times = c.sessions.map(function (s) {
     var d = A.dayOf(s.day);
@@ -38,11 +38,11 @@
   main.innerHTML =
     '<div class="wrap phead">' +
     '<nav class="crumbs" aria-label="مسار التنقل"><a href="index.html">الرئيسية</a>' + icon('chev') + '<a href="courses.html">المواد</a>' + icon('chev') + '<span>' + esc(c.name) + '</span></nav>' +
-    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><span class="chip ' + (c.kind === 'عملي' ? 'pr' : 'th') + '">' + esc(c.kind) + '</span>' +
+    '<div class="chips-row"><span class="chip ' + (c.kind === 'عملي' ? 'pr' : 'th') + '">' + esc(c.kind) + '</span>' +
     (avail ? '<span class="chip ok">' + A.plural(c.chapters.length, 'محاضرة واحدة', 'محاضرتان', 'محاضرات', 'محاضرة') + '</span>' : '<span class="chip soon">قيد الإضافة</span>') + '</div>' +
     '<h1>' + esc(c.name) + '</h1><p class="lead">' + esc(c.instructor) + ' · ' + esc(sem.title) + ' ' + esc(sem.year) + '</p>' +
     '<div class="pmeta">' + c.sessions.map(function (s) { return '<div class="meta-i">' + icon('clock') + '<span>' + A.dayOf(s.day).name + ' · ' + A.fmtRange(s.start, s.end) + '</span></div><div class="meta-i">' + icon('pin') + '<span>' + esc(s.room) + '</span></div>'; }).join('') + '</div></div>' +
-    '<div class="wrap"><div class="cgrid"><div style="display:flex;flex-direction:column;gap:22px">' +
+    '<div class="wrap"><div class="cgrid"><div class="col-stack" data-stagger>' +
     '<section class="panel"><h2>المحاضرات</h2>' + lectures + '</section>' +
     '<section class="panel"><h2>المصادر والملفات</h2>' + res + '</section></div>' +
     '<aside class="side"><div class="panel"><h2>معلومات المادة</h2><div class="kv">' +

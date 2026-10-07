@@ -17,8 +17,8 @@
   $('#btnPrint').innerHTML = icon('print') + 'طباعة';
   $('#imgClose').innerHTML = icon('x');
   $('#official').innerHTML = '<div class="note"><span><b>' + esc(off.title) + '</b> · ' + esc(off.status) + ' · ' + esc(off.part) + '</span>' +
-    '<span class="mono" style="font-size:12px;color:var(--muted)">' + esc(off.version) + ' · تاريخ التصدير: <span class="ltr">' + esc(off.exportedAt) + '</span></span>' +
-    '<span style="font-size:12.5px;color:var(--muted)">اكتمال التغطية وفق الجدول الرسمي: ' + esc(off.coverage) + '</span></div>';
+    '<span class="mono">' + esc(off.version) + ' · تاريخ التصدير: <span class="ltr">' + esc(off.exportedAt) + '</span></span>' +
+    '<span class="sm">اكتمال التغطية وفق الجدول الرسمي: ' + esc(off.coverage) + '</span></div>';
 
   /* ---------- نطاق الساعات ---------- */
   var minH = Math.min.apply(null, sessions.map(function (x) { return x.s.start; }));
@@ -30,7 +30,7 @@
   function gridHTML() {
     var rows = maxH - minH, h = '<div class="tt"><div class="tt-scroll"><div class="tt-grid">';
     h += '<div class="tt-corner"></div>';
-    S.days.forEach(function (d) { h += '<div class="tt-dayh' + (d.idx === today ? ' today' : '') + '">' + d.name + '<small>' + (d.idx === today ? 'TODAY' : d.key.toUpperCase()) + '</small></div>'; });
+    S.days.forEach(function (d) { h += '<div class="tt-dayh' + (d.idx === today ? ' today' : '') + '">' + d.name + '<small lang="en" aria-hidden="true">' + (d.idx === today ? 'TODAY' : d.key.toUpperCase()) + '</small></div>'; });
     h += '<div class="tt-times" style="grid-template-rows:repeat(' + rows + ',var(--hh))">';
     for (var t = minH; t < maxH; t++) { var f = A.fmtH(t); h += '<span>' + f.t + ' ' + f.s + '</span>'; }
     h += '</div>';
@@ -38,7 +38,7 @@
       var list = sessions.filter(function (x) { return x.day.key === d.key; });
       h += '<div class="tt-col' + (d.idx === today ? ' today' : '') + (list.length ? '' : ' off') + '" data-day="' + d.idx + '" style="height:calc(var(--hh)*' + rows + ')">';
       list.forEach(function (x) {
-        h += '<button class="blk' + (match(x) ? '' : ' dim') + '" type="button" data-c="' + esc(x.c.id) + '" data-d="' + d.key + '" style="--h:' + A.hue(x.c) + ';top:calc(var(--hh)*' + (x.s.start - minH) + ' + 2px);height:calc(var(--hh)*' + (x.s.end - x.s.start) + ' - 4px)">' +
+        h += '<button class="blk' + (match(x) ? '' : ' dim') + '" ' + (match(x) ? '' : 'inert aria-hidden="true" ') + 'type="button" data-c="' + esc(x.c.id) + '" data-d="' + d.key + '" style="--h:' + A.hue(x.c) + ';top:calc(var(--hh)*' + (x.s.start - minH) + ' + 2px);height:calc(var(--hh)*' + (x.s.end - x.s.start) + ' - 4px)">' +
           '<b>' + esc(x.c.name) + '</b><span class="t">' + A.fmtRange(x.s.start, x.s.end) + '</span><span class="r">' + icon('pin') + esc(x.s.room) + '</span></button>';
       });
       h += '</div>';
@@ -56,9 +56,9 @@
       var vis = list.filter(match);
       var body = list.length ? list.map(function (x) {
         var f = A.fmtH(x.s.start), g = A.fmtH(x.s.end);
-        return '<button class="ag-item' + (match(x) ? '' : ' dim') + '" type="button" style="--h:' + A.hue(x.c) + '" data-c="' + esc(x.c.id) + '" data-d="' + d.key + '">' +
-          '<div class="ag-t"><b>' + f.t + ' ' + f.s + '</b>حتى ' + g.t + ' ' + g.s + '</div>' +
-          '<div><h4>' + esc(x.c.name) + '</h4><p><span>' + icon('user') + esc(x.c.instructor) + '</span><span>' + icon('pin') + esc(x.s.room) + '</span></p></div>' +
+        return '<button class="ag-item' + (match(x) ? '' : ' dim') + '" ' + (match(x) ? '' : 'inert aria-hidden="true" ') + 'type="button" style="--h:' + A.hue(x.c) + '" data-c="' + esc(x.c.id) + '" data-d="' + d.key + '">' +
+          '<span class="ag-t"><b>' + f.t + ' ' + f.s + '</b>حتى ' + g.t + ' ' + g.s + '</span>' +
+          '<span><span class="ag-name">' + esc(x.c.name) + '</span><span class="ag-meta"><span>' + icon('user') + esc(x.c.instructor) + '</span><span>' + icon('pin') + esc(x.s.room) + '</span></span></span>' +
           '<span class="chip ' + (x.c.kind === 'عملي' ? 'pr' : 'th') + '">' + esc(x.c.kind) + '</span></button>';
       }).join('') : '<div class="ag-empty">لا توجد محاضرات اليوم.</div>';
       if (list.length && !vis.length) body += '<div class="ag-empty">لا محاضرات من هذا النوع في هذا اليوم.</div>';
@@ -101,7 +101,7 @@
       '<dl><div><dt>اليوم</dt><dd>' + d.name + '</dd></div><div><dt>الوقت</dt><dd>' + A.fmtRange(s.start, s.end) + '</dd></div>' +
       '<div><dt>القاعة</dt><dd>' + esc(s.room) + '</dd></div><div><dt>المجموعة</dt><dd>' + esc(c.group) + '</dd></div></dl>' +
       '<div class="row"><a class="btn btn-primary btn-sm" href="course.html?c=' + esc(c.id) + '">صفحة المادة ' + icon('arrow') + '</a>' +
-      (A.isAvailable(c) ? '<span class="chip ok" style="align-self:center">' + A.plural(c.chapters.length, 'محاضرة واحدة متاحة', 'محاضرتان متاحتان', 'محاضرات متاحة', 'محاضرة متاحة') + '</span>' : '<span class="chip soon" style="align-self:center">المحتوى قيد الإضافة</span>') + '</div>';
+      (A.isAvailable(c) ? '<span class="chip ok">' + A.plural(c.chapters.length, 'محاضرة واحدة متاحة', 'محاضرتان متاحتان', 'محاضرات متاحة', 'محاضرة متاحة') + '</span>' : '<span class="chip soon">المحتوى قيد الإضافة</span>') + '</div>';
     dlg.showModal();
     $('#dClose').addEventListener('click', function () { dlg.close(); });
   }

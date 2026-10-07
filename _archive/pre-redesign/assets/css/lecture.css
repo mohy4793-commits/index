@@ -5,31 +5,39 @@
    • يضيف: الشريط العلوي العام (.gtop)، التنقل بين الفصول (.lnav)، التذييل
    يُحمَّل بعد أنماط الصفحة نفسها ليتغلّب عليها بالترتيب.
    ===================================================================== */
-@import url("tokens.css");
 :root{
-  /* الأساس (ألوان/خطوط/ظلال/حركة) يأتي من tokens.css؛ هنا فقط ما تنفرد به صفحات المحاضرات */
+  --font:'IBM Plex Sans Arabic',system-ui,-apple-system,sans-serif;
+  --font-head:'Zain','IBM Plex Sans Arabic',system-ui,-apple-system,sans-serif;
+  --font-swashes:'Zain Swashes','Zain',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+  --em:#2ee89a; --em2:#14b872; --em-ink:#03150e; --cy:#5ad6ff; --am:#ffb347;
   --s0:4 8 7; --s1:10 19 17; --acc:46 232 154; --amb:255 179 71; --ink:255 255 255;
-  /* متغيرات الصفحات القديمة ← رموز الهوية */
-  --navy:var(--bg); --card:var(--surface);
-  --blue:var(--em); --blue2:#6dffc0;
-  --orange:var(--am); --orange-deep:#ff9a1f; --cream:rgba(255,179,71,.14);
+  --surface:#0a1311; --surface2:#0e1a17; --surface3:#13231f;
+  /* متغيرات الصفحات القديمة ← الهوية الجديدة */
+  --navy:#040807; --bg:#040807; --bg2:#070d0b; --card:#0a1311;
+  --blue:#2ee89a; --blue2:#6dffc0;
+  --orange:#ffb347; --orange-deep:#ff9a1f; --cream:rgba(255,179,71,.14);
   --green:#b7f06a; --green-deep:#8fd13f; --green-bg:rgba(183,240,106,.14);
-  --red:var(--rose); --red-deep:#d04058; --red-bg:rgba(255,122,138,.14);
+  --red:#ff7a8a; --red-deep:#d04058; --red-bg:rgba(255,122,138,.14);
   --line:rgba(140,255,205,.16); --line2:rgba(255,255,255,.15);
-  --chip:rgba(46,232,154,.12);
-  --data:var(--cy); --info:#b7f06a;
-  --header-h:var(--hdr);
+  --text:#e9f4ef; --text2:#b6cdc3; --muted:#7f9a90; --chip:rgba(46,232,154,.12);
+  --data:#5ad6ff; --info:#b7f06a;
+  --header-h:64px;
+  color-scheme:dark;
 }
 :root[data-theme=light]{
+  --em:#0a8f5c; --em2:#06744a; --em-ink:#ffffff; --cy:#0a7fa8; --am:#b86a00;
   --s0:242 247 244; --s1:255 255 255; --acc:10 143 92; --amb:184 106 0; --ink:10 29 22;
-  --navy:var(--text);
-  --blue2:#06744a;
-  --orange-deep:#955400; --cream:rgba(184,106,0,.12);
+  --surface:#ffffff; --surface2:#f6faf8; --surface3:#e6f0eb;
+  --navy:#0a1d16; --bg:#f2f7f4; --bg2:#e9f1ed; --card:#ffffff;
+  --blue:#0a8f5c; --blue2:#06744a;
+  --orange:#b86a00; --orange-deep:#955400; --cream:rgba(184,106,0,.12);
   --green:#2f8a2a; --green-deep:#256f21; --green-bg:rgba(47,138,42,.12);
-  --red-deep:#a02a3b; --red-bg:rgba(196,58,77,.1);
+  --red:#c43a4d; --red-deep:#a02a3b; --red-bg:rgba(196,58,77,.1);
   --line:rgba(8,70,48,.16); --line2:rgba(8,70,48,.22);
-  --chip:rgba(10,143,92,.1);
-  --info:#3a8f1f;
+  --text:#0a1d16; --text2:#33524a; --muted:#5f7a70; --chip:rgba(10,143,92,.1);
+  --data:#0a7fa8; --info:#3a8f1f;
+  color-scheme:light;
 }
 
 body{font-family:var(--font)!important;color:var(--text);background:var(--bg)}
@@ -49,7 +57,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 .gt-t b{font-size:14.5px;font-weight:700;white-space:nowrap}
 .gt-t small{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gt-nav{display:flex;gap:2px;margin-inline-start:auto}
-.gt-nav a{padding:7px 14px;border-radius:var(--r-pill);font-size:14px;font-weight:500}
+.gt-nav a{padding:7px 14px;border-radius:999px;font-size:14px;font-weight:500}
 .gt-nav a:hover{color:var(--text);background:var(--surface2)}
 .gt-theme{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;color:var(--text2);cursor:pointer;border:1px solid transparent;background:none}
 .gt-theme:hover{color:var(--em);background:var(--surface2);border-color:var(--line)}
@@ -99,13 +107,13 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 .lnav-h{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--em);margin-bottom:16px}
 .lnav-h::after{content:"";flex:1;height:1px;background:var(--line)}
 .lnav-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.lnav a{display:block;padding:18px 22px;border-radius:18px;border:1px solid var(--line);background:var(--surface);color:var(--text);transition:transform var(--dur),border-color var(--dur)}
+.lnav a{display:block;padding:18px 22px;border-radius:18px;border:1px solid var(--line);background:var(--surface);color:var(--text);transition:transform .25s,border-color .25s}
 .lnav a:hover{border-color:var(--em);transform:translateY(-3px)}
 .lnav small{display:block;color:var(--muted);font-size:12.5px}
 .lnav b{display:block;font-size:17px;font-weight:700;line-height:1.5}
 .lnav a.next{text-align:end}.lnav a.solo{grid-column:1/-1;text-align:center}
 .lnav .back{margin-top:12px;display:flex;justify-content:center}
-.lnav .back a{display:inline-flex;gap:8px;align-items:center;padding:10px 22px;border-radius:var(--r-pill);font-weight:600;font-size:14.5px;color:var(--em)}
+.lnav .back a{display:inline-flex;gap:8px;align-items:center;padding:10px 22px;border-radius:999px;font-weight:600;font-size:14.5px;color:var(--em)}
 @media (max-width:620px){.lnav-grid{grid-template-columns:1fr}.lnav a.next{text-align:start}.lnav{padding-inline:16px}}
 .site-footer{background:rgb(var(--s0)/.7)!important;border-top:1px solid var(--line)!important;color:var(--text2)!important;margin-top:40px}
 .footer-prep{background:rgb(var(--acc)/.1)!important;border:1px solid rgb(var(--acc)/.28)!important;color:var(--em)!important}
@@ -118,6 +126,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 .section-title, .sub-title, .hero-title, .chapter-title, .concept-card h3, .term { font-weight: 800!important; line-height: 1.35!important; }
 .btn, .gt-nav a, .lnav b, .chap-switch a, .header-nav a { font-weight: 600!important; }
 body, p, li, td, .def, .desc, .step-desc { font-weight: 400!important; line-height: 1.75!important; }
+.section-subtitle, .lnav small, .gt-t small, .hero-badge, .concept-card small { font-weight: 200!important; }
 .swash-text, .brand-accent { font-family: var(--font-swashes)!important; }
 /* خط زين للعناوين فقط؛ بقية النصوص بخط IBM Plex Sans Arabic */
 h1, h2, h3, h4, .section-title, .sub-title, .hero-title, .chapter-title, .concept-card h3, .term { font-family: var(--font-head)!important; }
