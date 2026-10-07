@@ -187,11 +187,10 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 :root[data-theme=light] .mini{background:hsl(var(--h) 55% 42% / .09);border-color:hsl(var(--h) 55% 38% / .35)}
 @media (max-width:820px){
   .week{grid-template-columns:1fr}
-  .day{flex-direction:row;flex-wrap:wrap;align-items:center;min-height:0;padding:12px 14px}
-  .day-h{width:84px;margin:0;flex:none}
-  .day .mini{flex:1 1 180px}
-  .day-empty{margin:0}
-  .day.off .day-h{width:auto}
+  .day{display:grid;grid-template-columns:84px minmax(0,1fr);gap:8px 12px;align-items:start;min-height:0;padding:12px 14px}
+  .day-h{grid-column:1;grid-row:1;margin:0}
+  .day .mini,.day-empty{grid-column:2;margin:0}
+  .day.off{align-items:center}
 }
 
 /* ---------- بطاقات المواد ---------- */
